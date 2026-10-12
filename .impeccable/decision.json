@@ -1,0 +1,109 @@
+{
+  "title": "Choose the visual world for GoLive Academy",
+  "question": "The roll assigned the Departure Board. Keep it, take my pick, adopt an alternate, or re-roll. The reference site's look stays available as the category standard.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Departure Board",
+      "kicker": "THE ROLL",
+      "lineage": "airport split-flap departure boards and terminal wayfinding signage",
+      "thesis": "Every course is a departure: module is the gate, cohort is the flight, your career go-live is the destination.",
+      "palette": ["#0d1530", "#16224a", "#ffc629", "#f4f6fb", "#2fd07f"],
+      "materials": ["split-flap tiles with a hinge seam", "wayfinding signage panels", "backlit gate tags"],
+      "viewport": "A full-width flap board headlines the hero: rows flip into 'FICO → CONSULTANT · GATE 07 · BOARDING'; the headline sits above in signage type with Explore Courses as a yellow sign-panel button.",
+      "risk": "Becomes a travel-site costume if the metaphor leaks into copy everywhere; held to boards, gate tags and status only.",
+      "raised": [
+        {"from": "challenger-seven-segment", "raise": "Ghost flaps: locked lessons, empty states and unset fields render as blank designed tiles, never as missing content."},
+        {"from": "challenger-cyclorama", "raise": "Named phases: progress reads Check-in → Boarding → In flight → Landed in words and pattern, never colour alone."},
+        {"from": "challenger-star-atlas", "raise": "Fixed ramp: module demand and difficulty ride one three-step scale used identically on every surface."},
+        {"from": "challenger-riley", "raise": "Board discipline: inside any board only two inks — tile and letter — no mixed greys."}
+      ],
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "nav", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "headline + CTAs", "x": 0, "y": 1, "w": 6, "h": 4},
+        {"label": "live flap board", "x": 6, "y": 1, "w": 6, "h": 4, "accent": true},
+        {"label": "stat tiles", "x": 0, "y": 5, "w": 12, "h": 1},
+        {"label": "courses as departures", "x": 0, "y": 6, "w": 12, "h": 4}
+      ]}
+    },
+    {
+      "id": "model-pick",
+      "label": "Cutover War Room",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "SAP go-live cutover runbooks and project status boards",
+      "thesis": "Your preparation run like a real go-live: T-minus countdown, cutover checklist, RAG status.",
+      "palette": ["#0f172a", "#f8fafc", "#22c55e", "#f59e0b", "#ef4444"],
+      "materials": ["runbook tables", "RAG status chips", "Gantt bars"],
+      "viewport": "A T-minus countdown to the next mock batch beside a cutover checklist that ticks itself.",
+      "risk": "Most familiar to working consultants, least to freshers; can read like a project tool rather than a school."
+    },
+    {
+      "id": "challenger-seven-segment",
+      "label": "Seven-Segment Display",
+      "verdict": "declined",
+      "lineage": "alarm clocks, scoreboards, price totems",
+      "thesis": "Every number lit in segments, unlit cells designed too.",
+      "palette": ["#0b0b0c", "#ff3b2f", "#2a1412"],
+      "materials": ["LED segments", "ghost cells"],
+      "viewport": "Stats as giant segment digits.",
+      "case": "Fuses poorly: learners don't identify with clocks; numbers aren't the product.",
+      "kept": "Ghost cells — empty states drawn as deliberately as filled ones.",
+      "risk": "Novelty over substance.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-seven-segment-alarm-clock-hero.webp"
+    },
+    {
+      "id": "challenger-cyclorama",
+      "label": "Cyclorama Dawn",
+      "verdict": "declined",
+      "lineage": "theatre lighting cycloramas",
+      "thesis": "Scroll from night to day as you move from preparing to placed.",
+      "palette": ["#05060a", "#1e3a8a", "#f472b6", "#ffffff"],
+      "materials": ["light bands", "cue labels"],
+      "viewport": "A horizon band warming as the page scrolls.",
+      "case": "Holds a nice arc, but theatre isn't the audience's world and courses lose clarity.",
+      "kept": "Discrete, named phases for progress.",
+      "risk": "Mood over information.",
+      "hero": "https://impeccable.style/worlds/cards/stagecraft-theater-lighting-cyclorama-dawn-hero.webp"
+    },
+    {
+      "id": "challenger-star-atlas",
+      "label": "Star Atlas",
+      "verdict": "declined",
+      "lineage": "celestial charts",
+      "thesis": "Modules as stars sized by demand.",
+      "palette": ["#0a1433", "#f5f5f0", "#e0483a"],
+      "materials": ["chart plates", "magnitude dots"],
+      "viewport": "A sky chart of 18 modules.",
+      "case": "Pretty, but finding your module becomes a hunt.",
+      "kept": "One fixed magnitude ramp for hierarchy.",
+      "risk": "Decorative.",
+      "hero": "https://impeccable.style/worlds/cards/notation-diagram-systems-star-atlas-hero.webp"
+    },
+    {
+      "id": "challenger-riley",
+      "label": "Moiré Gallery",
+      "verdict": "declined",
+      "lineage": "op-art gallery canvases",
+      "thesis": "Black and white wave fields that flex on scroll.",
+      "palette": ["#000000", "#ffffff"],
+      "materials": ["line frequency"],
+      "viewport": "A strobing wave canvas behind the headline.",
+      "case": "No link to SAP careers; hurts readability.",
+      "kept": "Strict two-ink discipline.",
+      "risk": "Visually aggressive.",
+      "hero": "https://impeccable.style/worlds/cards/design-canon-riley-moire-gallery-hero.webp"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard (reference-faithful)",
+    "thesis": "The analysed reference's layout — navy-to-blue gradient heroes, indigo buttons, white card grids — executed at full craft with shadcn and Motion.",
+    "palette": ["#ffffff", "#1a2350", "#3a4fc7", "#f3f6fb"],
+    "materials": ["gradient bands", "soft-shadow cards", "pill chips"],
+    "viewport": "Headline left, illustrated product card right, three CTAs and three stats.",
+    "risk": "Indistinguishable from most course platforms by design."
+  },
+  "steer": true
+}

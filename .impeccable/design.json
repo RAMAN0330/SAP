@@ -1,0 +1,552 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-02T18:06:42.239621+00:00",
+  "title": "Design System: GoLive Academy",
+  "extensions": {
+    "colorMeta": {
+      "signal": {
+        "role": "primary",
+        "displayName": "Signal Yellow",
+        "canonical": "oklch(85.5% 0.165 86)",
+        "tonalRamp": [
+          "oklch(15% 0.165 86)",
+          "oklch(26% 0.165 86)",
+          "oklch(37% 0.165 86)",
+          "oklch(48% 0.165 86)",
+          "oklch(60% 0.165 86)",
+          "oklch(72% 0.165 86)",
+          "oklch(84% 0.165 86)",
+          "oklch(95% 0.165 86)"
+        ]
+      },
+      "signal-ink": {
+        "role": "primary",
+        "displayName": "Signal Ink",
+        "canonical": "oklch(19% 0.05 268)",
+        "tonalRamp": [
+          "oklch(15% 0.05 268)",
+          "oklch(26% 0.05 268)",
+          "oklch(37% 0.05 268)",
+          "oklch(48% 0.05 268)",
+          "oklch(60% 0.05 268)",
+          "oklch(72% 0.05 268)",
+          "oklch(84% 0.05 268)",
+          "oklch(95% 0.05 268)"
+        ]
+      },
+      "go": {
+        "role": "secondary",
+        "displayName": "Boarding Green",
+        "canonical": "oklch(78% 0.17 155)",
+        "tonalRamp": [
+          "oklch(15% 0.17 155)",
+          "oklch(26% 0.17 155)",
+          "oklch(37% 0.17 155)",
+          "oklch(48% 0.17 155)",
+          "oklch(60% 0.17 155)",
+          "oklch(72% 0.17 155)",
+          "oklch(84% 0.17 155)",
+          "oklch(95% 0.17 155)"
+        ]
+      },
+      "call": {
+        "role": "tertiary",
+        "displayName": "Final-Call Amber",
+        "canonical": "oklch(76% 0.16 55)",
+        "tonalRamp": [
+          "oklch(15% 0.16 55)",
+          "oklch(26% 0.16 55)",
+          "oklch(37% 0.16 55)",
+          "oklch(48% 0.16 55)",
+          "oklch(60% 0.16 55)",
+          "oklch(72% 0.16 55)",
+          "oklch(84% 0.16 55)",
+          "oklch(95% 0.16 55)"
+        ]
+      },
+      "board": {
+        "role": "neutral",
+        "displayName": "Night Board",
+        "canonical": "oklch(19% 0.052 268)",
+        "tonalRamp": [
+          "oklch(15% 0.052 268)",
+          "oklch(26% 0.052 268)",
+          "oklch(37% 0.052 268)",
+          "oklch(48% 0.052 268)",
+          "oklch(60% 0.052 268)",
+          "oklch(72% 0.052 268)",
+          "oklch(84% 0.052 268)",
+          "oklch(95% 0.052 268)"
+        ]
+      },
+      "board-2": {
+        "role": "neutral",
+        "displayName": "Board Raised",
+        "canonical": "oklch(24% 0.062 268)",
+        "tonalRamp": [
+          "oklch(15% 0.062 268)",
+          "oklch(26% 0.062 268)",
+          "oklch(37% 0.062 268)",
+          "oklch(48% 0.062 268)",
+          "oklch(60% 0.062 268)",
+          "oklch(72% 0.062 268)",
+          "oklch(84% 0.062 268)",
+          "oklch(95% 0.062 268)"
+        ]
+      },
+      "tile": {
+        "role": "neutral",
+        "displayName": "Flap Tile",
+        "canonical": "oklch(27.5% 0.06 268)",
+        "tonalRamp": [
+          "oklch(15% 0.06 268)",
+          "oklch(26% 0.06 268)",
+          "oklch(37% 0.06 268)",
+          "oklch(48% 0.06 268)",
+          "oklch(60% 0.06 268)",
+          "oklch(72% 0.06 268)",
+          "oklch(84% 0.06 268)",
+          "oklch(95% 0.06 268)"
+        ]
+      },
+      "tile-edge": {
+        "role": "neutral",
+        "displayName": "Tile Edge",
+        "canonical": "oklch(15% 0.045 268)",
+        "tonalRamp": [
+          "oklch(15% 0.045 268)",
+          "oklch(26% 0.045 268)",
+          "oklch(37% 0.045 268)",
+          "oklch(48% 0.045 268)",
+          "oklch(60% 0.045 268)",
+          "oklch(72% 0.045 268)",
+          "oklch(84% 0.045 268)",
+          "oklch(95% 0.045 268)"
+        ]
+      },
+      "letter": {
+        "role": "neutral",
+        "displayName": "Board Letter",
+        "canonical": "oklch(96.5% 0.008 262)",
+        "tonalRamp": [
+          "oklch(15% 0.008 262)",
+          "oklch(26% 0.008 262)",
+          "oklch(37% 0.008 262)",
+          "oklch(48% 0.008 262)",
+          "oklch(60% 0.008 262)",
+          "oklch(72% 0.008 262)",
+          "oklch(84% 0.008 262)",
+          "oklch(95% 0.008 262)"
+        ]
+      },
+      "letter-dim": {
+        "role": "neutral",
+        "displayName": "Dim Letter",
+        "canonical": "oklch(72% 0.03 262)",
+        "tonalRamp": [
+          "oklch(15% 0.03 262)",
+          "oklch(26% 0.03 262)",
+          "oklch(37% 0.03 262)",
+          "oklch(48% 0.03 262)",
+          "oklch(60% 0.03 262)",
+          "oklch(72% 0.03 262)",
+          "oklch(84% 0.03 262)",
+          "oklch(95% 0.03 262)"
+        ]
+      },
+      "concourse": {
+        "role": "neutral",
+        "displayName": "Concourse",
+        "canonical": "oklch(97.6% 0.006 262)",
+        "tonalRamp": [
+          "oklch(15% 0.006 262)",
+          "oklch(26% 0.006 262)",
+          "oklch(37% 0.006 262)",
+          "oklch(48% 0.006 262)",
+          "oklch(60% 0.006 262)",
+          "oklch(72% 0.006 262)",
+          "oklch(84% 0.006 262)",
+          "oklch(95% 0.006 262)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Concourse Ink",
+        "canonical": "oklch(19% 0.045 268)",
+        "tonalRamp": [
+          "oklch(15% 0.045 268)",
+          "oklch(26% 0.045 268)",
+          "oklch(37% 0.045 268)",
+          "oklch(48% 0.045 268)",
+          "oklch(60% 0.045 268)",
+          "oklch(72% 0.045 268)",
+          "oklch(84% 0.045 268)",
+          "oklch(95% 0.045 268)"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(60% 0 0)",
+          "oklch(72% 0 0)",
+          "oklch(84% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Secondary",
+        "canonical": "oklch(93.5% 0.012 264)",
+        "tonalRamp": [
+          "oklch(15% 0.012 264)",
+          "oklch(26% 0.012 264)",
+          "oklch(37% 0.012 264)",
+          "oklch(48% 0.012 264)",
+          "oklch(60% 0.012 264)",
+          "oklch(72% 0.012 264)",
+          "oklch(84% 0.012 264)",
+          "oklch(95% 0.012 264)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "oklch(94.5% 0.009 264)",
+        "tonalRamp": [
+          "oklch(15% 0.009 264)",
+          "oklch(26% 0.009 264)",
+          "oklch(37% 0.009 264)",
+          "oklch(48% 0.009 264)",
+          "oklch(60% 0.009 264)",
+          "oklch(72% 0.009 264)",
+          "oklch(84% 0.009 264)",
+          "oklch(95% 0.009 264)"
+        ]
+      },
+      "muted-ink": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "oklch(46% 0.03 266)",
+        "tonalRamp": [
+          "oklch(15% 0.03 266)",
+          "oklch(26% 0.03 266)",
+          "oklch(37% 0.03 266)",
+          "oklch(48% 0.03 266)",
+          "oklch(60% 0.03 266)",
+          "oklch(72% 0.03 266)",
+          "oklch(84% 0.03 266)",
+          "oklch(95% 0.03 266)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(89.5% 0.012 266)",
+        "tonalRamp": [
+          "oklch(15% 0.012 266)",
+          "oklch(26% 0.012 266)",
+          "oklch(37% 0.012 266)",
+          "oklch(48% 0.012 266)",
+          "oklch(60% 0.012 266)",
+          "oklch(72% 0.012 266)",
+          "oklch(84% 0.012 266)",
+          "oklch(95% 0.012 266)"
+        ]
+      },
+      "input-border": {
+        "role": "neutral",
+        "displayName": "Field Edge",
+        "canonical": "oklch(86% 0.014 266)",
+        "tonalRamp": [
+          "oklch(15% 0.014 266)",
+          "oklch(26% 0.014 266)",
+          "oklch(37% 0.014 266)",
+          "oklch(48% 0.014 266)",
+          "oklch(60% 0.014 266)",
+          "oklch(72% 0.014 266)",
+          "oklch(84% 0.014 266)",
+          "oklch(95% 0.014 266)"
+        ]
+      },
+      "ring": {
+        "role": "neutral",
+        "displayName": "Focus Blue",
+        "canonical": "oklch(52% 0.19 266)",
+        "tonalRamp": [
+          "oklch(15% 0.19 266)",
+          "oklch(26% 0.19 266)",
+          "oklch(37% 0.19 266)",
+          "oklch(48% 0.19 266)",
+          "oklch(60% 0.19 266)",
+          "oklch(72% 0.19 266)",
+          "oklch(84% 0.19 266)",
+          "oklch(95% 0.19 266)"
+        ]
+      },
+      "destructive": {
+        "role": "neutral",
+        "displayName": "Destructive",
+        "canonical": "oklch(55% 0.2 27)",
+        "tonalRamp": [
+          "oklch(15% 0.2 27)",
+          "oklch(26% 0.2 27)",
+          "oklch(37% 0.2 27)",
+          "oklch(48% 0.2 27)",
+          "oklch(60% 0.2 27)",
+          "oklch(72% 0.2 27)",
+          "oklch(84% 0.2 27)",
+          "oklch(95% 0.2 27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero headline only (2.6rem / 3.75rem / 4.2rem)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page-intro h1 on the dark sign band (2.25rem / 3rem / 3.5rem)."
+      },
+      "section": {
+        "displayName": "Section",
+        "purpose": "Concourse section headings (1.875rem / 2.6rem)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Course rows, cards, lessons."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Page leads, 34-60ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions, max 62ch."
+      },
+      "data-label": {
+        "displayName": "Data Label",
+        "purpose": "Uppercase mono labels that name an adjacent value; never section kickers."
+      },
+      "flap": {
+        "displayName": "Flap",
+        "purpose": "Split-flap tiles only; size inherited from the parent."
+      }
+    },
+    "shadows": [
+      {
+        "name": "panel",
+        "value": "0 1px 1px oklch(20% 0.05 268 / 0.05), 0 10px 28px -8px oklch(20% 0.05 268 / 0.16)",
+        "purpose": "Light cards and departure rows at rest."
+      },
+      {
+        "name": "panel-lifted",
+        "value": "0 2px 2px oklch(20% 0.05 268 / 0.05), 0 22px 40px -14px oklch(20% 0.05 268 / 0.28)",
+        "purpose": "Departure-row hover with a 2px lift."
+      },
+      {
+        "name": "board",
+        "value": "0 2px 0 oklch(100% 0 0 / 0.04) inset, 0 24px 60px -20px oklch(10% 0.05 268 / 0.55)",
+        "purpose": "Board panels and the boarding pass."
+      },
+      {
+        "name": "sign-plate",
+        "value": "inset 0 -2px 0 oklch(0% 0 0 / 0.12), 0 1px 0 oklch(100% 0 0 / 0.4) inset",
+        "purpose": "Enamel lip on every yellow plate."
+      },
+      {
+        "name": "flap-lip",
+        "value": "0 0.06em 0 var(--tile-edge), inset 0 0 0 1px oklch(100% 0 0 / 0.04)",
+        "purpose": "Each split-flap tile."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrances, hovers and state changes."
+      },
+      {
+        "name": "flap-step",
+        "value": "62ms per drum step, max 9 steps; cell stagger ~22ms, row stagger 110ms",
+        "purpose": "Split-flap drum stepping; instant swap under reduced motion."
+      },
+      {
+        "name": "board-cycle",
+        "value": "6500ms",
+        "purpose": "Live board page cycle; paused offscreen or when the tab is hidden."
+      },
+      {
+        "name": "nav-indicator-spring",
+        "value": "spring stiffness 520, damping 42",
+        "purpose": "Shared-layout active nav bar."
+      },
+      {
+        "name": "route-fill-spring",
+        "value": "spring stiffness 120, damping 22",
+        "purpose": "Itinerary route-line fill."
+      },
+      {
+        "name": "stop-ping",
+        "value": "700ms ease-out-expo, 0 to 12px go ring",
+        "purpose": "Completed itinerary stop."
+      },
+      {
+        "name": "button-transition",
+        "value": "200ms ease-out-expo",
+        "purpose": "Button hover and press."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (sign plate)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Every primary action on any ground: yellow enamel plate.",
+      "html": "<button class=\"ds-btn-primary\">Find your gate <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:4.8px;border:1px solid transparent;font-family:'Overpass Variable',ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .2s cubic-bezier(0.16,1,0.3,1),border-color .2s cubic-bezier(0.16,1,0.3,1),transform .2s cubic-bezier(0.16,1,0.3,1);background:var(--signal,oklch(85.5% 0.165 86));color:var(--signal-ink,oklch(19% 0.05 268));box-shadow:inset 0 -2px 0 oklch(0% 0 0 / 0.12),0 1px 0 oklch(100% 0 0 / 0.4) inset;} .ds-btn-primary svg{transition:transform .3s;} .ds-btn-primary:hover{background:color-mix(in oklch,oklch(85.5% 0.165 86),white 18%);} .ds-btn-primary:hover svg{transform:translateX(2px);} .ds-btn-primary:active{transform:translateY(1px);} .ds-btn-primary:focus-visible{outline:2px solid oklch(52% 0.19 266);outline-offset:2px;box-shadow:0 0 0 3px oklch(52% 0.19 266 / 0.4);}"
+    },
+    {
+      "name": "Board Button",
+      "kind": "button",
+      "refersTo": "button-board",
+      "description": "Secondary action on dark board ground.",
+      "html": "<div class=\"ds-board-bg\"><button class=\"ds-btn-board\">Practise interview questions</button></div>",
+      "css": ".ds-board-bg{background:oklch(19% 0.052 268);padding:24px;border-radius:9.6px;} .ds-btn-board{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:4.8px;border:1px solid transparent;font-family:'Overpass Variable',ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .2s cubic-bezier(0.16,1,0.3,1),border-color .2s cubic-bezier(0.16,1,0.3,1),transform .2s cubic-bezier(0.16,1,0.3,1);background:oklch(100% 0 0 / 0.04);color:oklch(96.5% 0.008 262);border-color:oklch(96.5% 0.008 262 / 0.25);} .ds-btn-board:hover{background:oklch(100% 0 0 / 0.09);border-color:oklch(96.5% 0.008 262 / 0.45);} .ds-btn-board:focus-visible{outline:2px solid oklch(85.5% 0.165 86);outline-offset:2px;}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action on the concourse.",
+      "html": "<button class=\"ds-btn-outline\">Clear filters</button>",
+      "css": ".ds-btn-outline{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:4.8px;border:1px solid transparent;font-family:'Overpass Variable',ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background-color .2s cubic-bezier(0.16,1,0.3,1),border-color .2s cubic-bezier(0.16,1,0.3,1),transform .2s cubic-bezier(0.16,1,0.3,1);background:#fff;color:oklch(19% 0.045 268);border-color:oklch(19% 0.045 268 / 0.15);box-shadow:0 1px 0 oklch(20% 0.05 268 / 0.04);} .ds-btn-outline:hover{background:oklch(94.5% 0.009 264);border-color:oklch(19% 0.045 268 / 0.3);} .ds-btn-outline:focus-visible{outline:2px solid oklch(52% 0.19 266);outline-offset:2px;}"
+    },
+    {
+      "name": "Badges",
+      "kind": "chip",
+      "refersTo": "badge-gate",
+      "description": "Gate chip, status chips on light ground, quiet chip.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-badge-gate\">SAP FICO</span><span class=\"ds-badge-go\">Boarding</span><span class=\"ds-badge-call\">Final call</span><span class=\"ds-badge-quiet\">Beginner</span></div>",
+      "css": ".ds-badges{display:flex;gap:8px;align-items:center;flex-wrap:wrap;} .ds-badges span{display:inline-flex;align-items:center;height:20px;padding:2px 8px;border-radius:3.6px;font-size:12px;font-weight:600;font-family:'Overpass Variable',ui-sans-serif,sans-serif;} .ds-badges .ds-badge-gate{height:24px;padding:0 6px;background:oklch(19% 0.052 268);color:oklch(85.5% 0.165 86);font-family:'Overpass Mono',ui-monospace,monospace;font-size:11.5px;letter-spacing:.05em;} .ds-badges .ds-badge-go{background:oklch(78% 0.17 155 / 0.15);color:oklch(38% 0.11 155);font-family:'Overpass Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.05em;font-size:11px;} .ds-badges .ds-badge-call{background:oklch(76% 0.16 55 / 0.2);color:oklch(42% 0.12 50);font-family:'Overpass Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.05em;font-size:11px;} .ds-badges .ds-badge-quiet{background:oklch(94.5% 0.009 264);color:oklch(46% 0.03 266);}"
+    },
+    {
+      "name": "Split-Flap Readout",
+      "kind": "custom",
+      "refersTo": "flap-tile",
+      "description": "Signature split-flap tiles: two inks, status in colour.",
+      "html": "<div class=\"ds-board-bg ds-flaps\"><span class=\"ds-flap\">G</span><span class=\"ds-flap\">0</span><span class=\"ds-flap\">1</span><span class=\"ds-gap\"></span><span class=\"ds-flap ds-go\">B</span><span class=\"ds-flap ds-go\">O</span><span class=\"ds-flap ds-go\">A</span><span class=\"ds-flap ds-go\">R</span><span class=\"ds-flap ds-go\">D</span></div>",
+      "css": ".ds-board-bg{background-color:oklch(19% 0.052 268);background-image:radial-gradient(oklch(100% 0 0 / 0.045) 1px,transparent 1.2px);background-size:14px 14px;padding:16px;border-radius:9.6px;} .ds-flaps{display:inline-flex;gap:.08em;font-size:22px;} .ds-gap{width:.5em;} .ds-flap{position:relative;display:inline-block;width:.78em;height:1.22em;line-height:1.22em;text-align:center;font-family:'Overpass Mono',ui-monospace,monospace;font-weight:600;color:oklch(96.5% 0.008 262);background:oklch(27.5% 0.06 268);border-radius:.12em;box-shadow:0 .06em 0 oklch(15% 0.045 268),inset 0 0 0 1px oklch(100% 0 0 / 0.04);} .ds-flap::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:oklch(15% 0.045 268);} .ds-flap.ds-go{color:oklch(78% 0.17 155);}"
+    },
+    {
+      "name": "Departure Row",
+      "kind": "card",
+      "refersTo": "course-row",
+      "description": "Course listing: board stub plus concourse details plus fare.",
+      "html": "<article class=\"ds-row\"><div class=\"ds-stub\"><div class=\"ds-lbl\">Gate</div><div class=\"ds-gate\">G07</div></div><div class=\"ds-body\"><h3>SAP FICO Consultant</h3><p>Finance and controlling configuration, taught through the questions panels ask.</p></div><div class=\"ds-fare\"><small>Fare</small><strong>₹24,999</strong><span class=\"ds-plate\">View course</span></div></article>",
+      "css": ".ds-row{display:grid;grid-template-columns:9rem 1fr auto;overflow:hidden;border-radius:9.6px;border:1px solid oklch(89.5% 0.012 266);background:#fff;color:oklch(19% 0.045 268);font-family:'Overpass Variable',ui-sans-serif,sans-serif;box-shadow:0 1px 1px oklch(20% 0.05 268 / 0.05),0 10px 28px -8px oklch(20% 0.05 268 / 0.16);transition:box-shadow .5s cubic-bezier(0.16,1,0.3,1),transform .5s cubic-bezier(0.16,1,0.3,1);} .ds-row:hover{transform:translateY(-2px);box-shadow:0 2px 2px oklch(20% 0.05 268 / 0.05),0 22px 40px -14px oklch(20% 0.05 268 / 0.28);} .ds-stub{background:oklch(19% 0.052 268);color:oklch(96.5% 0.008 262);padding:20px;} .ds-lbl{font-family:'Overpass Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:oklch(72% 0.03 262);} .ds-gate{font-family:'Overpass Mono',monospace;font-weight:600;font-size:24px;margin-top:4px;} .ds-body{padding:20px 28px;} .ds-body h3{margin:0;font-size:20px;font-weight:700;letter-spacing:-.025em;} .ds-body p{margin:6px 0 0;font-size:15px;line-height:1.625;color:oklch(46% 0.03 266);} .ds-fare{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:6px;padding:16px 28px;border-left:1px solid oklch(89.5% 0.012 266);} .ds-fare small{font-size:12px;color:oklch(46% 0.03 266);} .ds-fare strong{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;} .ds-plate{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:4.8px;font-size:14px;font-weight:600;background:oklch(85.5% 0.165 86);color:oklch(19% 0.05 268);box-shadow:inset 0 -2px 0 oklch(0% 0 0 / 0.12);}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Concourse text field with focus-blue ring.",
+      "html": "<label class=\"ds-field\">Email<input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\"></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-family:'Overpass Variable',ui-sans-serif,sans-serif;font-size:14px;font-weight:500;color:oklch(19% 0.045 268);max-width:320px;} .ds-input{height:32px;padding:4px 10px;border-radius:6px;border:1px solid oklch(86% 0.014 266);background:transparent;font:inherit;font-weight:400;color:inherit;outline:none;transition:border-color .2s,box-shadow .2s;} .ds-input::placeholder{color:oklch(46% 0.03 266);} .ds-input:focus-visible{border-color:oklch(52% 0.19 266);box-shadow:0 0 0 3px oklch(52% 0.19 266 / 0.5);}"
+    },
+    {
+      "name": "Board Navigation",
+      "kind": "nav",
+      "refersTo": "",
+      "description": "Sticky board header with sliding signal indicator.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-active\" href=\"#\">Home</a><a href=\"#\">All Courses</a><a href=\"#\">Blogs</a><a href=\"#\">About Us</a></nav>",
+      "css": ".ds-nav{display:flex;gap:4px;height:64px;align-items:center;padding:0 16px;background:oklch(19% 0.052 268);border-bottom:1px solid oklch(100% 0 0 / 0.07);font-family:'Overpass Variable',ui-sans-serif,sans-serif;} .ds-nav a{position:relative;display:block;padding:8px 12px;border-radius:4.8px;font-size:14.4px;font-weight:500;color:oklch(72% 0.03 262);text-decoration:none;transition:color .2s;} .ds-nav a:hover{color:oklch(96.5% 0.008 262);} .ds-nav a.ds-active{color:oklch(96.5% 0.008 262);} .ds-nav a.ds-active::after{content:'';position:absolute;left:12px;right:12px;bottom:-13px;height:3px;border-radius:2px 2px 0 0;background:oklch(85.5% 0.165 86);} .ds-nav a:focus-visible{outline:2px solid oklch(85.5% 0.165 86);outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Departure Board",
+    "overview": "**Creative North Star: \"The Departure Board\"**\n\nThe catalogue is an airport concourse. Courses are departures, modules are gates, enrolment is boarding, and the career go-live is the destination. Two materials carry the whole system: night-navy board panels (a faint 14px perforated backplate, split-flap tiles, letters in a single near-white ink) and a cool concourse-light reading ground where the long prose lives. Every action is a signal-yellow wayfinding plate; status is the only thing allowed colour on a board.\n\nDensity follows a real terminal: the board is tight, tabular and monospaced; the concourse is calm, generous and proportional. A page alternates between the two rather than mixing them: a dark sign band at the top (header continuous with the page intro or hero), light reading sections below, a dark board footer to close. Motion is mechanical where the world is mechanical (flaps step through a physical drum, never cross-fade) and soft where it is spatial (expo-out entrances, spring route lines).\n\nThe system refuses the gradient-hero-plus-identical-card-grid course site. Course listings are departure rows with a board stub, not cards in a 3-up grid; empty states are blank flap strips, not illustrations.",
+    "keyCharacteristics": [
+      "Two grounds only: night board and cool concourse.",
+      "Two inks inside a board: tile and letter. Only the status column is coloured.",
+      "Signal yellow means \"act here\" and nothing else.",
+      "Overpass for signage and reading; Overpass Mono only on flaps and data.",
+      "One phase vocabulary everywhere: Check-in, Boarding, In flight, Landed.",
+      "Placeholder data is always labelled as such, in plain text, next to the data."
+    ],
+    "rules": [
+      {
+        "name": "The Two-Ink Board Rule",
+        "body": "Inside a board, text is letter or letter-dim on tile or board. The status column is the only coloured column: go for BOARDING, call for FINAL CALL, dim for ON TIME, signal for the clock.",
+        "section": "colors"
+      },
+      {
+        "name": "The Signal Means Act Rule",
+        "body": "Signal yellow is spent on actions and wayfinding. It never fills a decorative panel, a chart, or a status.",
+        "section": "colors"
+      },
+      {
+        "name": "The Light-Ground Status Ink Rule",
+        "body": "Green and amber at full value are board inks. On the concourse they appear as tinted fills with a darkened same-hue ink for text, so status stays legible (AA) on white.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Is Data Rule",
+        "body": "Overpass Mono appears only on flaps, codes (flight, gate, referral), durations, column headers and field labels. Never on prose or marketing headings (the login blueprint is the one scoped exception; see Components).",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "No eyebrow or kicker text above headings. An uppercase mono label is allowed only when it names a data value it sits against (a column header, a field label, a fact-strip term), never to announce a section.",
+        "section": "typography"
+      },
+      {
+        "name": "The Navy Shadow Rule",
+        "body": "Every drop shadow is board-navy at low alpha with a negative spread. No grey shadows, no hard offset shadows, no chromatic glows outside the login blueprint.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the yellow sign-plate button for every primary action, on light and dark ground alike.",
+      "**Do** keep boards to two inks and colour only the status column (go BOARDING, call FINAL CALL, dim ON TIME).",
+      "**Do** use the phase words Check-in, Boarding, In flight, Landed for every progress surface, paired with pattern, never colour alone.",
+      "**Do** express hiring demand only with the three-step Steady / Strong / Hot ramp.",
+      "**Do** draw empty states as ghost boards with a dim flap readout.",
+      "**Do** label every placeholder or sample value in plain small text beside it (\"sample schedules in IST\", \"demo price\", \"Contact details shown are placeholders\", \"Sample stories — replace with real learner quotes\"), with a dashed outline when a whole block is illustrative.",
+      "**Do** use ease-out-expo (cubic-bezier(0.16, 1, 0.3, 1)) for entrances and state changes, and give every animation an instant reduced-motion path.",
+      "**Do** switch focus outlines to signal yellow inside boards and focus blue on concourse."
+    ],
+    "donts": [
+      "**Don't** put eyebrows or kickers above headings; uppercase mono labels only name data.",
+      "**Don't** set prose or marketing headings in Overpass Mono outside the login blueprint.",
+      "**Don't** use signal yellow for status, decoration, charts or large panels.",
+      "**Don't** use go or call at full value as text on light ground; use the darkened same-hue ink.",
+      "**Don't** present invented outcomes, learner counts, placement rates, testimonials or contacts as real; anything without evidence carries its placeholder label.",
+      "**Don't** list courses as an identical 3-up card grid or open a page with a gradient hero.",
+      "**Don't** cross-fade flaps; they step forward through the drum.",
+      "**Don't** use grey, hard-offset or coloured-glow shadows; shadows are board navy.",
+      "**Don't** borrow the login blueprint's grid canvas, swim lanes or per-phase inks (Landed in amber) for other pages."
+    ]
+  }
+}
