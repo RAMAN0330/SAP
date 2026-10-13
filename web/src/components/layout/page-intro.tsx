@@ -2,11 +2,11 @@ import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
-/** Dark sign band that continues from the header; the h1 is the sign, `aside` carries a page-specific readout. */
+/** Aurora sign band that continues from the header; the h1 is the sign, `aside` carries a page-specific readout. */
 export function PageIntro({ title, lead, aside, children, className }: { title: ReactNode; lead?: ReactNode; aside?: ReactNode; children?: ReactNode; className?: string }) {
   return (
-    <section className={cn('on-board board-surface relative overflow-hidden text-letter', className)}>
-      <div className="container-page grid gap-8 pt-12 pb-14 sm:pt-16 sm:pb-16 lg:grid-cols-[1fr_auto] lg:items-end">
+    <section className={cn('on-board aurora relative overflow-hidden text-letter', className)}>
+      <div className="container-page grid gap-8 pt-12 pb-12 sm:pt-16 sm:pb-14 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-2xl">
           <motion.h1
             initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
@@ -30,7 +30,7 @@ export function PageIntro({ title, lead, aside, children, className }: { title: 
         </div>
         {aside && <div className="lg:pb-1">{aside}</div>}
       </div>
-      <div aria-hidden className="h-1.5 bg-[repeating-linear-gradient(90deg,var(--signal)_0_28px,var(--board)_28px_56px)] opacity-90" />
+      <div aria-hidden className="band-lip" />
     </section>
   )
 }

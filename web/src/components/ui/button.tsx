@@ -4,16 +4,16 @@ import { cn } from "@/lib/utils"
 import { Slot } from "radix-ui"
 
 const buttonVariants = cva(
-  "group/button relative inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-sm font-semibold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-expo)] outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/40 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button relative inline-flex shrink-0 items-center justify-center rounded-full border border-transparent bg-clip-padding text-sm font-semibold whitespace-nowrap transition-[background-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-expo)] outline-none select-none focus-visible:ring-3 focus-visible:ring-ring/40 active:not-aria-[haspopup]:translate-y-px active:not-aria-[haspopup]:shadow-press disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          "sign-plate hover:bg-[color-mix(in_oklch,var(--signal),white_18%)] [&_svg]:transition-transform [&_svg]:duration-300 hover:[&_svg:last-child]:translate-x-0.5",
+          "sign-plate hover:-translate-y-px hover:bg-[color-mix(in_oklch,var(--signal),black_8%)] [&_svg]:transition-transform [&_svg]:duration-300 hover:[&_svg:last-child]:translate-x-0.5",
         board:
-          "border-letter/25 bg-white/[0.04] text-letter hover:border-letter/45 hover:bg-white/[0.09] focus-visible:ring-signal/50",
+          "border-white/80 bg-white/55 text-letter shadow-panel backdrop-blur-md hover:-translate-y-px hover:bg-white/85 hover:shadow-lift focus-visible:ring-signal/40",
         outline:
-          "border-foreground/15 bg-card text-foreground shadow-[0_1px_0_oklch(20%_0.05_268/0.04)] hover:border-foreground/30 hover:bg-muted aria-expanded:bg-muted",
+          "border-white bg-card text-foreground shadow-panel hover:-translate-y-px hover:shadow-lift aria-expanded:bg-muted",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_6%)]",
         ghost:

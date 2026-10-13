@@ -51,7 +51,7 @@ export default function AboutPage() {
               ['Interview questions', stats ? String(stats.questions) : ''],
               ['Mock panel', 'SAT 11:00'],
             ].map(([k, v], i) => (
-              <div key={k} className="flex items-center justify-between gap-4 border-b border-white/[0.08] pb-3 last:border-0 last:pb-0">
+              <div key={k} className="flex items-center justify-between gap-4 border-b border-letter/10 pb-3 last:border-0 last:pb-0">
                 <dt className="text-sm text-letter-dim">{k}</dt>
                 <dd><FlapText text={v} length={9} align="right" delay={i * 120} label={v || 'loading'} /></dd>
               </div>
@@ -61,7 +61,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y bg-[oklch(95.2%_0.009_264)]">
+      <section className="border-y bg-[oklch(95%_0.024_292)]">
         <div className="container-page py-16 sm:py-24">
           <h2 className="text-3xl font-extrabold sm:text-4xl">The route every learner takes</h2>
           <ol className="relative mt-12 grid gap-8 md:grid-cols-4 md:gap-6">

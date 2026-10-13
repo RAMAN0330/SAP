@@ -2,58 +2,63 @@
 name: GoLive Academy
 description: Interview-first SAP training, presented as an airport departures board.
 colors:
-  signal: "oklch(85.5% 0.165 86)"
-  signal-ink: "oklch(19% 0.05 268)"
-  go: "oklch(78% 0.17 155)"
-  call: "oklch(76% 0.16 55)"
-  board: "oklch(19% 0.052 268)"
-  board-2: "oklch(24% 0.062 268)"
-  tile: "oklch(27.5% 0.06 268)"
-  tile-edge: "oklch(15% 0.045 268)"
-  letter: "oklch(96.5% 0.008 262)"
-  letter-dim: "oklch(72% 0.03 262)"
-  concourse: "oklch(97.6% 0.006 262)"
-  ink: "oklch(19% 0.045 268)"
-  card: "oklch(100% 0 0)"
-  secondary: "oklch(93.5% 0.012 264)"
-  muted: "oklch(94.5% 0.009 264)"
-  muted-ink: "oklch(46% 0.03 266)"
-  border: "oklch(89.5% 0.012 266)"
-  input-border: "oklch(86% 0.014 266)"
-  ring: "oklch(52% 0.19 266)"
-  destructive: "oklch(55% 0.2 27)"
+  signal: "oklch(50% 0.2 288)"
+  signal-ink: "oklch(99.5% 0.004 295)"
+  go: "oklch(47% 0.12 158)"
+  call: "oklch(50% 0.13 55)"
+  board: "oklch(92.5% 0.04 292)"
+  board-2: "oklch(88.5% 0.055 292)"
+  tile: "oklch(99% 0.006 292)"
+  tile-edge: "oklch(82% 0.05 292)"
+  letter: "oklch(24% 0.06 285)"
+  letter-dim: "oklch(45% 0.05 287)"
+  concourse: "oklch(97.2% 0.014 295)"
+  ink: "oklch(24% 0.06 285)"
+  card: "oklch(99.5% 0.004 295)"
+  secondary: "oklch(94% 0.025 292)"
+  muted: "oklch(94.5% 0.02 292)"
+  muted-ink: "oklch(47% 0.04 285)"
+  border: "oklch(90% 0.025 292)"
+  input-border: "oklch(86% 0.03 292)"
+  ring: "oklch(50% 0.2 288)"
+  destructive: "oklch(55% 0.2 25)"
+  peach: "oklch(90% 0.06 50)"
+  mint: "oklch(92% 0.06 165)"
+  sky: "oklch(91% 0.05 235)"
+  butter: "oklch(94% 0.07 95)"
+  lilac: "oklch(88% 0.07 300)"
 typography:
   display:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "4.2rem"
     fontWeight: 800
     lineHeight: 1.02
     letterSpacing: "-0.035em"
   headline:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "3.5rem"
     fontWeight: 800
     lineHeight: 1.05
     letterSpacing: "-0.025em"
   section:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "2.6rem"
     fontWeight: 800
     lineHeight: 1.25
     letterSpacing: "-0.025em"
   title:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 700
     lineHeight: 1.4
     letterSpacing: "-0.025em"
   lead:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1.125rem"
     fontWeight: 400
     lineHeight: 1.625
   body:
-    fontFamily: "Overpass Variable, ui-sans-serif, system-ui, sans-serif"
+    fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.625
@@ -142,6 +147,23 @@ components:
 
 # Design System: GoLive Academy
 
+> **Current style: Dusk Clay (restrained Claymorphism + Glassmorphism accents).** Chosen with the `ui-style-selection` skill (`.claude/skills/ui-style-selection`): it is an education/career product, so rule 3 applies, kept restrained for adult professional learners.
+> The departure-board *metaphor* (gates, split-flap readouts, boarding pass, itinerary, phase words) is unchanged. The *material* is new, and where the older sections below say "night navy", "signal yellow", "Overpass" or "hazard stripe", read them through this table:
+>
+> | Was | Now |
+> |---|---|
+> | Night-navy board panels | Lilac clay trays (`board`), lit from the top (`board-surface`); hero and page-intro bands use `aurora` (pastel peach / sky / mint light blobs) |
+> | Near-white letters on navy | Ink (`letter` = `ink`) on lilac; flap tiles are white clay keys with a soft drop shadow |
+> | Signal yellow plates | Grape (`signal`, white text 6.6:1) clay pills: top highlight, inner bottom shade, tinted drop; hover darkens 8% and lifts 1px; press uses `shadow-press` |
+> | Boarding green / Final-call amber at full value on navy | Darkened inks `go` / `call` that pass AA on white and on the tray; badge fills use `mint` / `peach` |
+> | Navy drop shadows (Panel / Board) | Clay elevation: `shadow-panel` (rest), `shadow-lift` (hover), `shadow-board` (hero objects), `shadow-press` (pressed / inset wells), all tinted with ink hue 290 |
+> | 4.8–13px squared corners | `--radius: 0.875rem`; cards 1.4–1.75rem, hero objects 2–2.5rem, buttons, badges, chips and toggles are pills |
+> | 6px hazard stripe under sign bands | `band-lip`: the concourse rises over the band in a 2rem rounded curve |
+> | Opaque navy sticky header | Frosted `glass` header (opaque fallback without `backdrop-filter`), active route as a white clay pill that springs between items; sheets and menus are glass too |
+> | Overpass + Overpass Mono | Figtree Variable + Overpass Mono (mono still only on data and flaps) |
+>
+> Pastels (`peach`, `mint`, `sky`, `butter`, `lilac`) are decoration only. They are never status and never text. The Signal Means Act, Two-Ink Board and phase-word rules still hold.
+
 ## Overview
 
 **Creative North Star: "The Departure Board"**
@@ -196,8 +218,8 @@ A cold navy world lit by one warm sign colour, with green and amber reserved for
 
 ## Typography
 
-**Display Font:** Overpass Variable (with ui-sans-serif, system-ui)
-**Body Font:** Overpass Variable
+**Display Font:** Figtree Variable (with ui-sans-serif, system-ui)
+**Body Font:** Figtree Variable
 **Label/Mono Font:** Overpass Mono 400/600 (with ui-monospace)
 
 **Character:** Overpass is a highway-signage face: open, sturdy, legible at speed. Set heavy and tight for signs, plain and relaxed for reading. Overpass Mono is the flap and data face; its tabular rhythm is what makes a board read as a board.

@@ -66,12 +66,12 @@ export function LiveBoard({ courses, className }: { courses: Course[]; className
   return (
     <div
       ref={ref}
-      className={cn('on-board board-surface relative overflow-hidden rounded-xl p-3 shadow-board ring-1 ring-white/10 sm:p-5', className)}
+      className={cn('on-board board-surface relative overflow-hidden rounded-[2rem] p-3 shadow-board ring-1 ring-white/70 sm:p-5', className)}
       aria-label="Upcoming course departures"
     >
       <div className="mb-3 flex items-center justify-between gap-3 px-1 sm:mb-4">
         <div className="flex items-center gap-2.5">
-          <span className="sign-plate grid size-7 place-items-center rounded-[0.3rem]">
+          <span className="sign-plate grid size-8 place-items-center rounded-xl">
             <PlaneTakeoff className="size-4" strokeWidth={2.25} aria-hidden />
           </span>
           <span className="text-[0.95rem] font-bold tracking-tight text-letter sm:text-lg">Departures</span>
@@ -81,7 +81,7 @@ export function LiveBoard({ courses, className }: { courses: Course[]; className
       </div>
 
       <div
-        className="grid items-center gap-x-3 border-b border-white/10 px-1 pb-2 font-mono text-[0.62rem] tracking-[0.14em] text-letter-dim uppercase sm:gap-x-4 sm:text-[0.68rem]"
+        className="grid items-center gap-x-3 border-b border-letter/10 px-1 pb-2 font-mono text-[0.62rem] tracking-[0.14em] text-letter-dim uppercase sm:gap-x-4 sm:text-[0.68rem]"
         style={{ gridTemplateColumns: compact ? 'auto 1fr auto' : 'auto auto 1fr auto auto' }}
         aria-hidden
       >
@@ -98,7 +98,7 @@ export function LiveBoard({ courses, className }: { courses: Course[]; className
             <Link
               to={`/courses/${c.slug}`}
               aria-label={`${c.title}: departs ${boardTime(c.departsAt)} from gate ${gateCode(c.gate)}, ${c.status.toLowerCase()}`}
-              className="group grid items-center gap-x-3 rounded-md px-1 py-1 transition-colors duration-300 hover:bg-white/[0.05] sm:gap-x-4"
+              className="group grid items-center gap-x-3 rounded-xl px-1 py-1 transition-colors duration-300 hover:bg-white/60 sm:gap-x-4"
               style={{ gridTemplateColumns: compact ? 'auto 1fr auto' : 'auto auto 1fr auto auto' }}
             >
               <FlapText text={boardTime(c.departsAt)} length={5} delay={i * 110} label={boardTime(c.departsAt)} />

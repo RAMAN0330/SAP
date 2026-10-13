@@ -20,10 +20,10 @@ type Mode = 'login' | 'register'
 
 /* Diagram inks — one per phase, used for header pills, nodes and legend alike. */
 const PHASES = [
-  { key: 'checkin', label: 'Check-in', sub: 'free account', icon: UserPlus, ink: 'text-signal', border: 'border-signal', fill: 'bg-[oklch(27%_0.05_85/0.55)]', swatch: 'bg-[oklch(27%_0.05_85)] border-signal' },
-  { key: 'boarding', label: 'Boarding', sub: 'pick a gate', icon: TicketCheck, ink: 'text-go', border: 'border-go', fill: 'bg-[oklch(26%_0.05_160/0.6)]', swatch: 'bg-[oklch(26%_0.05_160)] border-go' },
-  { key: 'flight', label: 'In flight', sub: 'tick stops', icon: Route, ink: 'text-letter', border: 'border-letter/70', fill: 'bg-[oklch(28%_0.03_266/0.6)]', swatch: 'bg-[oklch(28%_0.03_266)] border-letter/70' },
-  { key: 'landed', label: 'Landed', sub: 'the offer', icon: PlaneLanding, ink: 'text-call', border: 'border-call', fill: 'bg-[oklch(27%_0.05_50/0.55)]', swatch: 'bg-[oklch(27%_0.05_50)] border-call' },
+  { key: 'checkin', label: 'Check-in', sub: 'free account', icon: UserPlus, ink: 'text-signal', border: 'border-signal/60', fill: 'bg-lilac/55', swatch: 'bg-lilac border-signal' },
+  { key: 'boarding', label: 'Boarding', sub: 'pick a gate', icon: TicketCheck, ink: 'text-go', border: 'border-go/60', fill: 'bg-mint/75', swatch: 'bg-mint border-go' },
+  { key: 'flight', label: 'In flight', sub: 'tick stops', icon: Route, ink: 'text-letter', border: 'border-letter/35', fill: 'bg-sky/75', swatch: 'bg-sky border-letter/35' },
+  { key: 'landed', label: 'Landed', sub: 'the offer', icon: PlaneLanding, ink: 'text-call', border: 'border-call/60', fill: 'bg-peach/75', swatch: 'bg-peach border-call' },
 ] as const
 
 export default function LoginPage() {
@@ -61,12 +61,12 @@ function Intro({ mode }: { mode: Mode }) {
       <ul className="mt-8 hidden space-y-3 text-letter-dim sm:block">
         {['Enrol in any module and track every stop', 'Practise with the full question bank', 'Get a referral code the moment you register'].map((t) => (
           <li key={t} className="flex items-center gap-3">
-            <span className="grid size-5 place-items-center rounded-sm bg-signal/15 text-signal"><ArrowRight className="size-3" aria-hidden /></span>
+            <span className="grid size-5 place-items-center rounded-full bg-signal/12 text-signal"><ArrowRight className="size-3" aria-hidden /></span>
             {t}
           </li>
         ))}
       </ul>
-      <div className="mt-10 hidden items-center gap-4 rounded-lg border border-white/10 bg-black/20 p-3 sm:inline-flex">
+      <div className="mt-10 hidden items-center gap-4 rounded-2xl border border-white/70 bg-white/55 p-3 shadow-panel backdrop-blur-md sm:inline-flex">
         <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Desk status</span>
         <span className="text-[17px]">
           <FlapText text={mode === 'register' ? 'NEW PASSENGER' : 'CHECK-IN OPEN'} length={13} tone={mode === 'register' ? 'go' : 'signal'} stagger={40} />
@@ -85,7 +85,7 @@ function Diagram({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode:
       {/* column headers, aligned with the route nodes below */}
       <ol className="mb-4 hidden grid-cols-4 gap-6 px-[1.6rem] sm:grid" aria-hidden>
         {PHASES.map((p) => (
-          <li key={p.key} className={cn('rounded-md bg-black/25 py-1.5 text-center font-mono text-[0.78rem] font-semibold', p.ink)}>{p.label}</li>
+          <li key={p.key} className={cn('rounded-full bg-white/60 py-1.5 text-center shadow-panel font-mono text-[0.78rem] font-semibold', p.ink)}>{p.label}</li>
         ))}
       </ol>
 
@@ -95,10 +95,10 @@ function Diagram({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode:
           layout
           transition={{ duration: 0.4, ease: EASE }}
           className={cn(
-            'relative mx-auto w-full max-w-[34rem] rounded-xl border-2 p-5 transition-[border-color,background-color,box-shadow] duration-500 sm:p-7',
+            'relative mx-auto w-full max-w-[34rem] rounded-[1.75rem] border-2 p-5 transition-[border-color,background-color,box-shadow] duration-500 sm:p-7',
             mode === 'register'
-              ? 'border-go bg-[oklch(22%_0.045_165/0.85)] shadow-[0_2px_4px_oklch(10%_0.05_268/0.4),0_30px_70px_-28px_oklch(78%_0.17_155/0.4)]'
-              : 'border-signal bg-[oklch(22%_0.04_85/0.6)] shadow-[0_2px_4px_oklch(10%_0.05_268/0.4),0_30px_70px_-28px_oklch(85%_0.165_86/0.35)]',
+              ? 'border-go/45 bg-white/80 shadow-board backdrop-blur-xl'
+              : 'border-signal/40 bg-white/80 shadow-board backdrop-blur-xl',
           )}
         >
           <span className={cn('absolute top-4 left-4 grid size-8 place-items-center rounded-md', mode === 'register' ? 'bg-go/15 text-go' : 'bg-signal/15 text-signal')}>
@@ -130,7 +130,7 @@ function Diagram({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode:
       <div className="relative flex h-16 justify-center" aria-hidden>
         <span className={cn('dash-flow-y h-full w-[2px]', mode === 'register' ? 'text-go' : 'text-signal')} />
         <svg viewBox="0 0 12 8" className={cn('absolute bottom-0 h-2 w-3', mode === 'register' ? 'text-go' : 'text-signal')}><path d="M0 0l6 8 6-8z" fill="currentColor" /></svg>
-        <span className="absolute top-1/2 left-1/2 ml-3 -translate-y-1/2 rounded-sm bg-board px-2 py-0.5 font-mono text-[0.72rem] text-letter">on success</span>
+        <span className="absolute top-1/2 left-1/2 ml-3 -translate-y-1/2 rounded-full bg-white/85 px-2.5 py-0.5 font-mono text-[0.72rem] text-letter shadow-panel">on success</span>
       </div>
 
       {/* Lane 02 */}
@@ -160,7 +160,7 @@ function Diagram({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode:
 /** Dashed swim-lane with its label inside the top-left corner, like a grouped region in a flow diagram. */
 function Lane({ index, label, children }: { index: string; label: string; children: ReactNode }) {
   return (
-    <div className="relative rounded-2xl border-[1.5px] border-dashed border-[oklch(45%_0.05_266)] bg-black/[0.12] px-4 pt-12 pb-5 sm:px-6 sm:pb-6">
+    <div className="relative rounded-[2rem] border-[1.5px] border-dashed border-letter/25 bg-white/35 px-4 pt-12 pb-5 sm:px-6 sm:pb-6">
       <span className="absolute top-4 left-4 font-mono text-[0.9rem] text-letter-dim sm:left-6">
         {index} <span className="text-letter-dim/60">/</span> <span className="text-letter/85">{label}</span>
       </span>
@@ -177,9 +177,9 @@ function RouteNode({ phase: p, active, delay }: { phase: (typeof PHASES)[number]
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay, ease: EASE }}
       className={cn(
-        'relative h-full rounded-lg border-2 px-3 pt-8 pb-3 text-center transition-shadow duration-500',
+        'relative h-full rounded-2xl border-2 px-3 pt-8 pb-3 text-center transition-shadow duration-500',
         p.border, p.fill,
-        active && 'shadow-[0_2px_3px_oklch(10%_0.05_268/0.4),0_16px_32px_-14px_oklch(85%_0.165_86/0.5)]',
+        active ? 'shadow-lift' : 'shadow-panel',
       )}
     >
       <Icon className={cn('absolute top-2.5 left-2.5 size-4', p.ink)} aria-hidden />
@@ -197,7 +197,7 @@ function RouteNode({ phase: p, active, delay }: { phase: (typeof PHASES)[number]
 
 function ModeSwitch({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void }) {
   return (
-    <div role="tablist" aria-label="Log in or register" className="relative mt-6 grid h-11 grid-cols-2 rounded-lg border border-white/10 bg-black/25 p-1">
+    <div role="tablist" aria-label="Log in or register" className="relative mt-6 grid h-11 grid-cols-2 rounded-full border border-white/70 bg-board p-1 shadow-press">
       {(['login', 'register'] as const).map((m) => {
         const active = mode === m
         return (
@@ -207,12 +207,12 @@ function ModeSwitch({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void 
             type="button"
             aria-selected={active}
             onClick={() => setMode(m)}
-            className={cn('relative rounded-md text-sm font-semibold transition-colors duration-300', active ? 'text-signal-ink' : 'text-letter-dim hover:text-letter')}
+            className={cn('relative rounded-full text-sm font-semibold transition-colors duration-300', active ? 'text-signal-ink' : 'text-letter-dim hover:text-letter')}
           >
             {active && (
               <motion.span
                 layoutId="checkin-tab"
-                className={cn('absolute inset-0 rounded-md', m === 'register' ? 'bg-go' : 'bg-signal')}
+                className={cn('absolute inset-0 rounded-full shadow-panel', m === 'register' ? 'bg-go' : 'bg-signal')}
                 transition={{ type: 'spring', stiffness: 500, damping: 40 }}
               />
             )}
@@ -225,7 +225,7 @@ function ModeSwitch({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void 
 }
 
 const fieldClass =
-  'h-11 border-white/15 bg-black/30 pl-10 text-letter placeholder:text-letter-dim/55 focus-visible:border-signal focus-visible:ring-signal/25'
+  'h-11 rounded-xl border-letter/15 bg-white/80 pl-10 text-letter placeholder:text-letter-dim/55 focus-visible:border-signal focus-visible:ring-signal/25'
 
 function IconField({ icon: Icon, className, ...props }: { icon: LucideIcon } & ComponentProps<typeof Input>) {
   return (
@@ -239,7 +239,7 @@ function IconField({ icon: Icon, className, ...props }: { icon: LucideIcon } & C
 function FormError({ message }: { message: string | null }) {
   return (
     <div aria-live="assertive">
-      {message && <p className="mb-4 rounded-md border border-[oklch(70%_0.17_25)]/50 bg-[oklch(35%_0.12_25)]/40 px-3 py-2 text-sm font-medium text-[oklch(85%_0.09_25)]">{message}</p>}
+      {message && <p className="mb-4 rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm font-medium text-destructive">{message}</p>}
     </div>
   )
 }
@@ -249,7 +249,7 @@ function PasswordInput({ id, autoComplete }: { id: string; autoComplete: string 
   return (
     <div className="relative">
       <IconField icon={Lock} id={id} name="password" type={show ? 'text' : 'password'} required minLength={autoComplete === 'new-password' ? 8 : undefined} autoComplete={autoComplete} className="pr-11" />
-      <button type="button" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center rounded text-letter-dim hover:bg-white/10 hover:text-letter" aria-label={show ? 'Hide password' : 'Show password'}>
+      <button type="button" onClick={() => setShow((s) => !s)} className="absolute top-1/2 right-2 grid size-8 -translate-y-1/2 place-items-center rounded text-letter-dim hover:bg-board hover:text-letter" aria-label={show ? 'Hide password' : 'Show password'}>
         {show ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
       </button>
     </div>

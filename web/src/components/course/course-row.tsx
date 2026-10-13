@@ -11,8 +11,8 @@ import { boardDate, boardTime, formatINR, gateCode } from '@/lib/format'
 export function CourseRow({ course: c, index = 0 }: { course: Course; index?: number }) {
   const delay = Math.min(index, 8) * 70
   return (
-    <article className="group relative grid overflow-hidden rounded-xl border bg-card shadow-panel transition-[box-shadow,transform] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:shadow-[0_2px_2px_oklch(20%_0.05_268/0.05),0_22px_40px_-14px_oklch(20%_0.05_268/0.28)] md:grid-cols-[13.5rem_1fr_auto]">
-      <div className="on-board board-surface flex flex-row items-center justify-between gap-3 p-4 md:flex-col md:items-start md:justify-between md:p-5">
+    <article className="group relative grid overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel transition-[box-shadow,transform] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-lift md:grid-cols-[13.5rem_1fr_auto]">
+      <div className="on-board board-surface m-2 flex flex-row items-center justify-between gap-3 rounded-[1.35rem] p-4 shadow-press md:mr-0 md:flex-col md:items-start md:justify-between md:p-5">
         <div>
           <div className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Gate</div>
           <div className="mt-1 text-[22px] md:text-[26px]"><FlapText text={gateCode(c.gate)} length={3} delay={delay} /></div>
@@ -46,7 +46,7 @@ export function CourseRow({ course: c, index = 0 }: { course: Course; index?: nu
           <div className="text-xs text-muted-foreground">Fare</div>
           <div className="text-2xl font-extrabold tracking-tight tabular">{formatINR(c.price)}</div>
         </div>
-        <span className="sign-plate pointer-events-none inline-flex h-9 items-center gap-1.5 rounded-md px-3.5 text-sm font-semibold">
+        <span className="sign-plate pointer-events-none inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold">
           View course <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
         </span>
       </div>

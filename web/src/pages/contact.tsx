@@ -48,7 +48,7 @@ export default function ContactPage() {
         <div className="self-start">
           <ul className="on-board board-surface overflow-hidden rounded-xl shadow-board" aria-label="How to reach us">
             {info.map((x) => (
-              <li key={x.title} className="flex items-center gap-4 border-b border-white/[0.07] px-5 py-4 last:border-b-0">
+              <li key={x.title} className="flex items-center gap-4 border-b border-letter/10 px-5 py-4 last:border-b-0">
                 <span className="sign-plate grid size-10 shrink-0 place-items-center rounded-md"><x.icon className="size-5" aria-hidden /></span>
                 <div className="min-w-0">
                   <h2 className="text-sm text-letter-dim">{x.title}</h2>

@@ -111,7 +111,7 @@ function Dashboard() {
         <div className="mt-4 text-[24px] sm:text-[34px]">
           <FlapText text={data.code} length={data.code.length} tone="signal" stagger={55} label={data.code} />
         </div>
-        <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+        <div className="mt-8 grid grid-cols-3 gap-4 border-t border-letter/10 pt-6">
           {[
             ['Friends joined', String(data.friends.length)],
             ['Enrolled', String(enrolled)],
