@@ -18,9 +18,9 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
-        gate: "h-6 bg-board px-2.5 font-mono text-[0.72rem] tracking-wider text-signal shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]",
-        go: "bg-mint text-go font-mono uppercase tracking-wider text-[0.68rem]",
-        call: "bg-peach text-call font-mono uppercase tracking-wider text-[0.68rem]",
+        module: "h-6 bg-board px-2.5 text-[0.75rem] font-bold text-signal shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]",
+        go: "bg-mint text-go",
+        call: "bg-peach text-call",
         quiet: "bg-muted text-muted-foreground",
       },
     },

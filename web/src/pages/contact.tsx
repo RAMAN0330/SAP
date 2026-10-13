@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { toast } from 'sonner'
-import { Clock, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react'
+import { Clock, Loader2, Mail, MailCheck, MapPin, Phone, Send } from 'lucide-react'
 import { PageIntro } from '@/components/layout/page-intro'
-import { FlapText } from '@/components/board/split-flap'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -46,10 +45,10 @@ export default function ContactPage() {
       <PageIntro title="Contact us" lead="Questions about a course, interview preparation or job assistance? Send a message and a mentor will reply — usually within one working day." />
       <section className="container-page grid gap-8 py-14 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-12">
         <div className="self-start">
-          <ul className="on-board board-surface overflow-hidden rounded-xl shadow-board" aria-label="How to reach us">
+          <ul className="on-board board-surface overflow-hidden rounded-[2rem] p-2 shadow-board ring-1 ring-white/70" aria-label="How to reach us">
             {info.map((x) => (
-              <li key={x.title} className="flex items-center gap-4 border-b border-letter/10 px-5 py-4 last:border-b-0">
-                <span className="sign-plate grid size-10 shrink-0 place-items-center rounded-md"><x.icon className="size-5" aria-hidden /></span>
+              <li key={x.title} className="flex items-center gap-4 rounded-[1.4rem] px-4 py-3.5">
+                <span className="sign-plate grid size-11 shrink-0 place-items-center rounded-2xl"><x.icon className="size-5" aria-hidden /></span>
                 <div className="min-w-0">
                   <h2 className="text-sm text-letter-dim">{x.title}</h2>
                   {x.href ? <a href={x.href} className="font-semibold break-all text-letter hover:text-signal">{x.value}</a> : <p className="font-semibold text-letter">{x.value}</p>}
@@ -60,7 +59,7 @@ export default function ContactPage() {
           <p className="mt-3 px-1 text-xs text-muted-foreground">Contact details shown are placeholders.</p>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border bg-card p-6 shadow-panel sm:p-8">
+        <div className="relative overflow-hidden rounded-[2rem] border border-white bg-card p-6 shadow-panel sm:p-8">
           <AnimatePresence mode="wait" initial={false}>
             {sentTo ? (
               <motion.div
@@ -71,7 +70,7 @@ export default function ContactPage() {
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 className="flex min-h-[26rem] flex-col items-center justify-center text-center"
               >
-                <div className="on-board board-surface rounded-lg p-3 text-[18px]"><FlapText text="MESSAGE SENT" length={12} tone="go" stagger={40} /></div>
+                <span className="grid size-16 place-items-center rounded-[1.4rem] bg-mint text-go shadow-[inset_0_1.5px_0_oklch(100%_0_0/0.7)]"><MailCheck className="size-7" aria-hidden /></span>
                 <h2 className="mt-6 text-2xl font-extrabold">Thanks — it’s on its way</h2>
                 <p className="mt-2 max-w-sm text-muted-foreground">We’ll reply to <span className="font-semibold text-foreground">{sentTo}</span> within one working day.</p>
                 <Button variant="outline" className="mt-6" onClick={() => setSentTo(null)}>Send another message</Button>

@@ -1,12 +1,11 @@
-import { useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
+import { useState, type ComponentProps, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { toast } from 'sonner'
 import {
-  ArrowRight, Eye, EyeOff, KeyRound, Loader2, Lock, Mail, PlaneLanding, Route, TicketCheck, Ticket, UserPlus, UserRound,
+  ArrowRight, BookOpenCheck, Eye, EyeOff, Gift, KeyRound, Loader2, Lock, Mail, MessagesSquare, Ticket, UserPlus, UserRound,
   type LucideIcon,
 } from 'lucide-react'
-import { FlapText } from '@/components/board/split-flap'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -17,14 +16,6 @@ const EASE = [0.16, 1, 0.3, 1] as const
 const safeRedirect = (r: string | null) => (r && r.startsWith('/') && !r.startsWith('//') ? r : '/my-courses')
 
 type Mode = 'login' | 'register'
-
-/* Diagram inks — one per phase, used for header pills, nodes and legend alike. */
-const PHASES = [
-  { key: 'checkin', label: 'Check-in', sub: 'free account', icon: UserPlus, ink: 'text-signal', border: 'border-signal/60', fill: 'bg-lilac/55', swatch: 'bg-lilac border-signal' },
-  { key: 'boarding', label: 'Boarding', sub: 'pick a gate', icon: TicketCheck, ink: 'text-go', border: 'border-go/60', fill: 'bg-mint/75', swatch: 'bg-mint border-go' },
-  { key: 'flight', label: 'In flight', sub: 'tick stops', icon: Route, ink: 'text-letter', border: 'border-letter/35', fill: 'bg-sky/75', swatch: 'bg-sky border-letter/35' },
-  { key: 'landed', label: 'Landed', sub: 'the offer', icon: PlaneLanding, ink: 'text-call', border: 'border-call/60', fill: 'bg-peach/75', swatch: 'bg-peach border-call' },
-] as const
 
 export default function LoginPage() {
   const [params, setParams] = useSearchParams()
@@ -42,156 +33,100 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="on-board bg-grid relative min-h-[calc(100dvh-4rem)] overflow-hidden">
-      <div className="container-page grid gap-12 py-12 sm:py-16 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:gap-14 lg:py-16">
+    <section className="aurora relative min-h-[calc(100dvh-4rem)] overflow-hidden">
+      <div className="container-page grid gap-10 py-12 sm:py-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-16 lg:py-20">
         <Intro mode={mode} />
-        <Diagram mode={mode} setMode={setMode} redirect={redirect} initialRef={params.get('ref') ?? ''} />
+        <AuthCard mode={mode} setMode={setMode} redirect={redirect} initialRef={params.get('ref') ?? ''} />
       </div>
     </section>
   )
 }
 
+const perks = [
+  { icon: BookOpenCheck, title: 'Track every lesson', text: 'Enrol in any module and see exactly what is done and what is left.', tint: 'bg-lilac' },
+  { icon: MessagesSquare, title: 'Practise real questions', text: 'The full question bank with model answers, organised the way panels ask.', tint: 'bg-mint' },
+  { icon: Gift, title: 'Earn with referrals', text: 'Get a personal referral code the moment you register.', tint: 'bg-peach' },
+] as const
+
 function Intro({ mode }: { mode: Mode }) {
   return (
-    <div className="lg:sticky lg:top-28 lg:pt-12">
-      <h1 className="max-w-md text-4xl leading-[1.04] font-extrabold sm:text-5xl">Welcome to the check-in desk</h1>
+    <div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.h1
+          key={mode}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, transition: { duration: 0.1 } }}
+          transition={{ duration: 0.4, ease: EASE }}
+          className="max-w-md text-4xl leading-[1.04] font-extrabold sm:text-5xl"
+        >
+          {mode === 'register' ? <>Start preparing <span className="text-signal">today.</span></> : <>Welcome <span className="text-signal">back.</span></>}
+        </motion.h1>
+      </AnimatePresence>
       <p className="mt-4 max-w-md text-lg leading-relaxed text-letter-dim">
         One account for your courses, progress and referral rewards. Log in, or create a free account to enrol.
       </p>
-      <ul className="mt-8 hidden space-y-3 text-letter-dim sm:block">
-        {['Enrol in any module and track every stop', 'Practise with the full question bank', 'Get a referral code the moment you register'].map((t) => (
-          <li key={t} className="flex items-center gap-3">
-            <span className="grid size-5 place-items-center rounded-full bg-signal/12 text-signal"><ArrowRight className="size-3" aria-hidden /></span>
-            {t}
-          </li>
+      <ul className="mt-8 grid max-w-md gap-3">
+        {perks.map((p, i) => (
+          <motion.li
+            key={p.title}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.45, delay: 0.1 + i * 0.08, ease: EASE }}
+            className="flex items-start gap-4 rounded-[1.5rem] border border-white/70 bg-white/55 p-4 shadow-panel backdrop-blur-md"
+          >
+            <span className={cn('grid size-11 shrink-0 place-items-center rounded-2xl text-foreground/80 shadow-[inset_0_1.5px_0_oklch(100%_0_0/0.7)]', p.tint)}>
+              <p.icon className="size-5" aria-hidden />
+            </span>
+            <span>
+              <span className="block font-bold">{p.title}</span>
+              <span className="mt-0.5 block text-sm text-letter-dim">{p.text}</span>
+            </span>
+          </motion.li>
         ))}
       </ul>
-      <div className="mt-10 hidden items-center gap-4 rounded-2xl border border-white/70 bg-white/55 p-3 shadow-panel backdrop-blur-md sm:inline-flex">
-        <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Desk status</span>
-        <span className="text-[17px]">
-          <FlapText text={mode === 'register' ? 'NEW PASSENGER' : 'CHECK-IN OPEN'} length={13} tone={mode === 'register' ? 'go' : 'signal'} stagger={40} />
-        </span>
-      </div>
-      <p className="mt-5 hidden max-w-md font-mono text-[0.7rem] leading-relaxed text-letter-dim sm:block">passwords hashed with scrypt ∙ sessions held server-side ∙ expire after 7 days</p>
+      <p className="mt-6 max-w-md text-xs text-letter-dim">Passwords are hashed with scrypt and sessions are held server-side, expiring after 7 days.</p>
     </div>
   )
 }
 
-function Diagram({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode: (m: Mode) => void; redirect: string; initialRef: string }) {
-  const here = 0 // a visitor on this page hasn't started a course yet
-
+function AuthCard({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode: (m: Mode) => void; redirect: string; initialRef: string }) {
   return (
-    <div className="relative">
-      {/* column headers, aligned with the route nodes below */}
-      <ol className="mb-4 hidden grid-cols-4 gap-6 px-[1.6rem] sm:grid" aria-hidden>
-        {PHASES.map((p) => (
-          <li key={p.key} className={cn('rounded-full bg-white/60 py-1.5 text-center shadow-panel font-mono text-[0.78rem] font-semibold', p.ink)}>{p.label}</li>
-        ))}
-      </ol>
-
-      {/* Lane 01 */}
-      <Lane index="01" label="Check-in desk">
-        <motion.div
-          layout
-          transition={{ duration: 0.4, ease: EASE }}
-          className={cn(
-            'relative mx-auto w-full max-w-[34rem] rounded-[1.75rem] border-2 p-5 transition-[border-color,background-color,box-shadow] duration-500 sm:p-7',
-            mode === 'register'
-              ? 'border-go/45 bg-white/80 shadow-board backdrop-blur-xl'
-              : 'border-signal/40 bg-white/80 shadow-board backdrop-blur-xl',
-          )}
-        >
-          <span className={cn('absolute top-4 left-4 grid size-8 place-items-center rounded-md', mode === 'register' ? 'bg-go/15 text-go' : 'bg-signal/15 text-signal')}>
-            {mode === 'register' ? <UserPlus className="size-4" aria-hidden /> : <KeyRound className="size-4" aria-hidden />}
+    <div>
+      <motion.div
+        layout
+        transition={{ duration: 0.4, ease: EASE }}
+        className="relative mx-auto w-full max-w-[34rem] rounded-[2rem] border border-white bg-white/80 p-5 shadow-board backdrop-blur-xl sm:p-8"
+      >
+        <div className="flex items-center gap-3">
+          <span className="sign-plate grid size-11 place-items-center rounded-2xl">
+            {mode === 'register' ? <UserPlus className="size-5" aria-hidden /> : <KeyRound className="size-5" aria-hidden />}
           </span>
-          <div className="text-center">
-            <h2 className="font-mono text-lg font-semibold text-letter">{mode === 'register' ? 'Create account' : 'Passenger login'}</h2>
-            <p className="mt-0.5 font-mono text-[0.75rem] text-letter-dim">{mode === 'register' ? 'name + email + password' : 'email + password'}</p>
+          <div>
+            <h2 className="text-xl font-extrabold">{mode === 'register' ? 'Create your free account' : 'Log in to your account'}</h2>
+            <p className="text-sm text-muted-foreground">{mode === 'register' ? 'Takes less than a minute.' : 'Use the email you registered with.'}</p>
           </div>
+        </div>
 
-          <ModeSwitch mode={mode} setMode={setMode} />
+        <ModeSwitch mode={mode} setMode={setMode} />
 
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={mode}
-              initial={{ opacity: 0, x: mode === 'register' ? 18 : -18, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, transition: { duration: 0.1 } }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="mt-6"
-            >
-              {mode === 'login' ? <LoginForm redirect={redirect} /> : <RegisterForm redirect={redirect} initialRef={initialRef} />}
-            </motion.div>
-          </AnimatePresence>
-        </motion.div>
-      </Lane>
-
-      {/* edge between lanes */}
-      <div className="relative flex h-16 justify-center" aria-hidden>
-        <span className={cn('dash-flow-y h-full w-[2px]', mode === 'register' ? 'text-go' : 'text-signal')} />
-        <svg viewBox="0 0 12 8" className={cn('absolute bottom-0 h-2 w-3', mode === 'register' ? 'text-go' : 'text-signal')}><path d="M0 0l6 8 6-8z" fill="currentColor" /></svg>
-        <span className="absolute top-1/2 left-1/2 ml-3 -translate-y-1/2 rounded-full bg-white/85 px-2.5 py-0.5 font-mono text-[0.72rem] text-letter shadow-panel">on success</span>
-      </div>
-
-      {/* Lane 02 */}
-      <Lane index="02" label="Your route">
-        <ol className="grid grid-cols-2 gap-x-8 gap-y-5 sm:grid-cols-4 sm:gap-x-6" aria-label="Your route: check-in, boarding, in flight, landed">
-          {PHASES.map((p, i) => (
-            <li key={p.key} className="relative">
-              <RouteNode phase={p} active={i === here} delay={0.15 + i * 0.08} />
-              {i < PHASES.length - 1 && (
-                <svg aria-hidden viewBox="0 0 24 10" className={cn('absolute top-1/2 -right-[30px] z-10 h-2.5 w-7 -translate-y-1/2 text-letter-dim sm:-right-[23px] sm:w-[22px]', i === 1 ? 'hidden sm:block' : 'block')}>
-                  <path d="M0 5h18" stroke="currentColor" strokeWidth="1.6" strokeDasharray="3 3" className="dash-travel" />
-                  <path d="M17 1l6 4-6 4z" fill="currentColor" />
-                </svg>
-              )}
-            </li>
-          ))}
-        </ol>
-      </Lane>
-
-      <p className="mt-8 text-center text-sm text-letter-dim">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={mode}
+            initial={{ opacity: 0, x: mode === 'register' ? 18 : -18, filter: 'blur(4px)' }}
+            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="mt-6"
+          >
+            {mode === 'login' ? <LoginForm redirect={redirect} /> : <RegisterForm redirect={redirect} initialRef={initialRef} />}
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+      <p className="mt-6 text-center text-sm text-letter-dim">
         Just browsing? <Link to="/courses" className="font-semibold text-letter underline decoration-letter/30 underline-offset-4 hover:decoration-signal">Explore the courses</Link>
       </p>
     </div>
-  )
-}
-
-/** Dashed swim-lane with its label inside the top-left corner, like a grouped region in a flow diagram. */
-function Lane({ index, label, children }: { index: string; label: string; children: ReactNode }) {
-  return (
-    <div className="relative rounded-[2rem] border-[1.5px] border-dashed border-letter/25 bg-white/35 px-4 pt-12 pb-5 sm:px-6 sm:pb-6">
-      <span className="absolute top-4 left-4 font-mono text-[0.9rem] text-letter-dim sm:left-6">
-        {index} <span className="text-letter-dim/60">/</span> <span className="text-letter/85">{label}</span>
-      </span>
-      {children}
-    </div>
-  )
-}
-
-function RouteNode({ phase: p, active, delay }: { phase: (typeof PHASES)[number]; active: boolean; delay: number }) {
-  const Icon: LucideIcon = p.icon
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay, ease: EASE }}
-      className={cn(
-        'relative h-full rounded-2xl border-2 px-3 pt-8 pb-3 text-center transition-shadow duration-500',
-        p.border, p.fill,
-        active ? 'shadow-lift' : 'shadow-panel',
-      )}
-    >
-      <Icon className={cn('absolute top-2.5 left-2.5 size-4', p.ink)} aria-hidden />
-      {active && (
-        <span className="absolute top-2.5 right-2.5 flex size-2" aria-label="You are here">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-go opacity-60" />
-          <span className="relative inline-flex size-2 rounded-full bg-go" />
-        </span>
-      )}
-      <div className="font-mono text-[0.92rem] font-semibold text-letter">{p.label}</div>
-      <div className="mt-0.5 font-mono text-[0.68rem] text-letter-dim">{p.sub}</div>
-    </motion.div>
   )
 }
 
@@ -207,12 +142,12 @@ function ModeSwitch({ mode, setMode }: { mode: Mode; setMode: (m: Mode) => void 
             type="button"
             aria-selected={active}
             onClick={() => setMode(m)}
-            className={cn('relative rounded-full text-sm font-semibold transition-colors duration-300', active ? 'text-signal-ink' : 'text-letter-dim hover:text-letter')}
+            className={cn('relative rounded-full text-sm font-semibold transition-colors duration-300', active ? 'text-signal-ink' : 'text-muted-foreground hover:text-foreground')}
           >
             {active && (
               <motion.span
                 layoutId="checkin-tab"
-                className={cn('absolute inset-0 rounded-full shadow-panel', m === 'register' ? 'bg-go' : 'bg-signal')}
+                className="absolute inset-0 rounded-full bg-signal shadow-panel"
                 transition={{ type: 'spring', stiffness: 500, damping: 40 }}
               />
             )}
@@ -290,7 +225,7 @@ function LoginForm({ redirect }: { redirect: string }) {
         <PasswordInput id="login-password" autoComplete="current-password" />
       </div>
       <Button type="submit" size="lg" className="mt-2 w-full" disabled={busy}>
-        {busy ? <><Loader2 className="animate-spin" /> Checking in…</> : <>Log in <ArrowRight /></>}
+        {busy ? <><Loader2 className="animate-spin" /> Logging in…</> : <>Log in <ArrowRight /></>}
       </Button>
     </form>
   )
@@ -314,7 +249,7 @@ function RegisterForm({ redirect, initialRef }: { redirect: string; initialRef: 
         password: String(f.get('password')),
         referralCode: String(f.get('referralCode') ?? ''),
       })
-      toast.success(`You’re checked in, ${u.name.split(' ')[0]}.`, { description: `Your referral code is ${u.referralCode}.` })
+      toast.success(`Your account is ready, ${u.name.split(' ')[0]}.`, { description: `Your referral code is ${u.referralCode}.` })
       navigate(redirect, { replace: true })
     } catch (err) {
       setError((err as Error).message)
@@ -337,7 +272,7 @@ function RegisterForm({ redirect, initialRef }: { redirect: string; initialRef: 
       <div className="space-y-2">
         <Label className="text-letter" htmlFor="reg-password">Password</Label>
         <PasswordInput id="reg-password" autoComplete="new-password" />
-        <p className="font-mono text-[0.68rem] text-letter-dim">min 8 characters</p>
+        <p className="text-xs text-letter-dim">At least 8 characters</p>
       </div>
       <div className="space-y-2">
         <Label className="text-letter" htmlFor="reg-ref">Referral code <span className="font-normal text-letter-dim">(optional)</span></Label>

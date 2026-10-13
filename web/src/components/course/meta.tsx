@@ -16,7 +16,7 @@ export function DemandRamp({ value, className }: { value: 1 | 2 | 3; className?:
   )
 }
 
-export const PHASES = ['Check-in', 'Boarding', 'In flight', 'Landed'] as const
+export const PHASES = ['Started', 'Learning', 'Practising', 'Ready'] as const
 export function phaseFor(done: number, total: number) {
   if (total === 0 || done === 0) return 0
   if (done >= total) return 3
@@ -27,7 +27,7 @@ export function phaseFor(done: number, total: number) {
 export function PhaseTrack({ done, total, className }: { done: number; total: number; className?: string }) {
   const current = phaseFor(done, total)
   return (
-    <ol className={cn('grid grid-cols-4 gap-1.5', className)} aria-label={`Progress: ${PHASES[current]}, ${done} of ${total} stops done`}>
+    <ol className={cn('grid grid-cols-4 gap-1.5', className)} aria-label={`Progress: ${PHASES[current]}, ${done} of ${total} lessons done`}>
       {PHASES.map((p, i) => (
         <li key={p} className="min-w-0">
           <div

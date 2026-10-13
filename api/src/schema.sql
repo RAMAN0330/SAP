@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS courses (
   id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   slug             text NOT NULL UNIQUE,
-  gate             int  NOT NULL,
+  catalog_order    int  NOT NULL,
   title            text NOT NULL,
   module           text NOT NULL,
   track            text NOT NULL CHECK (track IN ('Functional','Technical','Cloud')),
@@ -26,13 +26,24 @@ CREATE TABLE IF NOT EXISTS courses (
   lessons_count    int  NOT NULL,
   questions_count  int  NOT NULL,
   demand           int  NOT NULL CHECK (demand BETWEEN 1 AND 3),
-  destination      text NOT NULL,
+  target_role      text NOT NULL,
   instructor_name  text NOT NULL,
   instructor_bio   text NOT NULL,
   learn_points     text[] NOT NULL,
   published        boolean NOT NULL DEFAULT true,
   created_at       timestamptz NOT NULL DEFAULT now()
 );
+
+-- Databases created before the airport naming was dropped: rename in place, keep the data.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'courses' AND column_name = 'gate') THEN
+    ALTER TABLE courses RENAME COLUMN gate TO catalog_order;
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'courses' AND column_name = 'destination') THEN
+    ALTER TABLE courses RENAME COLUMN destination TO target_role;
+  END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS lessons (
   id           uuid PRIMARY KEY DEFAULT gen_random_uuid(),

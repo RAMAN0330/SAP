@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowUpRight, Search } from 'lucide-react'
+import { ArrowUpRight, Search, SearchX } from 'lucide-react'
 import { PageIntro } from '@/components/layout/page-intro'
-import { GhostBoard } from '@/components/course/ghost'
+import { EmptyState } from '@/components/course/ghost'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
@@ -12,8 +12,10 @@ import { api, type BlogSummary } from '@/lib/api'
 import { longDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
+/* Same full-width segmented tray as the course filters. */
+const tray = 'flex w-full flex-wrap gap-1 lg:flex-nowrap rounded-[1.4rem] border border-white/70 bg-board p-1.5 shadow-press'
 const chip =
-  'h-9 rounded-full border border-foreground/10 bg-card shadow-panel px-3.5 text-sm font-semibold data-[state=on]:border-signal data-[state=on]:bg-signal data-[state=on]:text-signal-ink'
+  'h-10 min-w-0 grow basis-32 rounded-full px-4 lg:basis-0 lg:px-3 text-sm font-semibold text-letter-dim transition-[background-color,color,box-shadow] duration-300 hover:bg-white/70 hover:text-letter data-[state=on]:bg-signal data-[state=on]:text-signal-ink data-[state=on]:shadow-panel'
 
 export default function BlogsPage() {
   const { data: posts, error, refetch } = useQuery('blogs', api.blogs)
@@ -28,13 +30,13 @@ export default function BlogsPage() {
     <>
       <PageIntro title="The SAP career blog" lead="Interview questions, module choices, résumé advice and job-search tactics for SAP professionals — short, practical and written by people who hire." />
       <section className="container-page py-12 sm:py-16">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <label className="relative block w-full lg:max-w-xs">
+        <div className="grid gap-3">
+          <label className="relative block w-full">
             <span className="sr-only">Search articles</span>
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search articles" className="h-10 bg-card pl-9" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search articles" className="h-[3.25rem] rounded-[1.4rem] bg-card pl-9" />
           </label>
-          <ToggleGroup type="single" value={cat} onValueChange={(v) => v && setCat(v)} aria-label="Category" className="flex flex-wrap justify-start gap-1.5">
+          <ToggleGroup type="single" value={cat} onValueChange={(v) => v && setCat(v)} spacing={1} aria-label="Category" className={tray}>
             {categories.map((c) => <ToggleGroupItem key={c} value={c} className={chip}>{c}</ToggleGroupItem>)}
           </ToggleGroup>
         </div>
@@ -44,9 +46,9 @@ export default function BlogsPage() {
 
         {posts && results.length === 0 && (
           <div className="mt-12">
-            <GhostBoard readout="NO ARTICLES" title="Nothing matches that search">
+            <EmptyState icon={SearchX} title="Nothing matches that search">
               <Button variant="outline" className="mt-5" onClick={() => { setQ(''); setCat('All') }}>Show all articles</Button>
-            </GhostBoard>
+            </EmptyState>
           </div>
         )}
 
@@ -84,8 +86,8 @@ function PostCard({ post: p, featured, className }: { post: BlogSummary; feature
       <Link
         to={`/blogs/${p.slug}`}
         className={cn(
-          'group flex h-full flex-col rounded-xl border p-6 shadow-panel transition-[transform,border-color] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 sm:p-7',
-          featured ? 'on-board board-surface border-transparent text-letter' : 'bg-card hover:border-foreground/30',
+          'group flex h-full flex-col rounded-[1.75rem] border p-6 shadow-panel transition-[transform,border-color] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 sm:p-7',
+          featured ? 'on-board aurora border-white/70 text-letter' : 'border-white bg-card hover:shadow-lift',
         )}
       >
         <div className="flex items-start justify-between gap-4">
@@ -94,7 +96,7 @@ function PostCard({ post: p, featured, className }: { post: BlogSummary; feature
         </div>
         <p className={cn('mt-3 leading-relaxed', featured ? 'max-w-[52ch] text-lg text-letter-dim' : 'text-muted-foreground')}>{p.excerpt}</p>
         <p className={cn('mt-auto flex flex-wrap items-center gap-x-2.5 gap-y-1 pt-6 text-sm', featured ? 'text-letter-dim' : 'text-muted-foreground')}>
-          <span className={cn('rounded-sm px-2 py-0.5 text-xs font-semibold', featured ? 'bg-signal text-signal-ink' : 'bg-muted text-foreground')}>{p.category}</span>
+          <span className={cn('rounded-full px-2.5 py-0.5 text-xs font-semibold', featured ? 'bg-signal text-signal-ink' : 'bg-muted text-foreground')}>{p.category}</span>
           {p.author} ∙ {longDate(p.publishedAt)} ∙ {p.readMinutes} min read
         </p>
       </Link>

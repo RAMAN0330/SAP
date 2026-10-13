@@ -14,7 +14,7 @@ export interface SeedCourse {
   questions: number
   price: number
   demand: 1 | 2 | 3
-  destination: string
+  role: string
   description: string
   overview: string
   topics: [string, string, string]
@@ -26,7 +26,7 @@ export interface SeedCourse {
 export const seedCourses: SeedCourse[] = [
   {
     slug: 'sap-abap', module: 'ABAP', title: 'ABAP Developer Track', track: 'Technical', level: 'Intermediate',
-    weeks: 12, lessons: 58, questions: 380, price: 4499, demand: 3, destination: 'ABAP Developer',
+    weeks: 12, lessons: 58, questions: 380, price: 4499, demand: 3, role: 'ABAP Developer',
     description: 'Modern ABAP for the coding round: OO patterns, CDS views, RAP basics and performance-safe SQL.',
     overview: 'You will write ABAP the way S/4HANA projects expect it today — clean OO classes, CDS-based data models and enhancement techniques that survive upgrades — and rehearse the live-coding and code-review questions panels lean on.',
     topics: ['Open SQL, internal tables and performance', 'OO ABAP, BAdIs and enhancement framework', 'CDS views and the RESTful programming model'],
@@ -41,7 +41,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-ariba', module: 'Ariba', title: 'Ariba Procurement Track', track: 'Cloud', level: 'Intermediate',
-    weeks: 8, lessons: 32, questions: 160, price: 3999, demand: 2, destination: 'Ariba Consultant',
+    weeks: 8, lessons: 32, questions: 160, price: 3999, demand: 2, role: 'Ariba Consultant',
     description: 'Sourcing events, contract workspaces and guided buying, plus the S/4HANA integration questions that sink most candidates.',
     overview: 'Covers the source-to-pay story end to end in Ariba: running sourcing events, managing contracts, configuring guided buying and connecting suppliers on the Ariba Network — with the integration and approval-flow scenarios panels love.',
     topics: ['Sourcing events and supplier management', 'Contract workspaces and compliance', 'Guided buying and approval flows'],
@@ -56,7 +56,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-basis', module: 'Basis', title: 'Basis Administration Track', track: 'Technical', level: 'Advanced',
-    weeks: 10, lessons: 42, questions: 230, price: 4799, demand: 2, destination: 'Basis Administrator',
+    weeks: 10, lessons: 42, questions: 230, price: 4799, demand: 2, role: 'Basis Administrator',
     description: 'System landscapes, transports, client copies, kernel upgrades and the performance triage scenarios asked in senior rounds.',
     overview: 'Learn to run an SAP landscape like an on-call administrator: transport strategy, user and client management, monitoring, HANA basics and upgrade planning — practised through outage and slowness scenarios.',
     topics: ['Landscape, clients and the transport system', 'Monitoring, work processes and performance', 'HANA administration and upgrades'],
@@ -71,7 +71,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-btp', module: 'BTP', title: 'BTP Extension Track', track: 'Cloud', level: 'Advanced',
-    weeks: 9, lessons: 36, questions: 190, price: 4999, demand: 3, destination: 'BTP Developer',
+    weeks: 9, lessons: 36, questions: 190, price: 4999, demand: 3, role: 'BTP Developer',
     description: 'Side-by-side extensions on Business Technology Platform with CAP, destinations, XSUAA security and event-driven patterns.',
     overview: 'The clean-core story every S/4HANA programme now tells: build extensions on BTP instead of modifying the core. You will model services with CAP, secure them, connect to S/4HANA and explain the architecture choices in an interview.',
     topics: ['BTP account model, subaccounts and services', 'CAP services and data modelling', 'Security with XSUAA and role collections'],
@@ -86,7 +86,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-bw4hana', module: 'BW/4HANA', title: 'BW/4HANA Analytics Track', track: 'Technical', level: 'Advanced',
-    weeks: 9, lessons: 38, questions: 185, price: 4599, demand: 2, destination: 'BW Consultant',
+    weeks: 9, lessons: 38, questions: 185, price: 4599, demand: 2, role: 'BW Consultant',
     description: 'ADSOs, composite providers, extraction and query design for data-warehouse interviews.',
     overview: 'Model a warehouse the BW/4HANA way: from source extraction through ADSOs and composite providers to queries that business users trust. Includes load-failure and reconciliation scenarios.',
     topics: ['Data flows, ODP extraction and ADSOs', 'Composite providers and Open ODS views', 'BW queries and reporting performance'],
@@ -101,7 +101,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-cpi', module: 'CPI', title: 'Cloud Integration Track', track: 'Cloud', level: 'Intermediate',
-    weeks: 8, lessons: 34, questions: 175, price: 4299, demand: 3, destination: 'Integration Consultant',
+    weeks: 8, lessons: 34, questions: 175, price: 4299, demand: 3, role: 'Integration Consultant',
     description: 'Integration flows, adapters, mappings and error handling on SAP Integration Suite.',
     overview: 'Build and support integration flows the way projects run them: adapter choice, message mapping, Groovy scripts, security material and monitoring — with interface-failure scenarios for the interview.',
     topics: ['iFlow design and adapter choice', 'Mapping, scripting and content modifiers', 'Security, keystores and monitoring'],
@@ -116,7 +116,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-ewm', module: 'EWM', title: 'EWM Warehouse Track', track: 'Functional', level: 'Advanced',
-    weeks: 9, lessons: 40, questions: 205, price: 4699, demand: 2, destination: 'EWM Consultant',
+    weeks: 9, lessons: 40, questions: 205, price: 4699, demand: 2, role: 'EWM Consultant',
     description: 'Inbound, outbound and internal warehouse processes in Extended Warehouse Management, including RF and wave picking.',
     overview: 'Configure a warehouse in embedded EWM: structure, process-oriented storage control, waves and RF frameworks — and practise the go-live hypercare tickets that interviewers ask about.',
     topics: ['Warehouse structure and master data', 'Inbound and outbound processes', 'Waves, RF framework and storage control'],
@@ -131,7 +131,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-fico', module: 'FICO', title: 'FICO Finance Track', track: 'Functional', level: 'Intermediate',
-    weeks: 10, lessons: 48, questions: 340, price: 4499, demand: 3, destination: 'FICO Consultant',
+    weeks: 10, lessons: 48, questions: 340, price: 4499, demand: 3, role: 'FICO Consultant',
     description: 'General ledger, payables, receivables, assets and controlling — taught as the period-close story panels walk you through.',
     overview: 'Built for accountants moving into SAP as much as for existing consultants: configure the finance backbone of S/4HANA, run a month-end close, and answer the integration and scenario questions that decide FICO interviews.',
     topics: ['Enterprise structure, G/L and the Universal Journal', 'Payables, receivables and asset accounting', 'Cost centres, profit centres and product costing'],
@@ -146,7 +146,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-hcm', module: 'HCM', title: 'HCM Payroll & Time Track', track: 'Functional', level: 'Intermediate',
-    weeks: 9, lessons: 40, questions: 210, price: 3999, demand: 1, destination: 'HCM Consultant',
+    weeks: 9, lessons: 40, questions: 210, price: 3999, demand: 1, role: 'HCM Consultant',
     description: 'Organisational management, personnel administration, time and payroll schemas for on-premise HR roles.',
     overview: 'For HR professionals and existing consultants supporting on-premise HCM: org structure, infotypes, time evaluation and payroll schemas and rules, plus the support tickets that dominate HCM interviews.',
     topics: ['Org management and personnel administration', 'Time management and evaluation', 'Payroll schemas, rules and posting'],
@@ -161,7 +161,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-mm', module: 'MM', title: 'MM Procurement Track', track: 'Functional', level: 'Beginner',
-    weeks: 9, lessons: 44, questions: 290, price: 3999, demand: 3, destination: 'MM Consultant',
+    weeks: 9, lessons: 44, questions: 290, price: 3999, demand: 3, role: 'MM Consultant',
     description: 'Procure-to-pay from purchase requisition to invoice verification, with the integration questions every MM panel asks.',
     overview: 'A strong first module for supply-chain and purchasing professionals: master data, purchasing documents, inventory and invoice verification, connected into one procure-to-pay story you can tell confidently in an interview.',
     topics: ['Material and vendor master data', 'Purchasing documents and release strategies', 'Inventory management and invoice verification'],
@@ -176,7 +176,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-pm', module: 'PM', title: 'Plant Maintenance Track', track: 'Functional', level: 'Intermediate',
-    weeks: 8, lessons: 34, questions: 160, price: 3799, demand: 1, destination: 'PM Consultant',
+    weeks: 8, lessons: 34, questions: 160, price: 3799, demand: 1, role: 'PM Consultant',
     description: 'Technical objects, notifications, maintenance orders and preventive plans for asset-heavy industries.',
     overview: 'Designed for engineers and maintenance professionals: model equipment and functional locations, run corrective and preventive maintenance, and settle costs — with the scenario questions from manufacturing and utilities projects.',
     topics: ['Functional locations and equipment', 'Notifications and maintenance orders', 'Preventive maintenance plans and scheduling'],
@@ -191,7 +191,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-pp', module: 'PP', title: 'Production Planning Track', track: 'Functional', level: 'Intermediate',
-    weeks: 9, lessons: 40, questions: 200, price: 3999, demand: 2, destination: 'PP Consultant',
+    weeks: 9, lessons: 40, questions: 200, price: 3999, demand: 2, role: 'PP Consultant',
     description: 'BOMs, routings, MRP and production orders for discrete and process manufacturing interviews.',
     overview: 'From demand to finished goods: master data, MRP and capacity, production orders and confirmations — taught with the shop-floor problems that come up in PP interviews.',
     topics: ['BOMs, routings and work centres', 'Demand management and MRP', 'Production orders, confirmations and costing'],
@@ -206,7 +206,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-qm', module: 'QM', title: 'Quality Management Track', track: 'Functional', level: 'Beginner',
-    weeks: 7, lessons: 30, questions: 150, price: 3499, demand: 1, destination: 'QM Consultant',
+    weeks: 7, lessons: 30, questions: 150, price: 3499, demand: 1, role: 'QM Consultant',
     description: 'Inspection lots, plans, results recording and usage decisions for regulated and manufacturing industries.',
     overview: 'A practical way in for quality engineers and lab professionals: inspection planning, inspection lots, results and usage decisions, plus quality notifications — tied to the procurement and production processes they protect.',
     topics: ['Master inspection characteristics and plans', 'Inspection lots and results recording', 'Usage decisions and quality notifications'],
@@ -221,7 +221,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-s4hana', module: 'S/4HANA', title: 'S/4HANA Conversion Track', track: 'Functional', level: 'Advanced',
-    weeks: 8, lessons: 36, questions: 220, price: 4999, demand: 3, destination: 'S/4HANA Lead',
+    weeks: 8, lessons: 36, questions: 220, price: 4999, demand: 3, role: 'S/4HANA Lead',
     description: 'Greenfield vs brownfield, simplification items, Fit-to-Standard and the Activate methodology.',
     overview: 'For consultants stepping into S/4HANA programmes: transition paths, readiness checks, data migration and Fiori — practised through programme-level questions asked of leads and senior consultants.',
     topics: ['Transition paths and readiness checks', 'Activate methodology and Fit-to-Standard', 'Data migration cockpit and cutover'],
@@ -236,7 +236,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-sd', module: 'SD', title: 'SD Order-to-Cash Track', track: 'Functional', level: 'Beginner',
-    weeks: 9, lessons: 44, questions: 280, price: 3999, demand: 3, destination: 'SD Consultant',
+    weeks: 9, lessons: 44, questions: 280, price: 3999, demand: 3, role: 'SD Consultant',
     description: 'Order-to-cash: sales documents, pricing, availability check, delivery and billing.',
     overview: 'A popular first module for sales and customer-service professionals: master data, sales documents, the condition technique, delivery and billing — joined into the order-to-cash story interviewers ask you to narrate.',
     topics: ['Sales organisation and customer master', 'Sales documents and the condition technique', 'Delivery, shipping and billing'],
@@ -251,7 +251,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-security', module: 'Security', title: 'Security & GRC Track', track: 'Technical', level: 'Intermediate',
-    weeks: 8, lessons: 32, questions: 170, price: 4199, demand: 2, destination: 'Security Consultant',
+    weeks: 8, lessons: 32, questions: 170, price: 4199, demand: 2, role: 'Security Consultant',
     description: 'Roles, authorisations, segregation of duties and audit readiness across S/4HANA and Fiori.',
     overview: 'Design roles that pass audit and still let people work: PFCG roles, authorisation objects, Fiori catalogues and GRC access control — with the access-issue and audit-finding scenarios panels use.',
     topics: ['PFCG roles and authorisation objects', 'Fiori catalogues, groups and spaces', 'GRC access control and SoD'],
@@ -266,7 +266,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-successfactors', module: 'SuccessFactors', title: 'SuccessFactors Employee Central Track', track: 'Cloud', level: 'Intermediate',
-    weeks: 9, lessons: 38, questions: 200, price: 4299, demand: 3, destination: 'SuccessFactors Consultant',
+    weeks: 9, lessons: 38, questions: 200, price: 4299, demand: 3, role: 'SuccessFactors Consultant',
     description: 'Employee Central foundation, role-based permissions, workflows and integrations for cloud HR roles.',
     overview: 'Configure the cloud HR core that most HR transformations start with: foundation objects, data models, permissions and workflows, plus the integration scenarios to payroll and S/4HANA.',
     topics: ['Foundation objects and data models', 'Role-based permissions', 'Business rules and workflows'],
@@ -281,7 +281,7 @@ export const seedCourses: SeedCourse[] = [
   },
   {
     slug: 'sap-wm', module: 'WM', title: 'Warehouse Management Track', track: 'Functional', level: 'Beginner',
-    weeks: 7, lessons: 30, questions: 140, price: 3499, demand: 1, destination: 'WM Consultant',
+    weeks: 7, lessons: 30, questions: 140, price: 3499, demand: 1, role: 'WM Consultant',
     description: 'Classic WM: storage types, transfer orders and strategies — and how it maps to EWM.',
     overview: 'For warehouse and logistics professionals supporting ECC landscapes: storage structure, transfer requirements and orders, putaway and picking strategies — with a bridge to EWM for migration conversations.',
     topics: ['Warehouse structure and storage types', 'Transfer requirements and transfer orders', 'Putaway and picking strategies'],

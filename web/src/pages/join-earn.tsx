@@ -2,10 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { toast } from 'sonner'
-import { Check, Copy, Gift, Link2, Share2, Wallet } from 'lucide-react'
+import { Check, Copy, Gift, KeyRound, Link2, Share2, Users, Wallet } from 'lucide-react'
 import { PageIntro } from '@/components/layout/page-intro'
-import { FlapText } from '@/components/board/split-flap'
-import { GhostBoard } from '@/components/course/ghost'
+import { EmptyState } from '@/components/course/ghost'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useQuery } from '@/hooks/use-query'
@@ -25,7 +24,7 @@ export default function JoinEarnPage() {
     <>
       <PageIntro
         title="Join & Earn"
-        lead="Bring a friend onto the same flight. Help another SAP aspirant get interview-ready, and earn a reward for every friend who enrols with your code."
+        lead="Bring a friend along. Help another SAP aspirant get interview-ready, and earn a reward for every friend who enrols with your code."
       />
       <section className="container-page py-14 sm:py-20">
         <ol className="relative grid gap-8 md:grid-cols-3 md:gap-10" aria-label="How referrals work">
@@ -39,7 +38,7 @@ export default function JoinEarnPage() {
               transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
-              <span className="sign-plate relative z-10 grid size-11 place-items-center rounded-md"><s.icon className="size-5" strokeWidth={2.2} aria-hidden /></span>
+              <span className="sign-plate relative z-10 grid size-12 place-items-center rounded-2xl"><s.icon className="size-5" strokeWidth={2.2} aria-hidden /></span>
               <h2 className="mt-4 text-xl font-bold">{s.title}</h2>
               <p className="mt-1.5 max-w-xs text-muted-foreground">{s.text}</p>
             </motion.li>
@@ -55,13 +54,13 @@ export default function JoinEarnPage() {
 
 function Guest() {
   return (
-    <GhostBoard readout="CODE PENDING" title="Create a free account to start earning">
+    <EmptyState icon={KeyRound} title="Create a free account to start earning">
       <p>Your referral code is generated the moment you register.</p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         <Button asChild><Link to="/login?mode=register&redirect=/join-earn">Register free</Link></Button>
         <Button asChild variant="outline"><Link to="/login?redirect=/join-earn">I have an account</Link></Button>
       </div>
-    </GhostBoard>
+    </EmptyState>
   )
 }
 
@@ -106,10 +105,10 @@ function Dashboard() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.25fr_1fr]">
-      <div className="on-board board-surface rounded-2xl p-6 text-letter shadow-board sm:p-8">
-        <h2 className="font-mono text-[0.68rem] tracking-[0.16em] text-letter-dim uppercase">Your referral code</h2>
-        <div className="mt-4 text-[24px] sm:text-[34px]">
-          <FlapText text={data.code} length={data.code.length} tone="signal" stagger={55} label={data.code} />
+      <div className="on-board aurora rounded-[2rem] border border-white/70 p-6 text-letter shadow-board sm:p-8">
+        <h2 className="text-sm font-semibold text-letter-dim">Your referral code</h2>
+        <div className="mt-3 inline-flex rounded-[1.4rem] border border-white/80 bg-white/70 px-5 py-3 font-mono text-2xl font-semibold tracking-[0.12em] text-signal shadow-panel sm:text-4xl">
+          {data.code}
         </div>
         <div className="mt-8 grid grid-cols-3 gap-4 border-t border-letter/10 pt-6">
           {[
@@ -118,7 +117,7 @@ function Dashboard() {
             ['Earned', formatINR(data.earned)],
           ].map(([k, v]) => (
             <div key={k}>
-              <div className="font-mono text-[0.6rem] tracking-[0.14em] text-letter-dim uppercase">{k}</div>
+              <div className="text-xs font-semibold text-letter-dim">{k}</div>
               <div className="mt-1 text-xl font-extrabold tabular sm:text-2xl">{v}</div>
             </div>
           ))}
@@ -126,14 +125,14 @@ function Dashboard() {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-xl border bg-card p-5 shadow-panel">
+        <div className="rounded-[1.75rem] border border-white bg-card p-5 shadow-panel">
           <h3 className="font-bold">Share it</h3>
           <div className="mt-3 flex items-center gap-2">
-            <code className="flex h-10 min-w-0 flex-1 items-center rounded-md border bg-muted px-3 font-mono text-sm">{data.code}</code>
+            <code className="flex h-10 min-w-0 flex-1 items-center rounded-xl border bg-muted px-3 font-mono text-sm">{data.code}</code>
             <CopyButton value={data.code} label="Code" />
           </div>
           <div className="mt-2 flex items-center gap-2">
-            <span className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-md border bg-muted px-3 text-sm text-muted-foreground">
+            <span className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-xl border bg-muted px-3 text-sm text-muted-foreground">
               <Link2 className="size-4 shrink-0" aria-hidden /><span className="truncate">{link}</span>
             </span>
             <CopyButton value={link} label="Invite link" />
@@ -141,11 +140,11 @@ function Dashboard() {
           <p className="mt-3 text-xs text-muted-foreground">Friends who open the link land on registration with your code filled in. You earn {formatINR(data.rewardPerEnrolment)} per enrolment.</p>
         </div>
 
-        <div className="rounded-xl border bg-card p-5 shadow-panel">
+        <div className="rounded-[1.75rem] border border-white bg-card p-5 shadow-panel">
           <h3 className="font-bold">Friends</h3>
           {data.friends.length === 0 ? (
             <div className="mt-3">
-              <div className="on-board board-surface inline-flex rounded-md p-2 text-[13px]"><FlapText text="NO FRIENDS YET" length={14} tone="dim" stagger={30} /></div>
+              <span className="grid size-10 place-items-center rounded-xl bg-lilac text-signal"><Users className="size-5" aria-hidden /></span>
               <p className="mt-2 text-sm text-muted-foreground">No one has used your code yet. Share it with a colleague preparing for SAP interviews.</p>
             </div>
           ) : (

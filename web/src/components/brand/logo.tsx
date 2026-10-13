@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { site } from '@/config/site'
 
-/** Mark: a grape clay flap tile split by its hinge, with a take-off arrow crossing the seam. */
+/** Mark: a grape clay tile with a rising go-live arrow. */
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={cn('size-8', className)} aria-hidden>

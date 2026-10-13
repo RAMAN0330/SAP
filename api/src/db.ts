@@ -22,11 +22,11 @@ export async function migrateAndSeed() {
       await client.query('BEGIN')
       for (const [i, c] of seedCourses.entries()) {
         const { rows: [course] } = await client.query<{ id: string }>(
-          `INSERT INTO courses (slug, gate, title, module, track, description, overview, price, duration_weeks, level,
-             lessons_count, questions_count, demand, destination, instructor_name, instructor_bio, learn_points)
+          `INSERT INTO courses (slug, catalog_order, title, module, track, description, overview, price, duration_weeks, level,
+             lessons_count, questions_count, demand, target_role, instructor_name, instructor_bio, learn_points)
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING id`,
           [c.slug, i + 1, c.title, c.module, c.track, c.description, c.overview, c.price, c.weeks, c.level,
-           c.lessons, c.questions, c.demand, c.destination, `${c.module} mentor (placeholder)`,
+           c.lessons, c.questions, c.demand, c.role, `${c.module} mentor (placeholder)`,
            `Practising ${c.module} consultant. Replace with your real instructor’s name, photo and project history.`, c.learn],
         )
         for (const [p, l] of lessonsFor(c).entries()) {

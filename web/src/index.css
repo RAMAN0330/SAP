@@ -9,9 +9,9 @@
 
 /*
   Dusk Clay — restrained claymorphism with glass accents (see .claude/skills/ui-style-selection).
-  Board  = lilac clay tray holding white clay keys (the split-flap tiles); two inks inside a tray (tile + ink).
-  Concourse = lilac-mist reading ground; cards are soft white clay.
-  Signal (grape) = every action. Green = BOARDING, amber = FINAL CALL. Pastels are decoration only.
+  Board  = lilac clay tray (sign bands use the pastel `aurora`); text on it is ink.
+  Background = lilac-mist reading ground; cards are soft white clay.
+  Signal (grape) = every action. Green = enrolling / done, amber = few seats left. Pastels are decoration only.
 */
 :root {
   --radius: 0.875rem;
@@ -213,102 +213,14 @@
   box-shadow: 0 -10px 24px -14px oklch(30% 0.12 290 / 0.25);
 }
 
-/* ───────── Split-flap cell ───────── */
-.flap {
-  --flap-w: 0.78em;
-  --flap-h: 1.22em;
-  position: relative;
-  display: inline-block;
-  width: var(--flap-w);
-  height: var(--flap-h);
-  perspective: 6em;
-  font-family: var(--font-mono);
-  font-weight: 600;
-  line-height: var(--flap-h);
-  text-align: center;
-  color: var(--letter);
-  border-radius: 0.2em;
-  background: var(--tile);
-  box-shadow:
-    0 0.07em 0 var(--tile-edge),
-    0 0.16em 0.3em -0.08em oklch(30% 0.12 290 / 0.28),
-    inset 0 -0.08em 0.12em oklch(35% 0.1 290 / 0.07);
-  font-variant-numeric: tabular-nums;
-}
-.flap[data-tone="signal"] { color: var(--signal); }
-.flap[data-tone="go"] { color: var(--go); }
-.flap[data-tone="call"] { color: var(--call); }
-.flap[data-tone="dim"] { color: var(--letter-dim); }
-.flap[data-blank="true"] { color: transparent; }
-.flap__half {
-  position: absolute;
-  left: 0; right: 0;
-  height: 50%;
-  overflow: hidden;
-  background: var(--tile);
-  backface-visibility: hidden;
-}
-.flap__half > span { display: block; height: var(--flap-h); }
-.flap__half--top { top: 0; border-radius: 0.2em 0.2em 0 0; }
-.flap__half--bottom { bottom: 0; border-radius: 0 0 0.2em 0.2em; }
-.flap__half--bottom > span { transform: translateY(-50%); }
-/* hinge seam */
-.flap::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; top: 50%;
-  height: 1px;
-  background: oklch(82% 0.05 292 / 0.55);
-  z-index: 3;
-  pointer-events: none;
-}
-.flap__fold-top {
-  transform-origin: 50% 100%;
-  z-index: 2;
-  animation: flap-fold-top var(--flap-step, 70ms) cubic-bezier(0.55, 0, 0.9, 0.45) forwards;
-  background: linear-gradient(180deg, var(--tile), color-mix(in oklch, var(--tile), var(--board-2) 70%));
-}
-.flap__fold-bottom {
-  transform-origin: 50% 0%;
-  z-index: 2;
-  animation: flap-fold-bottom var(--flap-step, 70ms) cubic-bezier(0.1, 0.55, 0.45, 1) var(--flap-step, 70ms) both;
-}
-@keyframes flap-fold-top { from { transform: rotateX(0deg); } to { transform: rotateX(-90deg); } }
-@keyframes flap-fold-bottom { from { transform: rotateX(90deg); } to { transform: rotateX(0deg); } }
-
-/* Route line fill on itineraries. */
-@keyframes stop-ping {
+/* Ping on a just-completed lesson. */
+@keyframes done-ping {
   0% { box-shadow: 0 0 0 0 oklch(62% 0.14 158 / 0.5); }
   100% { box-shadow: 0 0 0 12px oklch(62% 0.14 158 / 0); }
 }
-.stop-ping { animation: stop-ping 700ms var(--ease-out-expo); }
+.done-ping { animation: done-ping 700ms var(--ease-out-expo); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .flap__fold-top, .flap__fold-bottom, .stop-ping { animation: none !important; }
+  .done-ping { animation: none !important; }
 }
-
-/* Check-in desk canvas: the aurora tray with a soft dot grid, like a clay planning board. */
-@utility bg-grid {
-  background-color: var(--board);
-  background-image:
-    radial-gradient(oklch(45% 0.08 290 / 0.12) 1.2px, transparent 1.6px),
-    radial-gradient(40rem 28rem at 85% 10%, oklch(90% 0.06 235 / 0.9), transparent 70%),
-    radial-gradient(36rem 26rem at 5% 90%, oklch(90% 0.07 50 / 0.8), transparent 70%),
-    radial-gradient(30rem 22rem at 45% 50%, oklch(92% 0.07 165 / 0.5), transparent 70%);
-  background-size: 28px 28px, 100% 100%, 100% 100%, 100% 100%;
-  color: var(--letter);
-}
-
-@keyframes dash-travel { to { stroke-dashoffset: -24; } }
-.dash-travel { animation: dash-travel 1.2s linear infinite; }
-@media (prefers-reduced-motion: reduce) { .dash-travel { animation: none; } }
-
-/* Vertical dashed edge with a travelling dash (diagram connector between lanes). */
-.dash-flow-y {
-  background-image: repeating-linear-gradient(180deg, currentColor 0 6px, transparent 6px 11px);
-  background-size: 100% 22px;
-  animation: dash-flow-y 0.9s linear infinite;
-}
-@keyframes dash-flow-y { to { background-position: 0 22px; } }
-@media (prefers-reduced-motion: reduce) { .dash-flow-y { animation: none; } }

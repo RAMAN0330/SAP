@@ -3,19 +3,18 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { motion, useInView } from 'motion/react'
 import { toast } from 'sonner'
 import {
-  ArrowLeft, ArrowRight, BookOpen, Check, Clock, FileQuestion, Loader2, Lock, Mic, TicketCheck, UserRound, Wrench,
+  ArrowLeft, ArrowRight, BookOpen, Check, Clock, FileQuestion, GraduationCap, Loader2, Lock, Mic, SearchX, UserRound, Wrench,
 } from 'lucide-react'
-import { FlapText } from '@/components/board/split-flap'
-import { statusTone } from '@/components/board/departure-board'
+import { ModuleMark, StatusBadge } from '@/components/course/cohort'
 import { DemandRamp, PhaseTrack } from '@/components/course/meta'
-import { GhostBoard } from '@/components/course/ghost'
+import { EmptyState } from '@/components/course/ghost'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { invalidate, useQuery } from '@/hooks/use-query'
 import { api, type CourseDetail } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { boardDate, boardTime, flightCode, formatINR, gateCode } from '@/lib/format'
+import { cohortStart, formatINR } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 const EASE = [0.16, 1, 0.3, 1] as const
@@ -25,13 +24,13 @@ export default function CoursePage() {
   const { user, ready } = useAuth()
   const { data, error, loading, setData, refetch } = useQuery(`course:${slug}:${user?.id ?? 'anon'}`, () => api.course(slug))
 
-  if (loading && !data) return <div className="board-surface h-[28rem]" />
+  if (loading && !data) return <div className="aurora h-[28rem]" />
   if (error || !data) {
     return (
       <div className="container-page py-24">
-        <GhostBoard readout="GATE CLOSED" title={error?.message ?? 'Course not found'}>
+        <EmptyState icon={SearchX} title={error?.message ?? 'Course not found'}>
           <Button asChild className="mt-5"><Link to="/courses">See all courses</Link></Button>
-        </GhostBoard>
+        </EmptyState>
       </div>
     )
   }
@@ -61,7 +60,7 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
       await api.enroll(c.slug)
       invalidate('me:')
       await refetch()
-      toast.success(`You’re on board ${c.title}.`, { description: 'It’s waiting for you in My Courses.' })
+      toast.success(`You’re enrolled in ${c.title}.`, { description: 'It’s waiting for you in My Courses.' })
     } catch (e) {
       toast.error((e as Error).message)
     } finally {
@@ -103,7 +102,7 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
           <div>
             <Link to="/courses" className="inline-flex items-center gap-1.5 text-sm text-letter-dim hover:text-letter"><ArrowLeft className="size-4" aria-hidden /> All courses</Link>
             <div className="mt-5 flex flex-wrap items-center gap-2">
-              <Badge variant="gate" className="bg-white/70">SAP {c.module}</Badge>
+              <Badge variant="module" className="bg-white/70">SAP {c.module}</Badge>
               <Badge className="bg-white/70 text-letter">{c.level}</Badge>
               <Badge className="bg-white/70 text-letter">{c.track}</Badge>
             </div>
@@ -125,7 +124,7 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
             <DemandRamp value={c.demand} className="mt-5 text-letter-dim [&_span.bg-foreground]:bg-letter [&_.bg-foreground\/15]:bg-letter/20" />
           </div>
 
-          <BoardingPass detail={detail} enrolling={enrolling} onEnrol={enrol} passenger={user?.name} />
+          <EnrolCard detail={detail} enrolling={enrolling} onEnrol={enrol} learner={user?.name} />
         </div>
         <div aria-hidden className="band-lip" />
       </section>
@@ -149,9 +148,9 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
             </ul>
           </section>
 
-          <Itinerary detail={detail} done={done} onToggle={toggleLesson} />
+          <Curriculum detail={detail} done={done} onToggle={toggleLesson} />
 
-          <section aria-labelledby="questions" id="questions" className="scroll-mt-24">
+          <section aria-labelledby="questions" id="questions" className="scroll-mt-28">
             <h2 className="text-2xl font-extrabold sm:text-3xl" id="questions-h">Sample interview questions</h2>
             <p className="mt-2 text-muted-foreground">Open a question to read the model answer. The full program includes {c.questionsCount} of these.</p>
             <Accordion type="single" collapsible className="mt-6 rounded-xl border bg-card px-5 shadow-panel">
@@ -170,11 +169,11 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
           </section>
         </div>
 
-        <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+        <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
           {enrollment && (
             <div className="rounded-xl border bg-card p-5 shadow-panel">
               <h2 className="text-sm font-bold">Your progress</h2>
-              <p className="mt-1 text-sm text-muted-foreground tabular">{done.size} of {lessons.length} stops complete</p>
+              <p className="mt-1 text-sm text-muted-foreground tabular">{done.size} of {lessons.length} lessons complete</p>
               <PhaseTrack done={done.size} total={lessons.length} className="mt-4" />
             </div>
           )}
@@ -200,45 +199,38 @@ function SideNote({ icon: Icon, title, children }: { icon: typeof Mic; title: st
   )
 }
 
-function BoardingPass({ detail, enrolling, onEnrol, passenger }: { detail: CourseDetail; enrolling: boolean; onEnrol: () => void; passenger?: string }) {
+function EnrolCard({ detail, enrolling, onEnrol, learner }: { detail: CourseDetail; enrolling: boolean; onEnrol: () => void; learner?: string }) {
   const { course: c, enrollment, lessons } = detail
-  const boarded = Boolean(enrollment)
+  const enrolled = Boolean(enrollment)
   const next = lessons.find((l) => !enrollment?.completedLessonIds.includes(l.id))
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20, rotate: -1.5 }}
-      animate={{ opacity: 1, y: 0, rotate: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
       className="relative self-start overflow-hidden rounded-[2rem] border border-white bg-card text-foreground shadow-board"
     >
-      <div className="flex items-center justify-between bg-signal px-5 py-3 text-signal-ink">
-        <span className="font-bold tracking-tight">Boarding pass</span>
-        <span className="font-mono text-xs font-semibold tracking-[0.12em]">{flightCode(c.gate)}</span>
+      <div className="flex items-center gap-3 p-5 pb-0">
+        <ModuleMark module={c.module} index={c.catalogOrder} />
+        <div className="min-w-0">
+          <div className="text-xs font-semibold text-muted-foreground">SAP {c.module} program</div>
+          <div className="truncate text-lg font-bold">{c.role}</div>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-4 px-5 pt-5 text-sm">
-        <Field label="Passenger" value={passenger ?? 'You'} />
-        <Field label="Destination" value={c.destination} />
-        <Field label="Departs" value={`${boardDate(c.departsAt)} ∙ ${boardTime(c.departsAt)} IST`} />
-        <Field label="Gate" value={gateCode(c.gate)} mono />
-      </div>
-      <div className="mx-5 mt-5 flex items-center justify-between rounded-2xl bg-board px-3 py-2.5 shadow-press">
-        <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Status</span>
-        <span className="text-[15px]">
-          <FlapText text={boarded ? 'BOARDED' : c.status} length={10} tone={boarded ? 'go' : statusTone(c.status)} align="right" />
-        </span>
-      </div>
-
-      {/* perforation */}
-      <div className="relative my-5 h-px" aria-hidden>
-        <span className="absolute top-1/2 -left-3 size-6 -translate-y-1/2 rounded-full bg-board" />
-        <span className="absolute top-1/2 -right-3 size-6 -translate-y-1/2 rounded-full bg-board" />
-        <span className="absolute inset-x-5 top-0 border-t-2 border-dashed border-border" />
+      <div className="mx-5 mt-5 grid grid-cols-2 gap-x-4 gap-y-4 rounded-[1.4rem] bg-board/70 p-4 text-sm shadow-press">
+        <Field label="Learner" value={learner ?? 'You'} />
+        <Field label="Duration" value={`${c.durationWeeks} weeks`} />
+        <Field label="Next cohort" value={cohortStart(c.startsAt)} className="col-span-2" />
+        <div className="col-span-2 flex items-center justify-between">
+          <span className="text-xs font-semibold text-muted-foreground">Availability</span>
+          {enrolled ? <Badge variant="go">Enrolled</Badge> : <StatusBadge status={c.status} />}
+        </div>
       </div>
 
-      <div className="px-5 pb-5">
+      <div className="p-5">
         <div className="flex items-end justify-between">
           <div>
-            <div className="text-xs text-muted-foreground">Full program fare</div>
+            <div className="text-xs text-muted-foreground">Full program fee</div>
             <div className="text-3xl font-extrabold tracking-tight tabular">{formatINR(c.price)}</div>
           </div>
           <span className="text-xs text-muted-foreground">demo price</span>
@@ -248,33 +240,33 @@ function BoardingPass({ detail, enrolling, onEnrol, passenger }: { detail: Cours
             <li key={x} className="flex items-center gap-2.5"><Check className="size-4 text-go" strokeWidth={3} aria-hidden />{x}</li>
           ))}
         </ul>
-        {boarded ? (
+        {enrolled ? (
           <Button asChild size="lg" className="mt-5 w-full">
-            <a href="#itinerary">{next ? `Continue: stop ${next.position}` : 'Review your itinerary'} <ArrowRight /></a>
+            <a href="#curriculum">{next ? `Continue: lesson ${next.position}` : 'Review the curriculum'} <ArrowRight /></a>
           </Button>
         ) : (
           <Button size="lg" className="mt-5 w-full" onClick={onEnrol} disabled={enrolling}>
-            {enrolling ? <><Loader2 className="animate-spin" /> Boarding…</> : <><TicketCheck /> Enrol now</>}
+            {enrolling ? <><Loader2 className="animate-spin" /> Enrolling…</> : <><GraduationCap /> Enrol now</>}
           </Button>
         )}
         <p className="mt-3 text-center text-xs text-muted-foreground">
-          {boarded ? 'You’re enrolled. Tick stops off as you go.' : passenger ? 'Free demo enrolment — no payment taken.' : 'You’ll log in or register first. It’s free.'}
+          {enrolled ? 'You’re enrolled. Tick lessons off as you go.' : learner ? 'Free demo enrolment — no payment taken.' : 'You’ll log in or register first. It’s free.'}
         </p>
       </div>
     </motion.div>
   )
 }
 
-function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function Field({ label, value, className }: { label: string; value: string; className?: string }) {
   return (
-    <div className="min-w-0">
-      <div className="font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">{label}</div>
-      <div className={cn('mt-0.5 truncate font-bold', mono && 'font-mono')}>{value}</div>
+    <div className={cn('min-w-0', className)}>
+      <div className="text-xs font-semibold text-muted-foreground">{label}</div>
+      <div className="mt-0.5 truncate font-bold">{value}</div>
     </div>
   )
 }
 
-function Itinerary({ detail, done, onToggle }: { detail: CourseDetail; done: Set<string>; onToggle: (id: string, v: boolean) => void }) {
+function Curriculum({ detail, done, onToggle }: { detail: CourseDetail; done: Set<string>; onToggle: (id: string, v: boolean) => void }) {
   const { lessons, enrollment } = detail
   const ref = useRef<HTMLOListElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.15 })
@@ -284,16 +276,16 @@ function Itinerary({ detail, done, onToggle }: { detail: CourseDetail; done: Set
   const total = lessons.reduce((s, l) => s + l.minutes, 0)
 
   return (
-    <section aria-labelledby="itinerary-h" id="itinerary" className="scroll-mt-24">
+    <section aria-labelledby="curriculum-h" id="curriculum" className="scroll-mt-28">
       <div className="flex flex-wrap items-end justify-between gap-3">
-        <h2 id="itinerary-h" className="text-2xl font-extrabold sm:text-3xl">Itinerary</h2>
-        <span className="text-sm text-muted-foreground tabular">{lessons.length} stops ∙ {Math.round(total / 60)} h core sessions</span>
+        <h2 id="curriculum-h" className="text-2xl font-extrabold sm:text-3xl">Curriculum</h2>
+        <span className="text-sm text-muted-foreground tabular">{lessons.length} lessons ∙ {Math.round(total / 60)} h core sessions</span>
       </div>
       {!enrollment && (
-        <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Lock className="size-3.5" aria-hidden /> Enrol to tick off stops and track your progress.</p>
+        <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground"><Lock className="size-3.5" aria-hidden /> Enrol to tick off lessons and track your progress.</p>
       )}
       <ol ref={ref} className="relative mt-8">
-        {/* route line */}
+        {/* progress line */}
         <span aria-hidden className="absolute top-3 bottom-3 left-[15px] w-[3px] rounded-full bg-foreground/10" />
         <motion.span
           aria-hidden
@@ -318,13 +310,13 @@ function Itinerary({ detail, done, onToggle }: { detail: CourseDetail; done: Set
                 disabled={!enrollment}
                 onClick={() => { onToggle(l.id, !isDone); if (!isDone) setPinged(l.id) }}
                 aria-pressed={isDone}
-                aria-label={enrollment ? `${isDone ? 'Mark not done' : 'Mark done'}: ${l.title}` : `Stop ${l.position}: ${l.title}`}
+                aria-label={enrollment ? `${isDone ? 'Mark not done' : 'Mark done'}: ${l.title}` : `Lesson ${l.position}: ${l.title}`}
                 onAnimationEnd={() => setPinged(null)}
                 className={cn(
                   'relative z-10 grid size-[33px] shrink-0 place-items-center rounded-full border-[3px] font-mono text-xs font-semibold transition-[background-color,border-color,color] duration-300',
                   isDone ? 'border-go bg-go text-signal-ink shadow-panel' : 'border-white bg-card text-foreground shadow-panel',
                   enrollment && !isDone && 'cursor-pointer hover:border-foreground/50',
-                  pinged === l.id && 'stop-ping',
+                  pinged === l.id && 'done-ping',
                 )}
               >
                 {isDone ? <Check className="size-4" strokeWidth={3.2} /> : l.position}

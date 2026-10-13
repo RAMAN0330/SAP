@@ -2,16 +2,15 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import {
-  ArrowRight, ArrowUpRight, BadgeCheck, BriefcaseBusiness, ClipboardCheck, Compass, GraduationCap, LineChart, MessagesSquare, Quote,
+  ArrowRight, ArrowUpRight, BadgeCheck, BriefcaseBusiness, Check, ClipboardCheck, Compass, GraduationCap, LineChart, MessagesSquare, Quote,
 } from 'lucide-react'
-import { LiveBoard } from '@/components/board/departure-board'
-import { FlapText } from '@/components/board/split-flap'
+import { ModuleMark, tintFor, UpcomingCohorts } from '@/components/course/cohort'
 import { CourseRow } from '@/components/course/course-row'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
 import { api, type Course } from '@/lib/api'
-import { formatNumber, gateCode } from '@/lib/format'
+import { formatNumber } from '@/lib/format'
 import { site } from '@/config/site'
 import { cn } from '@/lib/utils'
 
@@ -25,7 +24,7 @@ export default function HomePage() {
     <>
       <Hero courses={courses} stats={stats} />
       <Services />
-      <Departures courses={courses} />
+      <PopularCourses courses={courses} />
       <ModuleFinder courses={courses} />
       <Approach />
       <Stories />
@@ -45,7 +44,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
             transition={{ duration: 0.8, ease: EASE }}
             className="text-[2.6rem] leading-[1.02] font-extrabold tracking-[-0.035em] sm:text-6xl lg:text-[4.2rem]"
           >
-            Your SAP career has a <span className="text-signal">departure time.</span>
+            Walk into your SAP interview <span className="text-signal">ready.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -54,7 +53,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
             className="mt-6 max-w-[34rem] text-lg leading-relaxed text-letter-dim"
           >
             Pick the module your experience already speaks, train for the panel rather than the manual, and walk into the interview ready.
-            Courses, question banks, mock rounds and placement help — scheduled like a go-live.
+            Courses, question banks, mock rounds and placement help, all in one plan.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -63,7 +62,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
             className="mt-9 flex flex-wrap items-center gap-3"
           >
             <Button asChild size="lg">
-              <Link to="/courses">Find your gate <ArrowRight /></Link>
+              <Link to="/courses">Explore courses <ArrowRight /></Link>
             </Button>
             <Button asChild size="lg" variant="board">
               <Link to="/courses/sap-fico#questions">Practise interview questions</Link>
@@ -93,8 +92,8 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
           transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
           style={{ transformPerspective: 1400 }}
         >
-          <LiveBoard courses={courses} />
-          <p className="mt-3 px-1 text-xs text-letter-dim">Cohort times are sample schedules in IST. Tap any row to see the course.</p>
+          <UpcomingCohorts courses={courses} />
+          <p className="mt-3 px-1 text-xs text-letter-dim">Cohort dates are sample schedules in IST. Tap any row to see the course.</p>
         </motion.div>
       </div>
       <div aria-hidden className="band-lip" />
@@ -148,19 +147,19 @@ function Services() {
   )
 }
 
-function Departures({ courses }: { courses: Course[] }) {
-  const featured = [...courses].sort((a, b) => b.demand - a.demand || a.gate - b.gate).slice(0, 4)
+function PopularCourses({ courses }: { courses: Course[] }) {
+  const featured = [...courses].sort((a, b) => b.demand - a.demand || a.catalogOrder - b.catalogOrder).slice(0, 4)
   return (
     <section className="border-y bg-[oklch(95%_0.024_292)]">
       <div className="container-page py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Departing soon</h2>
+            <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Most in demand</h2>
             <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">The modules rated highest for hiring demand. Each program bundles lessons, a question bank, scenarios and mock rounds.</p>
-            <p className="mt-2 text-xs text-muted-foreground">Departure times, fares and demand ratings are sample data.</p>
+            <p className="mt-2 text-xs text-muted-foreground">Cohort dates, fees and demand ratings are sample data.</p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/courses">All 18 gates <ArrowRight /></Link>
+            <Link to="/courses">All 18 courses <ArrowRight /></Link>
           </Button>
         </div>
         <div className="mt-10 grid gap-4">
@@ -190,7 +189,7 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
     <section className="container-page py-20 sm:py-28">
       <div className="max-w-2xl">
         <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Start from where you already are.</h2>
-        <p className="mt-4 text-lg text-muted-foreground">The quickest route into SAP runs through the work you already know. Choose your background to see the gates that fit it.</p>
+        <p className="mt-4 text-lg text-muted-foreground">The quickest route into SAP runs through the work you already know. Choose your background to see the modules that fit it.</p>
       </div>
 
       <ToggleGroup
@@ -229,12 +228,10 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
                   to={`/courses/${c.slug}`}
                   className="group flex items-center gap-4 rounded-[1.5rem] border border-white bg-card p-4 shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift"
                 >
-                  <span className="on-board board-surface rounded-2xl px-2 py-1.5 text-[17px] shadow-press">
-                    <FlapText text={gateCode(c.gate)} length={3} tone="signal" />
-                  </span>
+                  <ModuleMark module={c.module} index={c.catalogOrder} size="sm" />
                   <span className="min-w-0 flex-1">
                     <span className="block font-bold">SAP {c.module}</span>
-                    <span className="block truncate text-sm text-muted-foreground">To: {c.destination}</span>
+                    <span className="block truncate text-sm text-muted-foreground">Become a {c.role}</span>
                   </span>
                   <ArrowRight className="size-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground" aria-hidden />
                 </Link>
@@ -250,7 +247,7 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
           {courses.map((c) => (
             <li key={c.slug}>
               <Link to={`/courses/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-white bg-card px-3.5 py-1.5 text-sm font-medium shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-px hover:shadow-lift">
-                <span className="font-mono text-[0.7rem] text-muted-foreground">{gateCode(c.gate)}</span> SAP {c.module}
+                <span aria-hidden className={cn('size-2.5 rounded-full ring-1 ring-foreground/15', tintFor(c.catalogOrder))} /> SAP {c.module}
               </Link>
             </li>
           ))}
@@ -282,7 +279,7 @@ function Approach() {
             <Link to="/about">How we teach <ArrowRight /></Link>
           </Button>
         </div>
-        <ol ref={ref} className="rounded-[2rem] border border-white bg-card p-2 shadow-panel" aria-label="Pre-flight checklist">
+        <ol ref={ref} className="rounded-[2rem] border border-white bg-card p-2 shadow-panel" aria-label="Why it works">
           {checklist.map((item, i) => (
             <li key={item.title} className="flex gap-4 rounded-lg p-4 sm:p-5">
               <motion.span
@@ -337,7 +334,7 @@ function Stories() {
                 <div className="font-bold">{s.name}</div>
                 <div className="text-sm text-muted-foreground">{s.role}</div>
               </div>
-              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-go uppercase">Landed</span>
+              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-go uppercase">Placed</span>
             </div>
           </motion.li>
         ))}
@@ -353,21 +350,27 @@ function Close() {
     <section className="container-page pt-8 pb-24">
       <div ref={ref} className="on-board aurora relative grid items-center gap-10 overflow-hidden rounded-[2.5rem] px-6 py-12 shadow-board sm:px-12 sm:py-16 lg:grid-cols-[1.2fr_auto]">
         <div>
-          <h2 className="max-w-2xl text-3xl leading-tight font-extrabold sm:text-5xl">Your next SAP interview is a flight you can catch.</h2>
+          <h2 className="max-w-2xl text-3xl leading-tight font-extrabold sm:text-5xl">Your next SAP interview is closer than you think.</h2>
           <p className="mt-4 max-w-[52ch] text-lg text-letter-dim">Create a free account, choose your module and start on real interview questions today.</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg"><Link to="/login?mode=register">Create free account <ArrowRight /></Link></Button>
             <Button asChild size="lg" variant="board"><Link to="/join-earn">Join &amp; Earn</Link></Button>
           </div>
         </div>
-        <dl className="grid gap-2 rounded-[1.5rem] bg-white/55 p-4 text-[14px] shadow-panel ring-1 ring-white/70 backdrop-blur-md sm:text-[17px]" aria-label="Gate status">
-          {[['GATE', 'ANY', 'letter'], ['STATUS', 'BOARDING', 'go'], ['TO', 'YOUR OFFER', 'letter']].map(([k, v, tone], i) => (
-            <div key={k} className="flex items-center justify-between gap-6">
-              <dt className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim">{k}</dt>
-              <dd><FlapText text={v} length={10} tone={tone as 'letter' | 'go'} align="right" delay={i * 140} stagger={40} active={inView} /></dd>
-            </div>
+        <ul className="grid gap-2.5 rounded-[1.5rem] bg-white/60 p-5 shadow-panel ring-1 ring-white/70 backdrop-blur-md" aria-label="What you get">
+          {['Free account, no card needed', 'Real interview questions from day one', 'Mock panel every Saturday'].map((t, i) => (
+            <motion.li
+              key={t}
+              initial={{ opacity: 0, x: 12 }}
+              animate={inView ? { opacity: 1, x: 0 } : undefined}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.12, ease: EASE }}
+              className="flex items-center gap-3 font-semibold"
+            >
+              <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-mint text-go"><Check className="size-4" strokeWidth={3} aria-hidden /></span>
+              {t}
+            </motion.li>
           ))}
-        </dl>
+        </ul>
       </div>
     </section>
   )
