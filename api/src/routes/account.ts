@@ -90,7 +90,7 @@ account.put('/lessons/:id/progress', requireUser, async (c) => {
 
 account.get('/me/enrollments', requireUser, async (c) => {
   const { rows } = await q(`
-    SELECT c.slug, c.title, c.module, c.gate, c.level, c.destination, c.duration_weeks AS "durationWeeks", e.enrolled_at AS "enrolledAt",
+    SELECT c.slug, c.title, c.module, c.catalog_order AS "catalogOrder", c.level, c.target_role AS role, c.duration_weeks AS "durationWeeks", e.enrolled_at AS "enrolledAt",
       (SELECT count(*)::int FROM lessons l WHERE l.course_id = c.id) AS "totalLessons",
       (SELECT count(*)::int FROM lessons l JOIN lesson_progress lp ON lp.lesson_id = l.id AND lp.user_id = e.user_id
          WHERE l.course_id = c.id) AS "doneLessons",

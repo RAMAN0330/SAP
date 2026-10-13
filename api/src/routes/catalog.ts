@@ -6,33 +6,33 @@ import { currentUser } from '../auth.js'
 export const catalog = new Hono()
 
 // Next cohort start for a course: staggered so listings always show a spread of dates.
-function departure(gate: number, now = new Date()) {
+function nextCohort(order: number, now = new Date()) {
   const d = new Date(now)
-  d.setHours(9, 30 + (gate % 4) * 15, 0, 0)
+  d.setHours(9, 30 + (order % 4) * 15, 0, 0)
   const toMonday = (8 - d.getDay()) % 7 || 7
-  d.setDate(d.getDate() + toMonday + (gate % 3) * 7 - (gate % 2 ? 4 : 0))
+  d.setDate(d.getDate() + toMonday + (order % 3) * 7 - (order % 2 ? 4 : 0))
   if (d <= now) d.setDate(d.getDate() + 7)
   const days = Math.ceil((d.getTime() - now.getTime()) / 86_400_000)
-  const status = days <= 3 ? 'FINAL CALL' : days <= 10 ? 'BOARDING' : 'ON TIME'
-  return { departsAt: d.toISOString(), status }
+  const status = days <= 3 ? 'FEW_SEATS' : days <= 10 ? 'ENROLLING' : 'OPEN'
+  return { startsAt: d.toISOString(), status }
 }
 
-const COURSE_COLS = `id, slug, gate, title, module, track, description, overview, price, duration_weeks AS "durationWeeks", level,
-  lessons_count AS "lessonsCount", questions_count AS "questionsCount", demand, destination,
+const COURSE_COLS = `id, slug, catalog_order AS "catalogOrder", title, module, track, description, overview, price, duration_weeks AS "durationWeeks", level,
+  lessons_count AS "lessonsCount", questions_count AS "questionsCount", demand, target_role AS role,
   json_build_object('name', instructor_name, 'bio', instructor_bio) AS instructor, learn_points AS "learnPoints"`
 
-type CourseRow = { gate: number; [k: string]: unknown }
-const withDeparture = <T extends CourseRow>(c: T) => ({ ...c, ...departure(c.gate) })
+type CourseRow = { catalogOrder: number; [k: string]: unknown }
+const withCohort = <T extends CourseRow>(c: T) => ({ ...c, ...nextCohort(c.catalogOrder) })
 
 catalog.get('/courses', async (c) => {
-  const rows = await cached('courses:all', 300, async () =>
-    (await q<CourseRow>(`SELECT ${COURSE_COLS} FROM courses WHERE published ORDER BY gate`)).rows)
-  return c.json(rows.map(withDeparture))
+  const rows = await cached('courses:all:v2', 300, async () =>
+    (await q<CourseRow>(`SELECT ${COURSE_COLS} FROM courses WHERE published ORDER BY catalog_order`)).rows)
+  return c.json(rows.map(withCohort))
 })
 
 catalog.get('/courses/:slug', async (c) => {
   const slug = c.req.param('slug')
-  const data = await cached(`course:${slug}`, 300, async () => {
+  const data = await cached(`course:v2:${slug}`, 300, async () => {
     const { rows: [course] } = await q<CourseRow & { id: string }>(`SELECT ${COURSE_COLS} FROM courses WHERE slug = $1 AND published`, [slug])
     if (!course) return null
     const [lessons, questions] = await Promise.all([
@@ -54,7 +54,7 @@ catalog.get('/courses/:slug', async (c) => {
       WHERE e.user_id = $1 AND e.course_id = $2 GROUP BY e.enrolled_at`, [user.id, data.course.id])
     enrollment = rows[0] ?? null
   }
-  return c.json({ ...data, course: withDeparture(data.course), enrollment })
+  return c.json({ ...data, course: withCohort(data.course), enrollment })
 })
 
 catalog.get('/stats', async (c) => c.json(await cached('stats', 300, async () => {

@@ -211,16 +211,16 @@ function EnrolCard({ detail, enrolling, onEnrol, learner }: { detail: CourseDeta
       className="relative self-start overflow-hidden rounded-[2rem] border border-white bg-card text-foreground shadow-board"
     >
       <div className="flex items-center gap-3 p-5 pb-0">
-        <ModuleMark module={c.module} index={c.gate} />
+        <ModuleMark module={c.module} index={c.catalogOrder} />
         <div className="min-w-0">
           <div className="text-xs font-semibold text-muted-foreground">SAP {c.module} program</div>
-          <div className="truncate text-lg font-bold">{c.destination}</div>
+          <div className="truncate text-lg font-bold">{c.role}</div>
         </div>
       </div>
       <div className="mx-5 mt-5 grid grid-cols-2 gap-x-4 gap-y-4 rounded-[1.4rem] bg-board/70 p-4 text-sm shadow-press">
         <Field label="Learner" value={learner ?? 'You'} />
         <Field label="Duration" value={`${c.durationWeeks} weeks`} />
-        <Field label="Next cohort" value={cohortStart(c.departsAt)} className="col-span-2" />
+        <Field label="Next cohort" value={cohortStart(c.startsAt)} className="col-span-2" />
         <div className="col-span-2 flex items-center justify-between">
           <span className="text-xs font-semibold text-muted-foreground">Availability</span>
           {enrolled ? <Badge variant="go">Enrolled</Badge> : <StatusBadge status={c.status} />}

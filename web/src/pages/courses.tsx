@@ -40,7 +40,7 @@ export default function CoursesPage() {
     return (courses ?? []).filter((c) =>
       (level === LEVELS[0] || c.level === level) &&
       (track === TRACKS[0] || c.track === track) &&
-      (!needle || `${c.module} ${c.title} ${c.destination} ${c.description}`.toLowerCase().includes(needle)))
+      (!needle || `${c.module} ${c.title} ${c.role} ${c.description}`.toLowerCase().includes(needle)))
   }, [courses, deferredQ, level, track])
 
   const count = courses ? results.length : 0

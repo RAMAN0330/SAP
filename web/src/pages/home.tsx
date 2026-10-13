@@ -148,7 +148,7 @@ function Services() {
 }
 
 function PopularCourses({ courses }: { courses: Course[] }) {
-  const featured = [...courses].sort((a, b) => b.demand - a.demand || a.gate - b.gate).slice(0, 4)
+  const featured = [...courses].sort((a, b) => b.demand - a.demand || a.catalogOrder - b.catalogOrder).slice(0, 4)
   return (
     <section className="border-y bg-[oklch(95%_0.024_292)]">
       <div className="container-page py-20 sm:py-24">
@@ -228,10 +228,10 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
                   to={`/courses/${c.slug}`}
                   className="group flex items-center gap-4 rounded-[1.5rem] border border-white bg-card p-4 shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift"
                 >
-                  <ModuleMark module={c.module} index={c.gate} size="sm" />
+                  <ModuleMark module={c.module} index={c.catalogOrder} size="sm" />
                   <span className="min-w-0 flex-1">
                     <span className="block font-bold">SAP {c.module}</span>
-                    <span className="block truncate text-sm text-muted-foreground">Become a {c.destination}</span>
+                    <span className="block truncate text-sm text-muted-foreground">Become a {c.role}</span>
                   </span>
                   <ArrowRight className="size-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground" aria-hidden />
                 </Link>
@@ -247,7 +247,7 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
           {courses.map((c) => (
             <li key={c.slug}>
               <Link to={`/courses/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-white bg-card px-3.5 py-1.5 text-sm font-medium shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-px hover:shadow-lift">
-                <span aria-hidden className={cn('size-2.5 rounded-full ring-1 ring-foreground/15', tintFor(c.gate))} /> SAP {c.module}
+                <span aria-hidden className={cn('size-2.5 rounded-full ring-1 ring-foreground/15', tintFor(c.catalogOrder))} /> SAP {c.module}
               </Link>
             </li>
           ))}

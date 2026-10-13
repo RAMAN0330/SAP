@@ -8,13 +8,13 @@ import { PhaseTrack, PHASES, phaseFor } from '@/components/course/meta'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
-import { api, type Trip } from '@/lib/api'
+import { api, type Enrolment } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { longDate } from '@/lib/format'
 
 export default function MyCoursesPage() {
   const { user, ready } = useAuth()
-  const { data: enrolments, loading, error, refetch } = useQuery(user ? `me:enrolments:${user.id}` : null, api.trips)
+  const { data: enrolments, loading, error, refetch } = useQuery(user ? `me:enrolments:${user.id}` : null, api.enrolments)
 
   if (!ready) return <div className="aurora h-80" />
 
@@ -67,7 +67,7 @@ export default function MyCoursesPage() {
   )
 }
 
-function EnrolledCourseCard({ enrolment: t, index }: { enrolment: Trip; index: number }) {
+function EnrolledCourseCard({ enrolment: t, index }: { enrolment: Enrolment; index: number }) {
   const pct = t.totalLessons ? Math.round((t.doneLessons / t.totalLessons) * 100) : 0
   const phase = PHASES[phaseFor(t.doneLessons, t.totalLessons)]
   return (
@@ -78,7 +78,7 @@ function EnrolledCourseCard({ enrolment: t, index }: { enrolment: Trip; index: n
       className="flex flex-col overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel"
     >
       <div className="flex items-center justify-between gap-3 px-5 pt-5">
-        <ModuleMark module={t.module} index={t.gate} />
+        <ModuleMark module={t.module} index={t.catalogOrder} />
         <Badge variant={phase === 'Ready' ? 'go' : 'quiet'}>{phase}</Badge>
       </div>
       <div className="flex flex-1 flex-col p-5">
@@ -87,7 +87,7 @@ function EnrolledCourseCard({ enrolment: t, index }: { enrolment: Trip; index: n
           <Badge variant="quiet">{t.level}</Badge>
         </div>
         <h2 className="mt-3 text-xl font-bold">{t.title}</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Enrolled {longDate(t.enrolledAt)} ∙ Goal: {t.destination}</p>
+        <p className="mt-1 text-sm text-muted-foreground">Enrolled {longDate(t.enrolledAt)} ∙ Goal: {t.role}</p>
         <div className="mt-5 flex items-baseline justify-between text-sm">
           <span className="font-semibold tabular">{t.doneLessons} / {t.totalLessons} lessons</span>
           <span className="text-muted-foreground tabular">{pct}%</span>

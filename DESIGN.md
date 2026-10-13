@@ -154,12 +154,13 @@ components:
 > |---|---|
 > | Live split-flap departures board (hero) | `UpcomingCohorts` glass card: the 5 soonest cohorts, each with a pastel `ModuleMark`, role, start date and a status badge |
 > | Gate codes / flap tiles | `ModuleMark`: a pastel clay tile with the module's short code (tint is decorative, chosen by catalogue position) |
-> | BOARDING / FINAL CALL / ON TIME | Badges "Enrolling now" (`go`), "Few seats left" (`call`), "Open" (`quiet`); the API status codes stay internal |
+> | BOARDING / FINAL CALL / ON TIME | Badges "Enrolling now" (`go`), "Few seats left" (`call`), "Open" (`quiet`), from API status codes `ENROLLING` / `FEW_SEATS` / `OPEN` |
 > | Boarding pass | Enrolment card: module, learner, duration, next cohort, availability, fee, Enrol now |
 > | Itinerary, stops | Curriculum, lessons (the progress line and done-ping stay) |
 > | Phases Check-in / Boarding / In flight / Landed | Started / Learning / Practising / Ready |
 > | Ghost board empty states | `EmptyState`: pastel icon tile, heading, next action |
 > | Login check-in diagram | Two columns: intro with three perk cards, and a glass auth card with a Log in / Register switch |
+> | API fields `gate`, `destination`, `departsAt`, `Trip` | `catalogOrder`, `role`, `startsAt`, `Enrolment` (DB columns `catalog_order`, `target_role`, renamed in place by `schema.sql` on boot) |
 > | Sticky full-width header | Floating rounded glass header bar (overlays the aurora band; pages get 4.75rem top padding) |
 > | Wrapping filter chips | Full-width segmented trays (equal columns for course filters; a single stretched row for blog categories) |
 >

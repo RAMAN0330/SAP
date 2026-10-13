@@ -1,11 +1,12 @@
 export type Level = 'Beginner' | 'Intermediate' | 'Advanced'
 export type Track = 'Functional' | 'Technical' | 'Cloud'
-export type Status = 'BOARDING' | 'FINAL CALL' | 'ON TIME'
+export type Status = 'ENROLLING' | 'FEW_SEATS' | 'OPEN'
 
 export interface Course {
   id: string
   slug: string
-  gate: number
+  /** catalogue position (1-based) */
+  catalogOrder: number
   title: string
   module: string
   track: Track
@@ -17,10 +18,12 @@ export interface Course {
   lessonsCount: number
   questionsCount: number
   demand: 1 | 2 | 3
-  destination: string
+  /** the job the course prepares for, e.g. "FICO Consultant" */
+  role: string
   instructor: { name: string; bio: string }
   learnPoints: string[]
-  departsAt: string
+  /** next cohort start (ISO) */
+  startsAt: string
   status: Status
 }
 export interface Lesson { id: string; position: number; title: string; description: string; minutes: number }
@@ -34,8 +37,8 @@ export interface CourseDetail {
 export interface BlogSummary { slug: string; title: string; excerpt: string; category: string; author: string; readMinutes: number; publishedAt: string }
 export interface BlogPost extends BlogSummary { body: string[] }
 export interface User { id: string; name: string; email: string; referralCode: string; createdAt: string }
-export interface Trip {
-  slug: string; title: string; module: string; gate: number; level: Level; destination: string; durationWeeks: number
+export interface Enrolment {
+  slug: string; title: string; module: string; catalogOrder: number; level: Level; role: string; durationWeeks: number
   enrolledAt: string; totalLessons: number; doneLessons: number
   nextLesson: { id: string; title: string; position: number } | null
 }
@@ -80,7 +83,7 @@ export const api = {
   logout: () => post<{ ok: true }>('/auth/logout'),
   enroll: (slug: string) => post<{ ok: true }>(`/courses/${slug}/enroll`),
   setLesson: (id: string, done: boolean) => request<{ ok: true }>(`/lessons/${id}/progress`, { method: 'PUT', body: JSON.stringify({ done }) }),
-  trips: () => request<Trip[]>('/me/enrollments'),
+  enrolments: () => request<Enrolment[]>('/me/enrollments'),
   referrals: () => request<Referrals>('/me/referrals'),
   contact: (d: Record<string, string>) => post<{ ok: true }>('/contact', d),
 }

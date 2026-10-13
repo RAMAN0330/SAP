@@ -11,11 +11,11 @@ import { cn } from '@/lib/utils'
 export function CourseRow({ course: c }: { course: Course; index?: number }) {
   return (
     <article className="group relative grid overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel transition-[box-shadow,transform] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:shadow-lift md:grid-cols-[13.5rem_1fr_auto]">
-      <div className={cn('m-2 flex flex-row items-center gap-4 rounded-[1.35rem] p-4 shadow-press md:mr-0 md:flex-col md:items-start md:justify-between md:p-5', tintFor(c.gate), '[background-image:linear-gradient(180deg,oklch(100%_0_0/0.5),transparent_70%)]')}>
-        <ModuleMark module={c.module} index={c.gate} className="bg-card/80" />
+      <div className={cn('m-2 flex flex-row items-center gap-4 rounded-[1.35rem] p-4 shadow-press md:mr-0 md:flex-col md:items-start md:justify-between md:p-5', tintFor(c.catalogOrder), '[background-image:linear-gradient(180deg,oklch(100%_0_0/0.5),transparent_70%)]')}>
+        <ModuleMark module={c.module} index={c.catalogOrder} className="bg-card/80" />
         <div className="min-w-0">
           <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground/70"><CalendarDays className="size-3.5" aria-hidden /> Next cohort</div>
-          <div className="mt-0.5 text-sm font-bold tabular">{cohortStart(c.departsAt)}</div>
+          <div className="mt-0.5 text-sm font-bold tabular">{cohortStart(c.startsAt)}</div>
           <StatusBadge status={c.status} className="mt-2 bg-card/85" />
         </div>
       </div>

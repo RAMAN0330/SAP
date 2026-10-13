@@ -7,11 +7,11 @@ import type { Course, Status } from '@/lib/api'
 import { cohortStart, shortDate, timeIST } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
-/** Cohort availability in plain words. The API's status codes stay internal. */
+/** Cohort availability in plain words. */
 export const STATUS: Record<Status, { label: string; variant: 'go' | 'call' | 'quiet' }> = {
-  BOARDING: { label: 'Enrolling now', variant: 'go' },
-  'FINAL CALL': { label: 'Few seats left', variant: 'call' },
-  'ON TIME': { label: 'Open', variant: 'quiet' },
+  ENROLLING: { label: 'Enrolling now', variant: 'go' },
+  FEW_SEATS: { label: 'Few seats left', variant: 'call' },
+  OPEN: { label: 'Open', variant: 'quiet' },
 }
 
 export function StatusBadge({ status, className }: { status: Status; className?: string }) {
@@ -56,7 +56,7 @@ function useNowIST() {
 /** Hero card: the soonest cohorts, each row a link to its course. */
 export function UpcomingCohorts({ courses, rows = 5, className }: { courses: Course[]; rows?: number; className?: string }) {
   const now = useNowIST()
-  const soonest = [...courses].sort((a, b) => a.departsAt.localeCompare(b.departsAt)).slice(0, rows)
+  const soonest = [...courses].sort((a, b) => a.startsAt.localeCompare(b.startsAt)).slice(0, rows)
   return (
     <section aria-labelledby="cohorts-h" className={cn('rounded-[2rem] border border-white/80 bg-white/65 p-3 shadow-board backdrop-blur-xl sm:p-4', className)}>
       <div className="flex items-center justify-between gap-3 px-2 pt-1 pb-3">
@@ -79,10 +79,10 @@ export function UpcomingCohorts({ courses, rows = 5, className }: { courses: Cou
               to={`/courses/${c.slug}`}
               className="group flex items-center gap-3 rounded-[1.4rem] bg-card/80 p-2.5 pr-3 transition-[box-shadow,transform] duration-300 hover:-translate-y-px hover:shadow-panel sm:gap-4"
             >
-              <ModuleMark module={c.module} index={c.gate} size="sm" />
+              <ModuleMark module={c.module} index={c.catalogOrder} size="sm" />
               <span className="min-w-0 flex-1">
-                <span className="block truncate font-semibold">{c.destination}</span>
-                <span className="block truncate text-sm text-muted-foreground tabular">{cohortStart(c.departsAt)}</span>
+                <span className="block truncate font-semibold">{c.role}</span>
+                <span className="block truncate text-sm text-muted-foreground tabular">{cohortStart(c.startsAt)}</span>
               </span>
               <StatusBadge status={c.status} className="hidden sm:inline-flex" />
               <ChevronRight className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
