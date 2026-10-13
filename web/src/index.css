@@ -1,55 +1,62 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/overpass";
+@import "@fontsource-variable/figtree";
 @import "@fontsource/overpass-mono/400.css";
 @import "@fontsource/overpass-mono/600.css";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Departure Board world.
-  Board  = night-navy panels with flap tiles; two inks only inside a board (tile + letter).
-  Concourse = cool light ground for reading.
-  Signal yellow = every action. Green = BOARDING, amber = FINAL CALL.
+  Dusk Clay — restrained claymorphism with glass accents (see .claude/skills/ui-style-selection).
+  Board  = lilac clay tray holding white clay keys (the split-flap tiles); two inks inside a tray (tile + ink).
+  Concourse = lilac-mist reading ground; cards are soft white clay.
+  Signal (grape) = every action. Green = BOARDING, amber = FINAL CALL. Pastels are decoration only.
 */
 :root {
-  --radius: 0.375rem;
+  --radius: 0.875rem;
 
-  --background: oklch(97.6% 0.006 262);
-  --foreground: oklch(19% 0.045 268);
-  --card: oklch(100% 0 0);
+  --background: oklch(97.2% 0.014 295);
+  --foreground: oklch(24% 0.06 285);
+  --card: oklch(99.5% 0.004 295);
   --card-foreground: var(--foreground);
-  --popover: oklch(100% 0 0);
+  --popover: oklch(99.5% 0.004 295);
   --popover-foreground: var(--foreground);
-  --primary: oklch(85.5% 0.165 86);
-  --primary-foreground: oklch(19% 0.05 268);
-  --secondary: oklch(93.5% 0.012 264);
-  --secondary-foreground: oklch(24% 0.05 268);
-  --muted: oklch(94.5% 0.009 264);
-  --muted-foreground: oklch(46% 0.03 266);
-  --accent: oklch(93% 0.02 266);
-  --accent-foreground: oklch(22% 0.05 268);
-  --destructive: oklch(55% 0.2 27);
-  --border: oklch(89.5% 0.012 266);
-  --input: oklch(86% 0.014 266);
-  --ring: oklch(52% 0.19 266);
+  --primary: oklch(50% 0.2 288);
+  --primary-foreground: oklch(99.5% 0.004 295);
+  --secondary: oklch(94% 0.025 292);
+  --secondary-foreground: oklch(28% 0.07 287);
+  --muted: oklch(94.5% 0.02 292);
+  --muted-foreground: oklch(47% 0.04 285);
+  --accent: oklch(93% 0.035 292);
+  --accent-foreground: oklch(26% 0.07 287);
+  --destructive: oklch(55% 0.2 25);
+  --border: oklch(90% 0.025 292);
+  --input: oklch(86% 0.03 292);
+  --ring: oklch(50% 0.2 288);
 
-  --board: oklch(19% 0.052 268);
-  --board-2: oklch(24% 0.062 268);
-  --tile: oklch(27.5% 0.06 268);
-  --tile-edge: oklch(15% 0.045 268);
-  --letter: oklch(96.5% 0.008 262);
-  --letter-dim: oklch(72% 0.03 262);
-  --signal: oklch(85.5% 0.165 86);
-  --signal-ink: oklch(19% 0.05 268);
-  --go: oklch(78% 0.17 155);
-  --call: oklch(76% 0.16 55);
+  --board: oklch(92.5% 0.04 292);
+  --board-2: oklch(88.5% 0.055 292);
+  --tile: oklch(99% 0.006 292);
+  --tile-edge: oklch(82% 0.05 292);
+  --letter: oklch(24% 0.06 285);
+  --letter-dim: oklch(45% 0.05 287);
+  --signal: oklch(50% 0.2 288);
+  --signal-ink: oklch(99.5% 0.004 295);
+  --go: oklch(47% 0.12 158);
+  --call: oklch(50% 0.13 55);
+
+  /* decorative pastels: hero blobs, tray tints, avatars — never status, never text */
+  --peach: oklch(90% 0.06 50);
+  --mint: oklch(92% 0.06 165);
+  --sky: oklch(91% 0.05 235);
+  --butter: oklch(94% 0.07 95);
+  --lilac: oklch(88% 0.07 300);
 
   --chart-1: var(--signal);
   --chart-2: var(--go);
   --chart-3: var(--call);
-  --chart-4: var(--ring);
+  --chart-4: oklch(62% 0.12 235);
   --chart-5: var(--board-2);
   --sidebar: var(--board);
   --sidebar-foreground: var(--letter);
@@ -57,13 +64,13 @@
   --sidebar-primary-foreground: var(--signal-ink);
   --sidebar-accent: var(--board-2);
   --sidebar-accent-foreground: var(--letter);
-  --sidebar-border: oklch(100% 0 0 / 0.1);
+  --sidebar-border: oklch(24% 0.06 285 / 0.1);
   --sidebar-ring: var(--signal);
 }
 
 @theme inline {
-  --font-sans: "Overpass Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Overpass Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Overpass Mono", ui-monospace, monospace;
 
   --color-background: var(--background);
@@ -108,6 +115,11 @@
   --color-signal-ink: var(--signal-ink);
   --color-go: var(--go);
   --color-call: var(--call);
+  --color-peach: var(--peach);
+  --color-mint: var(--mint);
+  --color-sky: var(--sky);
+  --color-butter: var(--butter);
+  --color-lilac: var(--lilac);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -117,15 +129,18 @@
   --radius-3xl: calc(var(--radius) * 2.8);
   --radius-4xl: calc(var(--radius) * 3.4);
 
-  --shadow-panel: 0 1px 1px oklch(20% 0.05 268 / 0.05), 0 10px 28px -8px oklch(20% 0.05 268 / 0.16);
-  --shadow-board: 0 2px 0 oklch(100% 0 0 / 0.04) inset, 0 24px 60px -20px oklch(10% 0.05 268 / 0.55);
+  /* clay elevation: inner top highlight + inner bottom shade + soft ink-tinted drop */
+  --shadow-panel: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 290 / 0.06), 0 1px 2px oklch(30% 0.1 290 / 0.06), 0 12px 28px -12px oklch(30% 0.12 290 / 0.22);
+  --shadow-lift: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 290 / 0.06), 0 2px 4px oklch(30% 0.1 290 / 0.06), 0 24px 44px -16px oklch(30% 0.12 290 / 0.3);
+  --shadow-board: inset 0 2px 0 oklch(100% 0 0 / 0.65), inset 0 -8px 18px oklch(35% 0.1 290 / 0.08), 0 2px 4px oklch(30% 0.1 290 / 0.06), 0 26px 50px -20px oklch(30% 0.12 290 / 0.32);
+  --shadow-press: inset 0 3px 8px oklch(30% 0.1 290 / 0.14);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  html { @apply font-sans; scroll-behavior: smooth; scrollbar-color: oklch(70% 0.03 266) transparent; }
+  html { @apply font-sans; scroll-behavior: smooth; scrollbar-color: oklch(75% 0.05 292) transparent; }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "tnum" 0;
@@ -150,21 +165,52 @@
   @media (width >= 1024px) { padding-inline: 2.5rem; }
 }
 
-/* Night board surface: faint perforated grid like a real departures panel backplate. */
+/* Clay tray: lilac, lit from the top, faint inner shade at the bottom. */
 @utility board-surface {
   background-color: var(--board);
-  background-image:
-    radial-gradient(oklch(100% 0 0 / 0.045) 1px, transparent 1.2px),
-    linear-gradient(180deg, oklch(100% 0 0 / 0.03), transparent 40%);
-  background-size: 14px 14px, 100% 100%;
+  background-image: linear-gradient(180deg, oklch(100% 0 0 / 0.45), transparent 55%);
   color: var(--letter);
 }
 
-/* Wayfinding sign panel (yellow plate). */
+/* Hero / sign bands: tray colour with pastel light blobs, the backdrop the glass header floats over. */
+@utility aurora {
+  background-color: var(--board);
+  background-image:
+    radial-gradient(38rem 26rem at 6% -8%, oklch(90% 0.07 50 / 0.85), transparent 68%),
+    radial-gradient(34rem 28rem at 96% 4%, oklch(90% 0.06 235 / 0.9), transparent 70%),
+    radial-gradient(42rem 24rem at 62% 112%, oklch(92% 0.07 165 / 0.75), transparent 70%),
+    radial-gradient(26rem 20rem at 40% 30%, oklch(95% 0.03 300 / 0.8), transparent 70%);
+  color: var(--letter);
+}
+
+/* Frosted glass (accent only: header, sheets, menus, floating readouts) with an opaque fallback. */
+@utility glass {
+  background-color: oklch(99% 0.006 295 / 0.72);
+  border-color: oklch(100% 0 0 / 0.65);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  @supports not (backdrop-filter: blur(1px)) {
+    background-color: var(--card);
+  }
+}
+
+/* Primary action: grape clay pill — top highlight, inner bottom shade, tinted drop. */
 @utility sign-plate {
   background: var(--signal);
   color: var(--signal-ink);
-  box-shadow: inset 0 -2px 0 oklch(0% 0 0 / 0.12), 0 1px 0 oklch(100% 0 0 / 0.4) inset;
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.28),
+    inset 0 -3px 6px oklch(20% 0.15 288 / 0.35),
+    0 8px 18px -8px oklch(45% 0.2 288 / 0.6);
+}
+
+/* Scooped hand-off from a sign band to the concourse: the reading ground rises over the band in a soft clay curve. */
+@utility band-lip {
+  position: relative;
+  height: 2rem;
+  border-radius: 2rem 2rem 0 0;
+  background: var(--background);
+  box-shadow: 0 -10px 24px -14px oklch(30% 0.12 290 / 0.25);
 }
 
 /* ───────── Split-flap cell ───────── */
@@ -181,9 +227,12 @@
   line-height: var(--flap-h);
   text-align: center;
   color: var(--letter);
-  border-radius: 0.12em;
+  border-radius: 0.2em;
   background: var(--tile);
-  box-shadow: 0 0.06em 0 var(--tile-edge), inset 0 0 0 1px oklch(100% 0 0 / 0.04);
+  box-shadow:
+    0 0.07em 0 var(--tile-edge),
+    0 0.16em 0.3em -0.08em oklch(30% 0.12 290 / 0.28),
+    inset 0 -0.08em 0.12em oklch(35% 0.1 290 / 0.07);
   font-variant-numeric: tabular-nums;
 }
 .flap[data-tone="signal"] { color: var(--signal); }
@@ -200,8 +249,8 @@
   backface-visibility: hidden;
 }
 .flap__half > span { display: block; height: var(--flap-h); }
-.flap__half--top { top: 0; border-radius: 0.12em 0.12em 0 0; }
-.flap__half--bottom { bottom: 0; border-radius: 0 0 0.12em 0.12em; }
+.flap__half--top { top: 0; border-radius: 0.2em 0.2em 0 0; }
+.flap__half--bottom { bottom: 0; border-radius: 0 0 0.2em 0.2em; }
 .flap__half--bottom > span { transform: translateY(-50%); }
 /* hinge seam */
 .flap::after {
@@ -209,7 +258,7 @@
   position: absolute;
   left: 0; right: 0; top: 50%;
   height: 1px;
-  background: var(--tile-edge);
+  background: oklch(82% 0.05 292 / 0.55);
   z-index: 3;
   pointer-events: none;
 }
@@ -217,7 +266,7 @@
   transform-origin: 50% 100%;
   z-index: 2;
   animation: flap-fold-top var(--flap-step, 70ms) cubic-bezier(0.55, 0, 0.9, 0.45) forwards;
-  background: linear-gradient(180deg, var(--tile), color-mix(in oklch, var(--tile), black 22%));
+  background: linear-gradient(180deg, var(--tile), color-mix(in oklch, var(--tile), var(--board-2) 70%));
 }
 .flap__fold-bottom {
   transform-origin: 50% 0%;
@@ -229,8 +278,8 @@
 
 /* Route line fill on itineraries. */
 @keyframes stop-ping {
-  0% { box-shadow: 0 0 0 0 oklch(78% 0.17 155 / 0.55); }
-  100% { box-shadow: 0 0 0 12px oklch(78% 0.17 155 / 0); }
+  0% { box-shadow: 0 0 0 0 oklch(62% 0.14 158 / 0.5); }
+  100% { box-shadow: 0 0 0 12px oklch(62% 0.14 158 / 0); }
 }
 .stop-ping { animation: stop-ping 700ms var(--ease-out-expo); }
 
@@ -239,14 +288,15 @@
   .flap__fold-top, .flap__fold-bottom, .stop-ping { animation: none !important; }
 }
 
-/* Blueprint grid canvas (check-in desk). */
+/* Check-in desk canvas: the aurora tray with a soft dot grid, like a clay planning board. */
 @utility bg-grid {
   background-color: var(--board);
   background-image:
-    linear-gradient(oklch(100% 0 0 / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(100% 0 0 / 0.035) 1px, transparent 1px),
-    radial-gradient(48rem 32rem at 78% 30%, oklch(52% 0.19 266 / 0.16), transparent 70%);
-  background-size: 56px 56px, 56px 56px, 100% 100%;
+    radial-gradient(oklch(45% 0.08 290 / 0.12) 1.2px, transparent 1.6px),
+    radial-gradient(40rem 28rem at 85% 10%, oklch(90% 0.06 235 / 0.9), transparent 70%),
+    radial-gradient(36rem 26rem at 5% 90%, oklch(90% 0.07 50 / 0.8), transparent 70%),
+    radial-gradient(30rem 22rem at 45% 50%, oklch(92% 0.07 165 / 0.5), transparent 70%);
+  background-size: 28px 28px, 100% 100%, 100% 100%, 100% 100%;
   color: var(--letter);
 }
 

@@ -36,8 +36,8 @@ export default function HomePage() {
 
 function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number; lessons: number; questions: number } }) {
   return (
-    <section className="on-board board-surface relative overflow-hidden text-letter">
-      <div className="container-page grid gap-12 pt-14 pb-12 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-20">
+    <section className="on-board aurora relative overflow-hidden text-letter">
+      <div className="container-page grid gap-12 pt-14 pb-14 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-20">
         <div>
           <motion.h1
             initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
@@ -73,7 +73,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
             </Link>
           </motion.div>
 
-          <dl className="mt-12 grid max-w-md grid-cols-3 border-t border-white/10 pt-5 text-sm">
+          <dl className="mt-12 grid max-w-md grid-cols-3 gap-2 rounded-[1.5rem] border border-white/70 bg-white/55 p-4 text-sm shadow-panel backdrop-blur-md">
             {[
               ['Modules', stats ? String(stats.modules) : '—'],
               ['Questions', stats ? formatNumber(stats.questions) : '—'],
@@ -97,6 +97,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
           <p className="mt-3 px-1 text-xs text-letter-dim">Cohort times are sample schedules in IST. Tap any row to see the course.</p>
         </motion.div>
       </div>
+      <div aria-hidden className="band-lip" />
     </section>
   )
 }
@@ -121,17 +122,17 @@ function Services() {
           Most training stops at configuration. We keep going: through the questions, the mock panel, the résumé and the introductions — one route, clearly signposted.
         </p>
       </div>
-      <ul ref={ref} className="on-board board-surface overflow-hidden rounded-xl shadow-board ring-1 ring-black/5" aria-label="What we do">
+      <ul ref={ref} className="on-board board-surface overflow-hidden rounded-[2rem] p-2 shadow-board ring-1 ring-white/70" aria-label="What we do">
         {services.map((s, i) => (
           <motion.li
             key={s.title}
             initial={{ opacity: 0, x: 24 }}
             animate={inView ? { opacity: 1, x: 0 } : undefined}
             transition={{ duration: 0.55, delay: i * 0.07, ease: EASE }}
-            className="border-b border-white/[0.07] last:border-b-0"
+            className="mb-1.5 last:mb-0"
           >
-            <Link to={s.to} className="group flex items-center gap-4 px-5 py-5 transition-colors duration-300 hover:bg-white/[0.04] sm:gap-5 sm:px-7">
-              <span className="sign-plate grid size-11 shrink-0 place-items-center rounded-md">
+            <Link to={s.to} className="group flex items-center gap-4 rounded-[1.5rem] px-4 py-4 transition-[background-color,box-shadow] duration-300 hover:bg-white/80 hover:shadow-panel sm:gap-5 sm:px-5">
+              <span className="sign-plate grid size-12 shrink-0 place-items-center rounded-2xl">
                 <s.icon className="size-5" strokeWidth={2.2} aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
@@ -150,7 +151,7 @@ function Services() {
 function Departures({ courses }: { courses: Course[] }) {
   const featured = [...courses].sort((a, b) => b.demand - a.demand || a.gate - b.gate).slice(0, 4)
   return (
-    <section className="border-y bg-[oklch(95.2%_0.009_264)]">
+    <section className="border-y bg-[oklch(95%_0.024_292)]">
       <div className="container-page py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -203,7 +204,7 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
           <ToggleGroupItem
             key={b.id}
             value={b.id}
-            className="h-10 rounded-md border border-foreground/15 bg-card px-4 text-sm font-semibold data-[state=on]:border-board data-[state=on]:bg-board data-[state=on]:text-letter"
+            className="h-10 rounded-full border border-foreground/10 bg-card shadow-panel px-4 text-sm font-semibold data-[state=on]:border-signal data-[state=on]:bg-signal data-[state=on]:text-signal-ink"
           >
             {b.label}
           </ToggleGroupItem>
@@ -226,9 +227,9 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
               >
                 <Link
                   to={`/courses/${c.slug}`}
-                  className="group flex items-center gap-4 rounded-xl border bg-card p-4 shadow-panel transition-[border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-foreground/30"
+                  className="group flex items-center gap-4 rounded-[1.5rem] border border-white bg-card p-4 shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift"
                 >
-                  <span className="on-board board-surface rounded-md px-2 py-1.5 text-[17px]">
+                  <span className="on-board board-surface rounded-2xl px-2 py-1.5 text-[17px] shadow-press">
                     <FlapText text={gateCode(c.gate)} length={3} tone="signal" />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -248,7 +249,7 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
         <ul className="mt-3 flex flex-wrap gap-2">
           {courses.map((c) => (
             <li key={c.slug}>
-              <Link to={`/courses/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-md border border-foreground/12 bg-card px-3 py-1.5 text-sm font-medium transition-colors hover:border-foreground/40">
+              <Link to={`/courses/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-white bg-card px-3.5 py-1.5 text-sm font-medium shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-px hover:shadow-lift">
                 <span className="font-mono text-[0.7rem] text-muted-foreground">{gateCode(c.gate)}</span> SAP {c.module}
               </Link>
             </li>
@@ -270,7 +271,7 @@ function Approach() {
   const ref = useRef<HTMLOListElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.4 })
   return (
-    <section className="border-y bg-[oklch(95.2%_0.009_264)]">
+    <section className="border-y bg-[oklch(95%_0.024_292)]">
       <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-20">
         <div>
           <h2 className="text-3xl leading-tight font-extrabold sm:text-[2.6rem]">Built from the interview room backwards.</h2>
@@ -281,14 +282,14 @@ function Approach() {
             <Link to="/about">How we teach <ArrowRight /></Link>
           </Button>
         </div>
-        <ol ref={ref} className="rounded-xl border bg-card p-2 shadow-panel" aria-label="Pre-flight checklist">
+        <ol ref={ref} className="rounded-[2rem] border border-white bg-card p-2 shadow-panel" aria-label="Pre-flight checklist">
           {checklist.map((item, i) => (
             <li key={item.title} className="flex gap-4 rounded-lg p-4 sm:p-5">
               <motion.span
                 initial={{ scale: 0.6, opacity: 0 }}
                 animate={inView ? { scale: 1, opacity: 1 } : undefined}
                 transition={{ type: 'spring', stiffness: 500, damping: 26, delay: 0.15 + i * 0.18 }}
-                className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-md bg-go/20 text-[oklch(38%_0.11_155)]"
+                className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl bg-mint text-go shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]"
               >
                 <BadgeCheck className="size-4.5" strokeWidth={2.4} aria-hidden />
               </motion.span>
@@ -315,7 +316,7 @@ function Stories() {
     <section className="container-page py-20 sm:py-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <h2 className="max-w-xl text-3xl leading-tight font-extrabold sm:text-[2.6rem]">From preparing to placed.</h2>
-        <p className="rounded-md border border-dashed border-foreground/25 px-3 py-1.5 text-xs font-semibold text-muted-foreground">Sample stories — replace with real learner quotes before launch</p>
+        <p className="rounded-full border border-dashed border-foreground/25 px-3.5 py-1.5 text-xs font-semibold text-muted-foreground">Sample stories — replace with real learner quotes before launch</p>
       </div>
       <ul className="mt-10 grid gap-4 md:grid-cols-3">
         {stories.map((s, i) => (
@@ -325,10 +326,10 @@ function Stories() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
-            className={cn('relative flex flex-col overflow-hidden rounded-xl border bg-card shadow-panel', i === 1 && 'md:translate-y-6')}
+            className={cn('relative flex flex-col overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel', i === 1 && 'md:translate-y-6')}
           >
             <div className="flex-1 p-6">
-              <Quote className="size-6 text-foreground/25" aria-hidden />
+              <span className={cn('grid size-10 place-items-center rounded-2xl shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]', ['bg-peach', 'bg-sky', 'bg-mint'][i])}><Quote className="size-5 text-foreground/60" aria-hidden /></span>
               <blockquote className="mt-3 text-[1.02rem] leading-relaxed">{s.quote}</blockquote>
             </div>
             <div className="flex items-center justify-between border-t border-dashed px-6 py-4">
@@ -336,7 +337,7 @@ function Stories() {
                 <div className="font-bold">{s.name}</div>
                 <div className="text-sm text-muted-foreground">{s.role}</div>
               </div>
-              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-[oklch(38%_0.11_155)] uppercase">Landed</span>
+              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-go uppercase">Landed</span>
             </div>
           </motion.li>
         ))}
@@ -350,7 +351,7 @@ function Close() {
   const inView = useInView(ref, { once: true, amount: 0.5 })
   return (
     <section className="container-page pt-8 pb-24">
-      <div ref={ref} className="on-board board-surface relative grid items-center gap-10 overflow-hidden rounded-2xl px-6 py-12 shadow-board sm:px-12 sm:py-16 lg:grid-cols-[1.2fr_auto]">
+      <div ref={ref} className="on-board aurora relative grid items-center gap-10 overflow-hidden rounded-[2.5rem] px-6 py-12 shadow-board sm:px-12 sm:py-16 lg:grid-cols-[1.2fr_auto]">
         <div>
           <h2 className="max-w-2xl text-3xl leading-tight font-extrabold sm:text-5xl">Your next SAP interview is a flight you can catch.</h2>
           <p className="mt-4 max-w-[52ch] text-lg text-letter-dim">Create a free account, choose your module and start on real interview questions today.</p>
@@ -359,7 +360,7 @@ function Close() {
             <Button asChild size="lg" variant="board"><Link to="/join-earn">Join &amp; Earn</Link></Button>
           </div>
         </div>
-        <dl className="grid gap-2 rounded-xl bg-black/20 p-4 text-[14px] ring-1 ring-white/10 sm:text-[17px]" aria-label="Gate status">
+        <dl className="grid gap-2 rounded-[1.5rem] bg-white/55 p-4 text-[14px] shadow-panel ring-1 ring-white/70 backdrop-blur-md sm:text-[17px]" aria-label="Gate status">
           {[['GATE', 'ANY', 'letter'], ['STATUS', 'BOARDING', 'go'], ['TO', 'YOUR OFFER', 'letter']].map(([k, v, tone], i) => (
             <div key={k} className="flex items-center justify-between gap-6">
               <dt className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim">{k}</dt>

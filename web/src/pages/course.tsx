@@ -98,14 +98,14 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
 
   return (
     <>
-      <section className="on-board board-surface text-letter">
+      <section className="on-board aurora relative overflow-hidden text-letter">
         <div className="container-page grid gap-10 pt-12 pb-14 sm:pt-16 lg:grid-cols-[1fr_25rem] lg:gap-14 lg:pb-20">
           <div>
             <Link to="/courses" className="inline-flex items-center gap-1.5 text-sm text-letter-dim hover:text-letter"><ArrowLeft className="size-4" aria-hidden /> All courses</Link>
             <div className="mt-5 flex flex-wrap items-center gap-2">
-              <Badge variant="gate" className="bg-white/[0.07]">SAP {c.module}</Badge>
-              <Badge className="bg-white/[0.07] text-letter">{c.level}</Badge>
-              <Badge className="bg-white/[0.07] text-letter">{c.track}</Badge>
+              <Badge variant="gate" className="bg-white/70">SAP {c.module}</Badge>
+              <Badge className="bg-white/70 text-letter">{c.level}</Badge>
+              <Badge className="bg-white/70 text-letter">{c.track}</Badge>
             </div>
             <motion.h1
               initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
@@ -127,6 +127,7 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
 
           <BoardingPass detail={detail} enrolling={enrolling} onEnrol={enrol} passenger={user?.name} />
         </div>
+        <div aria-hidden className="band-lip" />
       </section>
 
       <div className="container-page grid gap-14 py-16 lg:grid-cols-[1fr_22rem] lg:gap-16">
@@ -140,8 +141,8 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
             <h2 id="learn" className="text-2xl font-extrabold sm:text-3xl">What you will be able to do</h2>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
               {c.learnPoints.map((p) => (
-                <li key={p} className="flex items-start gap-3 rounded-lg border bg-card px-4 py-3.5">
-                  <Check className="mt-0.5 size-4 shrink-0 text-[oklch(45%_0.13_155)]" strokeWidth={3} aria-hidden />
+                <li key={p} className="flex items-start gap-3 rounded-2xl border border-white bg-card px-4 py-3.5 shadow-panel">
+                  <Check className="mt-0.5 size-4 shrink-0 text-go" strokeWidth={3} aria-hidden />
                   <span className="text-[0.95rem] font-medium">{p}</span>
                 </li>
               ))}
@@ -208,7 +209,7 @@ function BoardingPass({ detail, enrolling, onEnrol, passenger }: { detail: Cours
       initial={{ opacity: 0, y: 20, rotate: -1.5 }}
       animate={{ opacity: 1, y: 0, rotate: 0 }}
       transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-      className="relative self-start overflow-hidden rounded-2xl bg-card text-foreground shadow-board"
+      className="relative self-start overflow-hidden rounded-[2rem] border border-white bg-card text-foreground shadow-board"
     >
       <div className="flex items-center justify-between bg-signal px-5 py-3 text-signal-ink">
         <span className="font-bold tracking-tight">Boarding pass</span>
@@ -220,7 +221,7 @@ function BoardingPass({ detail, enrolling, onEnrol, passenger }: { detail: Cours
         <Field label="Departs" value={`${boardDate(c.departsAt)} ∙ ${boardTime(c.departsAt)} IST`} />
         <Field label="Gate" value={gateCode(c.gate)} mono />
       </div>
-      <div className="mx-5 mt-5 flex items-center justify-between rounded-lg bg-board px-3 py-2.5">
+      <div className="mx-5 mt-5 flex items-center justify-between rounded-2xl bg-board px-3 py-2.5 shadow-press">
         <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Status</span>
         <span className="text-[15px]">
           <FlapText text={boarded ? 'BOARDED' : c.status} length={10} tone={boarded ? 'go' : statusTone(c.status)} align="right" />
@@ -244,7 +245,7 @@ function BoardingPass({ detail, enrolling, onEnrol, passenger }: { detail: Cours
         </div>
         <ul className="mt-4 space-y-2 text-sm">
           {['Lifetime access and question updates', 'Two mock panels with written feedback', 'Résumé review and job assistance'].map((x) => (
-            <li key={x} className="flex items-center gap-2.5"><Check className="size-4 text-[oklch(45%_0.13_155)]" strokeWidth={3} aria-hidden />{x}</li>
+            <li key={x} className="flex items-center gap-2.5"><Check className="size-4 text-go" strokeWidth={3} aria-hidden />{x}</li>
           ))}
         </ul>
         {boarded ? (
@@ -321,14 +322,14 @@ function Itinerary({ detail, done, onToggle }: { detail: CourseDetail; done: Set
                 onAnimationEnd={() => setPinged(null)}
                 className={cn(
                   'relative z-10 grid size-[33px] shrink-0 place-items-center rounded-full border-[3px] font-mono text-xs font-semibold transition-[background-color,border-color,color] duration-300',
-                  isDone ? 'border-go bg-go text-signal-ink' : 'border-foreground/15 bg-background text-foreground',
+                  isDone ? 'border-go bg-go text-signal-ink shadow-panel' : 'border-white bg-card text-foreground shadow-panel',
                   enrollment && !isDone && 'cursor-pointer hover:border-foreground/50',
                   pinged === l.id && 'stop-ping',
                 )}
               >
                 {isDone ? <Check className="size-4" strokeWidth={3.2} /> : l.position}
               </button>
-              <div className={cn('min-w-0 flex-1 rounded-xl border bg-card px-5 py-4 transition-colors duration-300', isDone && 'border-go/40 bg-[oklch(97%_0.03_155)]')}>
+              <div className={cn('min-w-0 flex-1 rounded-[1.5rem] border border-white bg-card px-5 py-4 shadow-panel transition-colors duration-300', isDone && 'border-go/30 bg-mint/55')}>
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-bold">{l.title}</h3>
                   <span className="shrink-0 font-mono text-xs text-muted-foreground tabular">{l.minutes} min</span>

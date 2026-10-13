@@ -16,7 +16,7 @@ const LEVELS = ['All levels', 'Beginner', 'Intermediate', 'Advanced'] as const
 const TRACKS = ['All tracks', 'Functional', 'Technical', 'Cloud'] as const
 
 const chip =
-  'h-9 rounded-md border border-foreground/15 bg-card px-3.5 text-sm font-semibold data-[state=on]:border-board data-[state=on]:bg-board data-[state=on]:text-letter'
+  'h-9 rounded-full border border-foreground/10 bg-card shadow-panel px-3.5 text-sm font-semibold data-[state=on]:border-signal data-[state=on]:bg-signal data-[state=on]:text-signal-ink'
 
 export default function CoursesPage() {
   const { data: courses, error, loading, refetch } = useQuery('courses', api.courses)
@@ -49,7 +49,7 @@ export default function CoursesPage() {
         title="All SAP courses"
         lead="Every module on one board: configuration training, interview question banks, practical scenarios and mock rounds. Filter by level or track, or search for the role you want. Departure times, fares and demand ratings are sample data."
         aside={
-          <div className="board-surface inline-flex flex-col gap-1 rounded-lg p-3 ring-1 ring-white/10">
+          <div className="board-surface inline-flex flex-col gap-1 rounded-lg p-3 ring-1 ring-white/70">
             <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Showing</span>
             <span className="text-[20px]">
               <FlapText text={`${String(count).padStart(2, '0')} GATES`} length={8} tone="signal" label={`${count} courses`} />

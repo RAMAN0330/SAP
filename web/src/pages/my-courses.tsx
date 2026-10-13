@@ -42,7 +42,7 @@ export default function MyCoursesPage() {
         title={`Your trips, ${user.name.split(' ')[0]}`}
         lead="Every course you’re enrolled in, with the next stop ready to go."
         aside={
-          <div className="board-surface inline-flex flex-col gap-1 rounded-lg p-3 ring-1 ring-white/10">
+          <div className="board-surface inline-flex flex-col gap-1 rounded-lg p-3 ring-1 ring-white/70">
             <span className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">Booked</span>
             <span className="text-[20px]"><FlapText text={`${String(total).padStart(2, '0')} ${total === 1 ? 'TRIP' : 'TRIPS'}`} length={8} tone="signal" label={`${total} ${total === 1 ? 'course' : 'courses'}`} /></span>
           </div>

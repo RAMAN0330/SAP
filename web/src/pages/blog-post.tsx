@@ -43,7 +43,7 @@ export default function BlogPostPage() {
         </div>
       </article>
       {related.length > 0 && (
-        <section className="border-t bg-[oklch(95.2%_0.009_264)]">
+        <section className="border-t bg-[oklch(95%_0.024_292)]">
           <div className="container-page max-w-5xl py-14">
             <h2 className="text-2xl font-extrabold">Keep reading</h2>
             <ul className="mt-6 grid gap-4 md:grid-cols-2">

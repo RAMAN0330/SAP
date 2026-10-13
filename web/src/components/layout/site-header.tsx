@@ -28,7 +28,7 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="on-board sticky top-0 z-50 border-b border-white/[0.07] bg-board/[0.97] text-letter supports-[backdrop-filter]:bg-board/90 supports-[backdrop-filter]:backdrop-blur-md">
+    <header className="on-board glass sticky top-0 z-50 border-b text-letter shadow-[0_8px_24px_-18px_oklch(30%_0.12_290/0.35)]">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-signal focus:px-3 focus:py-2 focus:text-signal-ink">
         Skip to content
       </a>
@@ -44,7 +44,7 @@ export function SiteHeader() {
                   <NavLink
                     to={item.to}
                     className={cn(
-                      'relative block rounded-md px-3 py-2 text-[0.9rem] font-medium transition-colors duration-200',
+                      'relative z-10 block rounded-full px-3.5 py-2 text-[0.9rem] font-semibold transition-colors duration-200',
                       active ? 'text-letter' : 'text-letter-dim hover:text-letter',
                     )}
                   >
@@ -53,7 +53,7 @@ export function SiteHeader() {
                   {active && (
                     <motion.span
                       layoutId="nav-indicator"
-                      className="absolute inset-x-3 -bottom-[13px] h-[3px] rounded-t-sm bg-signal"
+                      className="absolute inset-0 rounded-full bg-white shadow-panel ring-1 ring-signal/15"
                       transition={{ type: 'spring', stiffness: 520, damping: 42 }}
                     />
                   )}
@@ -73,7 +73,7 @@ export function SiteHeader() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="board" size="sm" className="gap-2">
-                  <span className="grid size-5 place-items-center rounded-sm bg-signal text-[0.7rem] font-bold text-signal-ink">
+                  <span className="grid size-5 place-items-center rounded-full bg-signal text-[0.7rem] font-bold text-signal-ink">
                     {user.name.charAt(0).toUpperCase()}
                   </span>
                   <span className="hidden max-w-[10ch] truncate sm:inline">{user.name.split(' ')[0]}</span>
@@ -99,12 +99,12 @@ export function SiteHeader() {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="on-board board-surface w-[min(88vw,22rem)] border-white/10 text-letter">
+            <SheetContent side="right" className="on-board w-[min(88vw,22rem)] rounded-l-[2rem] border-white/70 bg-popover/80 text-letter backdrop-blur-xl">
               <SheetHeader>
                 <SheetTitle className="text-letter-dim font-mono text-xs tracking-[0.18em] uppercase">Concourse map</SheetTitle>
               </SheetHeader>
               <nav aria-label="Mobile" className="px-4">
-                <ul className="divide-y divide-white/[0.08]">
+                <ul className="divide-y divide-letter/10">
                   {nav.map((item, i) => (
                     <motion.li key={item.to} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}>
                       <NavLink

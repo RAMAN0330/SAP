@@ -13,7 +13,7 @@ import { longDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
 const chip =
-  'h-9 rounded-md border border-foreground/15 bg-card px-3.5 text-sm font-semibold data-[state=on]:border-board data-[state=on]:bg-board data-[state=on]:text-letter'
+  'h-9 rounded-full border border-foreground/10 bg-card shadow-panel px-3.5 text-sm font-semibold data-[state=on]:border-signal data-[state=on]:bg-signal data-[state=on]:text-signal-ink'
 
 export default function BlogsPage() {
   const { data: posts, error, refetch } = useQuery('blogs', api.blogs)

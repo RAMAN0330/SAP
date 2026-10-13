@@ -10,7 +10,7 @@ const cols = [
 
 export function SiteFooter() {
   return (
-    <footer className="on-board board-surface mt-auto text-letter">
+    <footer className="on-board board-surface mt-auto rounded-t-[2.5rem] text-letter shadow-[inset_0_2px_0_oklch(100%_0_0/0.6),0_-12px_30px_-18px_oklch(30%_0.12_290/0.3)]">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
         <div className="max-w-xs">
           <Logo />
@@ -35,7 +35,7 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/[0.08]">
+      <div className="border-t border-letter/10">
         <div className="container-page flex flex-col gap-2 py-5 text-xs text-letter-dim sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {site.name}. SAP and SAP module names are trademarks of SAP SE; this academy is independent.</p>
           <p>Contact details, prices and instructor names are placeholders.</p>
