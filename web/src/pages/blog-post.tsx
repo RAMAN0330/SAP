@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'motion/react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { GhostBoard } from '@/components/course/ghost'
+import { ArrowLeft, ArrowRight, FileX } from 'lucide-react'
+import { EmptyState } from '@/components/course/ghost'
 import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
@@ -18,9 +18,9 @@ export default function BlogPostPage() {
   if (error || !post) {
     return (
       <div className="container-page py-24">
-        <GhostBoard readout="NOT FOUND" title={error?.message ?? 'Article not found'}>
+        <EmptyState icon={FileX} title={error?.message ?? 'Article not found'}>
           <Button asChild className="mt-5"><Link to="/blogs">All articles</Link></Button>
-        </GhostBoard>
+        </EmptyState>
       </div>
     )
   }
@@ -28,16 +28,16 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <motion.div aria-hidden className="fixed inset-x-0 top-16 z-40 h-[3px] origin-left bg-signal" style={{ scaleX: progress }} />
+      <motion.div aria-hidden className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-signal" style={{ scaleX: progress }} />
       <article className="container-page max-w-3xl py-14 sm:py-20">
         <Link to="/blogs" className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground"><ArrowLeft className="size-4" /> All articles</Link>
         <h1 className="mt-8 text-4xl leading-[1.08] font-extrabold sm:text-5xl">{post.title}</h1>
         <p className="mt-5 text-xl leading-relaxed text-muted-foreground">{post.excerpt}</p>
-        <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-y py-3 text-sm text-muted-foreground"><span className="rounded-sm bg-muted px-2 py-0.5 font-semibold text-foreground">{post.category}</span>{post.author} ∙ {longDate(post.publishedAt)} ∙ {post.readMinutes} min read</p>
+        <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-y py-3 text-sm text-muted-foreground"><span className="rounded-full bg-muted px-2.5 py-0.5 font-semibold text-foreground">{post.category}</span>{post.author} ∙ {longDate(post.publishedAt)} ∙ {post.readMinutes} min read</p>
         <div className="mt-10 space-y-6 text-[1.13rem] leading-[1.75] text-foreground/90">
           {post.body.map((para, i) => <p key={i}>{para}</p>)}
         </div>
-        <div className="on-board board-surface mt-14 flex flex-col items-start gap-4 rounded-xl p-6 text-letter sm:flex-row sm:items-center sm:justify-between">
+        <div className="on-board aurora mt-14 flex flex-col items-start gap-4 rounded-[2rem] border border-white/70 p-6 shadow-panel text-letter sm:flex-row sm:items-center sm:justify-between">
           <p className="font-semibold">Ready to practise this for real?</p>
           <Button asChild><Link to="/courses">Find your module <ArrowRight /></Link></Button>
         </div>
@@ -49,7 +49,7 @@ export default function BlogPostPage() {
             <ul className="mt-6 grid gap-4 md:grid-cols-2">
               {related.map((p) => (
                 <li key={p.slug}>
-                  <Link to={`/blogs/${p.slug}`} className="block h-full rounded-xl border bg-card p-6 shadow-panel transition-colors hover:border-foreground/30">
+                  <Link to={`/blogs/${p.slug}`} className="block h-full rounded-[1.75rem] border border-white bg-card p-6 shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-lift">
                     <h3 className="text-lg font-bold">{p.title}</h3>
                     <p className="mt-2 text-sm text-muted-foreground">{p.excerpt}</p>
                     <p className="mt-3 text-xs font-semibold text-muted-foreground">{p.category}</p>

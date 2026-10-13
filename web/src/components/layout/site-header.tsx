@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { BookOpenCheck, Gift, LogOut, Menu, UserRound } from 'lucide-react'
+import { BookOpenCheck, ChevronRight, Gift, LogOut, Menu, UserRound } from 'lucide-react'
 import { Logo } from '@/components/brand/logo'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
@@ -23,16 +23,17 @@ export function SiteHeader() {
 
   const signOut = async () => {
     await logout()
-    toast.success('Signed out. See you at the next departure.')
+    toast.success('Signed out. See you soon.')
     navigate('/')
   }
 
   return (
-    <header className="on-board glass sticky top-0 z-50 border-b text-letter shadow-[0_8px_24px_-18px_oklch(30%_0.12_290/0.35)]">
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-signal focus:px-3 focus:py-2 focus:text-signal-ink">
+    // Floating glass bar: overlays the page top (zero layout height) so the aurora band runs underneath it.
+    <header className="pointer-events-none sticky top-0 z-50 -mb-[4.75rem] h-[4.75rem] px-3 pt-3 sm:px-4">
+      <a href="#main" className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-signal focus:px-3 focus:py-2 focus:text-signal-ink">
         Skip to content
       </a>
-      <div className="container-page flex h-16 items-center justify-between gap-6">
+      <div className="on-board glass pointer-events-auto mx-auto flex h-16 max-w-[78rem] items-center justify-between gap-6 rounded-full border pr-2.5 pl-4 text-letter shadow-lift sm:pl-6 lg:pr-3">
         <Logo />
 
         <nav aria-label="Primary" className="hidden lg:block">
@@ -101,7 +102,7 @@ export function SiteHeader() {
             </SheetTrigger>
             <SheetContent side="right" className="on-board w-[min(88vw,22rem)] rounded-l-[2rem] border-white/70 bg-popover/80 text-letter backdrop-blur-xl">
               <SheetHeader>
-                <SheetTitle className="text-letter-dim font-mono text-xs tracking-[0.18em] uppercase">Concourse map</SheetTitle>
+                <SheetTitle className="text-sm font-semibold text-letter-dim">Menu</SheetTitle>
               </SheetHeader>
               <nav aria-label="Mobile" className="px-4">
                 <ul className="divide-y divide-letter/10">
@@ -113,7 +114,7 @@ export function SiteHeader() {
                         className={cn('flex items-center justify-between py-3.5 text-lg font-semibold', isActive(pathname, item.to) ? 'text-signal' : 'text-letter')}
                       >
                         {item.label}
-                        <span className="font-mono text-xs text-letter-dim">{`G${String(i + 1).padStart(2, '0')}`}</span>
+                        <ChevronRight className="size-4 text-letter-dim" aria-hidden />
                       </NavLink>
                     </motion.li>
                   ))}

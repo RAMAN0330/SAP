@@ -5,7 +5,7 @@ import { currentUser } from '../auth.js'
 
 export const catalog = new Hono()
 
-// Next cohort for a gate: staggered Mondays so the board always shows a spread of departures.
+// Next cohort start for a course: staggered so listings always show a spread of dates.
 function departure(gate: number, now = new Date()) {
   const d = new Date(now)
   d.setHours(9, 30 + (gate % 4) * 15, 0, 0)

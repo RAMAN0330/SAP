@@ -5,19 +5,19 @@ import { PageIntro } from '@/components/layout/page-intro'
 import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
-import { FlapText } from '@/components/board/split-flap'
+import { formatNumber } from '@/lib/format'
 
 const principles = [
   { title: 'Practice over theory', text: 'Every lesson maps to something a panel or a live project will actually ask of you. If it never comes up, it doesn’t make the cut.' },
   { title: 'Taught by practitioners', text: 'Mentors are working SAP consultants who interview candidates themselves, so the feedback reflects real hiring bars.' },
-  { title: 'Support until you land', text: 'Résumé rebuilds, mock panels and introductions continue after the last lesson — the trip ends at the offer, not the syllabus.' },
+  { title: 'Support until you land', text: 'Résumé rebuilds, mock panels and introductions continue after the last lesson — support ends at the offer, not the syllabus.' },
 ]
 
 const route = [
-  ['Check-in', 'Map your background to the module with the best odds for you.'],
-  ['Boarding', 'Configure the module and understand the business reason behind each setting.'],
-  ['In flight', 'Drill the question bank, then face a recorded mock panel.'],
-  ['Landed', 'Polish the résumé, reach hiring partners and walk into the offer.'],
+  ['Choose your module', 'Map your background to the module with the best odds for you.'],
+  ['Build the skills', 'Configure the module and understand the business reason behind each setting.'],
+  ['Practise the interview', 'Drill the question bank, then face a recorded mock panel.'],
+  ['Get placed', 'Polish the résumé, reach hiring partners and walk into the offer.'],
 ]
 
 export default function AboutPage() {
@@ -43,18 +43,24 @@ export default function AboutPage() {
           <Button asChild className="mt-8"><Link to="/courses">Explore the courses <ArrowRight /></Link></Button>
         </div>
 
-        <div className="on-board board-surface self-start rounded-2xl p-6 text-letter shadow-board sm:p-8">
-          <dl className="grid gap-3 text-[15px] sm:text-[19px]" aria-label="The catalogue today">
+        <div className="on-board aurora self-start rounded-[2rem] border border-white/70 p-6 text-letter shadow-board sm:p-8">
+          <dl className="grid grid-cols-2 gap-3" aria-label="The catalogue today">
             {[
               ['SAP modules', stats ? String(stats.modules) : ''],
-              ['Lessons', stats ? String(stats.lessons) : ''],
-              ['Interview questions', stats ? String(stats.questions) : ''],
-              ['Mock panel', 'SAT 11:00'],
+              ['Lessons', stats ? formatNumber(stats.lessons) : ''],
+              ['Interview questions', stats ? formatNumber(stats.questions) : ''],
+              ['Mock panel', 'Sat 11:00'],
             ].map(([k, v], i) => (
-              <div key={k} className="flex items-center justify-between gap-4 border-b border-letter/10 pb-3 last:border-0 last:pb-0">
+              <motion.div
+                key={k}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="rounded-[1.4rem] border border-white/80 bg-white/65 p-4 shadow-panel"
+              >
                 <dt className="text-sm text-letter-dim">{k}</dt>
-                <dd><FlapText text={v} length={9} align="right" delay={i * 120} label={v || 'loading'} /></dd>
-              </div>
+                <dd className="mt-1 text-2xl font-extrabold tabular">{v || '—'}</dd>
+              </motion.div>
             ))}
           </dl>
           <p className="mt-6 text-xs text-letter-dim">Learner counts, ratings and placement rates will appear here once you have real numbers to publish.</p>
@@ -63,7 +69,7 @@ export default function AboutPage() {
 
       <section className="border-y bg-[oklch(95%_0.024_292)]">
         <div className="container-page py-16 sm:py-24">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">The route every learner takes</h2>
+          <h2 className="text-3xl font-extrabold sm:text-4xl">How every learner progresses</h2>
           <ol className="relative mt-12 grid gap-8 md:grid-cols-4 md:gap-6">
             <span aria-hidden className="absolute top-[15px] right-0 left-0 hidden h-[3px] rounded-full bg-[repeating-linear-gradient(90deg,var(--foreground)_0_10px,transparent_10px_18px)] opacity-20 md:block" />
             {route.map(([name, text], i) => (
@@ -75,7 +81,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 className="relative"
               >
-                <span className="relative z-10 grid size-[33px] place-items-center rounded-full border-[3px] border-board bg-signal font-mono text-xs font-bold text-signal-ink">{i + 1}</span>
+                <span className="relative z-10 grid size-[33px] place-items-center rounded-full border-[3px] border-white bg-signal text-xs font-bold text-signal-ink shadow-panel">{i + 1}</span>
                 <h3 className="mt-4 text-xl font-bold">{name}</h3>
                 <p className="mt-1.5 text-muted-foreground">{text}</p>
               </motion.li>
@@ -94,7 +100,7 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-        <div className="mt-16 flex flex-col items-start justify-between gap-5 rounded-xl border bg-card p-6 shadow-panel sm:flex-row sm:items-center sm:p-8">
+        <div className="mt-16 flex flex-col items-start justify-between gap-5 rounded-[2rem] border border-white bg-card p-6 shadow-panel sm:flex-row sm:items-center sm:p-8">
           <div>
             <h2 className="text-xl font-bold">Not sure which module fits you?</h2>
             <p className="mt-1 text-muted-foreground">Tell us your background and experience — we’ll suggest a preparation plan.</p>

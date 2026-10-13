@@ -36,7 +36,7 @@ export default function App() {
             <motion.main
               id="main"
               key={location.pathname}
-              className="flex-1"
+              className="flex-1 [&>:first-child]:pt-[4.75rem]"
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] } }}
               exit={{ opacity: 0, transition: { duration: 0.12 } }}

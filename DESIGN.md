@@ -148,7 +148,22 @@ components:
 # Design System: GoLive Academy
 
 > **Current style: Dusk Clay (restrained Claymorphism + Glassmorphism accents).** Chosen with the `ui-style-selection` skill (`.claude/skills/ui-style-selection`): it is an education/career product, so rule 3 applies, kept restrained for adult professional learners.
-> The departure-board *metaphor* (gates, split-flap readouts, boarding pass, itinerary, phase words) is unchanged. The *material* is new, and where the older sections below say "night navy", "signal yellow", "Overpass" or "hazard stripe", read them through this table:
+> **The airport metaphor has been removed.** There are no split-flap boards, gates, flight codes, boarding pass, itinerary, check-in desk or departure wording anywhere in the UI. The product now speaks plainly: courses, cohorts, lessons, curriculum, enrolment. Everything below this note that describes boards, flaps, gates, the boarding pass, the itinerary, the phase words (Check-in / Boarding / In flight / Landed) or the login blueprint is **historical** and no longer applies. Current replacements:
+>
+> | Removed | Now |
+> |---|---|
+> | Live split-flap departures board (hero) | `UpcomingCohorts` glass card: the 5 soonest cohorts, each with a pastel `ModuleMark`, role, start date and a status badge |
+> | Gate codes / flap tiles | `ModuleMark`: a pastel clay tile with the module's short code (tint is decorative, chosen by catalogue position) |
+> | BOARDING / FINAL CALL / ON TIME | Badges "Enrolling now" (`go`), "Few seats left" (`call`), "Open" (`quiet`); the API status codes stay internal |
+> | Boarding pass | Enrolment card: module, learner, duration, next cohort, availability, fee, Enrol now |
+> | Itinerary, stops | Curriculum, lessons (the progress line and done-ping stay) |
+> | Phases Check-in / Boarding / In flight / Landed | Started / Learning / Practising / Ready |
+> | Ghost board empty states | `EmptyState`: pastel icon tile, heading, next action |
+> | Login check-in diagram | Two columns: intro with three perk cards, and a glass auth card with a Log in / Register switch |
+> | Sticky full-width header | Floating rounded glass header bar (overlays the aurora band; pages get 4.75rem top padding) |
+> | Wrapping filter chips | Full-width segmented trays (equal columns for course filters; a single stretched row for blog categories) |
+>
+> The material changes from the first Dusk Clay pass still hold; where older sections say "night navy", "signal yellow", "Overpass" or "hazard stripe", read them through this table:
 >
 > | Was | Now |
 > |---|---|

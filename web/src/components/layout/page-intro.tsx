@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 
-/** Aurora sign band that continues from the header; the h1 is the sign, `aside` carries a page-specific readout. */
+/** Aurora band under the floating header: the page h1, a lead, and an optional `aside` summary card. */
 export function PageIntro({ title, lead, aside, children, className }: { title: ReactNode; lead?: ReactNode; aside?: ReactNode; children?: ReactNode; className?: string }) {
   return (
     <section className={cn('on-board aurora relative overflow-hidden text-letter', className)}>
