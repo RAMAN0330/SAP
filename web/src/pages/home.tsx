@@ -38,7 +38,7 @@ export default function HomePage() {
 function Hero({ posts, stats }: { posts?: BlogSummary[]; stats?: { modules: number; lessons: number; questions: number } }) {
   return (
     <section className="on-board aurora relative overflow-hidden text-letter">
-      <div className="container-page grid gap-12 pt-14 pb-10 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-12">
+      <div className="container-page grid grid-cols-1 gap-12 pt-14 pb-10 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-12">
         <div>
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
