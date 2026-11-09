@@ -61,29 +61,52 @@ jobs:
     concurrency:
       group: deploy-production
       cancel-in-progress: false
+    # Plain OpenSSH from the runner image: no helper binary to download mid-deploy
+    # (appleboy/ssh-action fetched one from GitHub releases and failed whenever that download 504'd).
     steps:
+      - name: Set up SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          for i in 1 2 3 4 5; do
+            ssh-keyscan -T 10 -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+            [ -s ~/.ssh/known_hosts ] && break
+            sleep 3
+          done
+          [ -s ~/.ssh/known_hosts ] || { echo "Could not reach the EC2 host on port 22" >&2; exit 1; }
+
       - name: Pull, rebuild and restart on the server
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          command_timeout: 20m
-          script: |
-            set -e
-            cd ${{ vars.APP_DIR || '~/golive' }}
-            git fetch origin main
-            git checkout main
-            git reset --hard origin/main
-            docker compose --profile full up -d --build --remove-orphans
-            docker image prune -f
-            for i in $(seq 1 30); do
-              if curl -fsS http://127.0.0.1:8088/api/stats >/dev/null; then
-                echo "Deploy healthy at $(git rev-parse --short HEAD)"
-                exit 0
-              fi
-              sleep 2
-            done
-            echo "Health check failed" >&2
-            docker compose logs --tail 80 api
-            exit 1
+        timeout-minutes: 20
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          APP_DIR: ${{ vars.APP_DIR || '~/golive' }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=30 \
+            "$EC2_USER@$EC2_HOST" "APP_DIR=$APP_DIR bash -s" <<'EOF'
+          set -e
+          cd "${APP_DIR/#\~/$HOME}"
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          docker compose --profile full up -d --build --remove-orphans
+          docker image prune -f
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8088/api/stats >/dev/null; then
+              echo "Deploy healthy at $(git rev-parse --short HEAD)"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Health check failed" >&2
+          docker compose logs --tail 80 api
+          exit 1
+          EOF
+
+      - name: Remove SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
