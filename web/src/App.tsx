@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion, MotionConfig } from 'motion/react'
 import { SiteHeader } from '@/components/layout/site-header'
@@ -6,9 +6,11 @@ import { SiteFooter } from '@/components/layout/site-footer'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import HomePage from '@/pages/home'
+import { EASE } from '@/lib/motion'
 
 const CoursesPage = lazy(() => import('@/pages/courses'))
 const CoursePage = lazy(() => import('@/pages/course'))
+const InterviewPrepPage = lazy(() => import('@/pages/interview-prep'))
 const BlogsPage = lazy(() => import('@/pages/blogs'))
 const BlogPostPage = lazy(() => import('@/pages/blog-post'))
 const AboutPage = lazy(() => import('@/pages/about'))
@@ -18,12 +20,6 @@ const JoinEarnPage = lazy(() => import('@/pages/join-earn'))
 const LoginPage = lazy(() => import('@/pages/login'))
 const NotFoundPage = lazy(() => import('@/pages/not-found'))
 
-function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior }) }, [pathname])
-  return null
-}
-
 export default function App() {
   const location = useLocation()
   return (
@@ -31,21 +27,22 @@ export default function App() {
       <TooltipProvider delayDuration={200}>
         <div className="flex min-h-dvh flex-col">
           <SiteHeader />
-          <ScrollToTop />
-          <AnimatePresence mode="wait" initial={false}>
+          {/* Scroll only once the old page has faded out, so the jump to the top is never visible. */}
+          <AnimatePresence mode="wait" initial={false} onExitComplete={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
             <motion.main
               id="main"
               key={location.pathname}
               className="flex-1 [&>:first-child]:pt-[4.75rem]"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] } }}
-              exit={{ opacity: 0, transition: { duration: 0.12 } }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } }}
+              exit={{ opacity: 0, transition: { duration: 0.16, ease: 'easeOut' } }}
             >
               <Suspense fallback={<div className="min-h-[60vh]" />}>
                 <Routes location={location}>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/courses" element={<CoursesPage />} />
                   <Route path="/courses/:slug" element={<CoursePage />} />
+                  <Route path="/interview-prep" element={<InterviewPrepPage />} />
                   <Route path="/blogs" element={<BlogsPage />} />
                   <Route path="/blogs/:slug" element={<BlogPostPage />} />
                   <Route path="/about" element={<AboutPage />} />

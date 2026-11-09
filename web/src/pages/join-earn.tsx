@@ -11,6 +11,7 @@ import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { formatINR, longDate } from '@/lib/format'
+import { EASE } from '@/lib/motion'
 
 const steps = [
   { icon: Share2, title: 'Share your code', text: 'Every member gets a personal code the moment they register.' },
@@ -35,7 +36,7 @@ export default function JoinEarnPage() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, delay: i * 0.12, ease: EASE }}
               className="relative"
             >
               <span className="sign-plate relative z-10 grid size-12 place-items-center rounded-2xl"><s.icon className="size-5" strokeWidth={2.2} aria-hidden /></span>

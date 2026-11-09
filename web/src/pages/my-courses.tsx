@@ -11,6 +11,7 @@ import { useQuery } from '@/hooks/use-query'
 import { api, type Enrolment } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { longDate } from '@/lib/format'
+import { EASE } from '@/lib/motion'
 
 export default function MyCoursesPage() {
   const { user, ready } = useAuth()
@@ -74,7 +75,7 @@ function EnrolledCourseCard({ enrolment: t, index }: { enrolment: Enrolment; ind
     <motion.li
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: EASE }}
       className="flex flex-col overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel"
     >
       <div className="flex items-center justify-between gap-3 px-5 pt-5">

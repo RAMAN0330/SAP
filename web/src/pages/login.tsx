@@ -11,8 +11,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/lib/auth'
 import { cn } from '@/lib/utils'
+import { EASE } from '@/lib/motion'
 
-const EASE = [0.16, 1, 0.3, 1] as const
 const safeRedirect = (r: string | null) => (r && r.startsWith('/') && !r.startsWith('//') ? r : '/my-courses')
 
 type Mode = 'login' | 'register'
@@ -113,8 +113,8 @@ function AuthCard({ mode, setMode, redirect, initialRef }: { mode: Mode; setMode
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={mode}
-            initial={{ opacity: 0, x: mode === 'register' ? 18 : -18, filter: 'blur(4px)' }}
-            animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, x: mode === 'register' ? 18 : -18 }}
+            animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
             transition={{ duration: 0.35, ease: EASE }}
             className="mt-6"

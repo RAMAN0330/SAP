@@ -16,8 +16,7 @@ import { api, type CourseDetail } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { cohortStart, formatINR } from '@/lib/format'
 import { cn } from '@/lib/utils'
-
-const EASE = [0.16, 1, 0.3, 1] as const
+import { EASE } from '@/lib/motion'
 
 export default function CoursePage() {
   const { slug = '' } = useParams()
@@ -107,8 +106,8 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
               <Badge className="bg-white/70 text-letter">{c.track}</Badge>
             </div>
             <motion.h1
-              initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: EASE }}
               className="mt-4 text-4xl leading-[1.04] font-extrabold sm:text-5xl lg:text-[3.6rem]"
             >

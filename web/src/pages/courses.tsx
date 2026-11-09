@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
+import { EASE } from '@/lib/motion'
 
 const LEVELS = ['All levels', 'Beginner', 'Intermediate', 'Advanced'] as const
 const TRACKS = ['All tracks', 'Functional', 'Technical', 'Cloud'] as const
@@ -116,7 +117,7 @@ export default function CoursesPage() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.985, transition: { duration: 0.15 } }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1], delay: Math.min(i, 6) * 0.03 }}
+                  transition={{ duration: 0.45, ease: EASE, delay: Math.min(i, 6) * 0.03 }}
                 >
                   <CourseRow course={c} index={i} />
                 </motion.li>

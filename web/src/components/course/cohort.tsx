@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import type { Course, Status } from '@/lib/api'
 import { cohortStart, shortDate, timeIST } from '@/lib/format'
 import { cn } from '@/lib/utils'
+import { EASE } from '@/lib/motion'
 
 /** Cohort availability in plain words. */
 export const STATUS: Record<Status, { label: string; variant: 'go' | 'call' | 'quiet' }> = {
@@ -30,7 +31,7 @@ export function ModuleMark({ module, index, size = 'md', className }: { module: 
     <span
       aria-hidden
       className={cn(
-        'grid shrink-0 place-items-center font-extrabold tracking-tight text-foreground/85 shadow-[inset_0_1.5px_0_oklch(100%_0_0/0.7),inset_0_-3px_6px_oklch(35%_0.1_290/0.08)]',
+        'grid shrink-0 place-items-center font-extrabold tracking-tight text-foreground/85 shadow-[inset_0_1.5px_0_oklch(100%_0_0/0.7),inset_0_-3px_6px_oklch(35%_0.1_250/0.08)]',
         tintFor(index),
         size === 'sm' && 'size-11 rounded-2xl text-[0.7rem]',
         size === 'md' && 'size-14 rounded-[1.1rem] text-sm',
@@ -73,7 +74,7 @@ export function UpcomingCohorts({ courses, rows = 5, className }: { courses: Cou
             key={c.slug}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: 0.15 + i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.45, delay: 0.15 + i * 0.06, ease: EASE }}
           >
             <Link
               to={`/courses/${c.slug}`}

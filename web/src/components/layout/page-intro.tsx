@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
+import { EASE } from '@/lib/motion'
 
 /** Aurora band under the floating header: the page h1, a lead, and an optional `aside` summary card. */
 export function PageIntro({ title, lead, aside, children, className }: { title: ReactNode; lead?: ReactNode; aside?: ReactNode; children?: ReactNode; className?: string }) {
@@ -9,9 +10,9 @@ export function PageIntro({ title, lead, aside, children, className }: { title: 
       <div className="container-page grid gap-8 pt-12 pb-12 sm:pt-16 sm:pb-14 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-2xl">
           <motion.h1
-            initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE }}
             className="text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-[3.5rem]"
           >
             {title}

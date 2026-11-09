@@ -1,4 +1,4 @@
--- GoLive Academy schema. Idempotent: safe to run on every boot.
+-- Config2Consult schema. Idempotent: safe to run on every boot.
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -104,3 +104,6 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 CREATE INDEX IF NOT EXISTS lessons_course_idx ON lessons(course_id);
 CREATE INDEX IF NOT EXISTS questions_course_idx ON interview_questions(course_id);
 CREATE INDEX IF NOT EXISTS users_referred_by_idx ON users(referred_by);
+
+-- Brand rename (GoLive Academy → Config2Consult): fix author names on posts seeded before the rename.
+UPDATE blog_posts SET author = 'Config2Consult Faculty' WHERE author = 'GoLive Faculty';

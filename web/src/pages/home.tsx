@@ -2,27 +2,29 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import {
-  ArrowRight, ArrowUpRight, BadgeCheck, BriefcaseBusiness, Check, ClipboardCheck, Compass, GraduationCap, LineChart, MessagesSquare, Quote,
+  ArrowRight, ArrowUpRight, Award, BadgeCheck, BriefcaseBusiness, Check, ClipboardCheck, Compass, FolderKanban, GraduationCap, LineChart, MessagesSquare, Quote,
+  Server, UserCheck,
 } from 'lucide-react'
-import { ModuleMark, tintFor, UpcomingCohorts } from '@/components/course/cohort'
+import { TopBlogs } from '@/components/blog/top-blogs'
+import { ModuleMark, tintFor } from '@/components/course/cohort'
 import { CourseRow } from '@/components/course/course-row'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
-import { api, type Course } from '@/lib/api'
+import { api, type BlogSummary, type Course } from '@/lib/api'
 import { formatNumber } from '@/lib/format'
 import { site } from '@/config/site'
 import { cn } from '@/lib/utils'
-
-const EASE = [0.16, 1, 0.3, 1] as const
+import { EASE } from '@/lib/motion'
 
 export default function HomePage() {
   const { data: courses = [] } = useQuery('courses', api.courses)
   const { data: stats } = useQuery('stats', api.stats)
+  const { data: posts } = useQuery('blogs', api.blogs)
 
   return (
     <>
-      <Hero courses={courses} stats={stats} />
+      <Hero posts={posts} stats={stats} />
       <Services />
       <PopularCourses courses={courses} />
       <ModuleFinder courses={courses} />
@@ -33,14 +35,14 @@ export default function HomePage() {
   )
 }
 
-function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number; lessons: number; questions: number } }) {
+function Hero({ posts, stats }: { posts?: BlogSummary[]; stats?: { modules: number; lessons: number; questions: number } }) {
   return (
     <section className="on-board aurora relative overflow-hidden text-letter">
-      <div className="container-page grid gap-12 pt-14 pb-14 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-20">
+      <div className="container-page grid gap-12 pt-14 pb-10 sm:pt-20 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:items-center lg:gap-14 lg:pt-24 lg:pb-12">
         <div>
           <motion.h1
-            initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE }}
             className="text-[2.6rem] leading-[1.02] font-extrabold tracking-[-0.035em] sm:text-6xl lg:text-[4.2rem]"
           >
@@ -65,7 +67,7 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
               <Link to="/courses">Explore courses <ArrowRight /></Link>
             </Button>
             <Button asChild size="lg" variant="board">
-              <Link to="/courses/sap-fico#questions">Practise interview questions</Link>
+              <Link to="/interview-prep">Practise interview questions</Link>
             </Button>
             <Link to="/contact" className="ml-1 inline-flex items-center gap-1 text-sm font-semibold text-letter underline decoration-letter/30 underline-offset-4 hover:decoration-signal">
               Get job assistance <ArrowUpRight className="size-4" aria-hidden />
@@ -92,14 +94,42 @@ function Hero({ courses, stats }: { courses: Course[]; stats?: { modules: number
           transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
           style={{ transformPerspective: 1400 }}
         >
-          <UpcomingCohorts courses={courses} />
-          <p className="mt-3 px-1 text-xs text-letter-dim">Cohort dates are sample schedules in IST. Tap any row to see the course.</p>
+          <TopBlogs posts={posts} />
+          <p className="mt-3 px-1 text-xs text-letter-dim">Hover to pause. Tap any title to read it.</p>
         </motion.div>
+      </div>
+      <div className="container-page pb-12 lg:pb-16">
+        <motion.ul
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35, ease: EASE }}
+          className="grid gap-1 rounded-[1.75rem] border border-white/70 bg-white/55 p-2 shadow-panel backdrop-blur-md sm:grid-cols-2 lg:grid-cols-4"
+          aria-label="Why train with us"
+        >
+          {highlights.map((h) => (
+            <li key={h.title} className="flex items-start gap-3.5 rounded-[1.25rem] p-4">
+              <span className="sign-plate grid size-10 shrink-0 place-items-center rounded-xl">
+                <h.icon className="size-[1.1rem]" strokeWidth={2.2} aria-hidden />
+              </span>
+              <span className="min-w-0">
+                <span className="block font-bold text-letter">{h.title}</span>
+                <span className="mt-0.5 block text-sm leading-snug text-letter-dim">{h.text}</span>
+              </span>
+            </li>
+          ))}
+        </motion.ul>
       </div>
       <div aria-hidden className="band-lip" />
     </section>
   )
 }
+
+const highlights = [
+  { icon: Server, title: 'Live system practice', text: 'Work in an S/4HANA system, not slides' },
+  { icon: FolderKanban, title: 'Real project scenarios', text: 'Implementation and support cases' },
+  { icon: UserCheck, title: 'Interview-ready', text: 'Mock interviews and résumé review' },
+  { icon: Award, title: `${site.trainerYears}+ years experience`, text: 'Trainers who work on SAP projects' },
+]
 
 const services = [
   { icon: MessagesSquare, title: 'Interview preparation', text: 'Module question banks with model answers, organised the way panels actually ask.', to: '/courses' },
@@ -150,7 +180,7 @@ function Services() {
 function PopularCourses({ courses }: { courses: Course[] }) {
   const featured = [...courses].sort((a, b) => b.demand - a.demand || a.catalogOrder - b.catalogOrder).slice(0, 4)
   return (
-    <section className="border-y bg-[oklch(95%_0.024_292)]">
+    <section className="border-y bg-band">
       <div className="container-page py-20 sm:py-24">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -219,8 +249,8 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
               <motion.li
                 key={`${bg}-${m}`}
                 layout
-                initial={{ opacity: 0, y: 12, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.12 } }}
                 transition={{ duration: 0.45, delay: i * 0.05, ease: EASE }}
               >
@@ -268,7 +298,7 @@ function Approach() {
   const ref = useRef<HTMLOListElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.4 })
   return (
-    <section className="border-y bg-[oklch(95%_0.024_292)]">
+    <section className="border-y bg-band">
       <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-20">
         <div>
           <h2 className="text-3xl leading-tight font-extrabold sm:text-[2.6rem]">Built from the interview room backwards.</h2>
@@ -283,9 +313,9 @@ function Approach() {
           {checklist.map((item, i) => (
             <li key={item.title} className="flex gap-4 rounded-lg p-4 sm:p-5">
               <motion.span
-                initial={{ scale: 0.6, opacity: 0 }}
+                initial={{ scale: 0.85, opacity: 0 }}
                 animate={inView ? { scale: 1, opacity: 1 } : undefined}
-                transition={{ type: 'spring', stiffness: 500, damping: 26, delay: 0.15 + i * 0.18 }}
+                transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i * 0.1 }}
                 className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl bg-mint text-go shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]"
               >
                 <BadgeCheck className="size-4.5" strokeWidth={2.4} aria-hidden />
@@ -334,7 +364,7 @@ function Stories() {
                 <div className="font-bold">{s.name}</div>
                 <div className="text-sm text-muted-foreground">{s.role}</div>
               </div>
-              <span className="font-mono text-[0.68rem] tracking-[0.14em] text-go uppercase">Placed</span>
+              <span className="font-mono text-[0.62rem] tracking-[0.16em] text-go uppercase">Placed</span>
             </div>
           </motion.li>
         ))}

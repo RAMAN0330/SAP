@@ -12,6 +12,7 @@ import { nav } from '@/config/site'
 import { useAuth } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
+import { EASE } from '@/lib/motion'
 
 const isActive = (path: string, to: string) => (to === '/' ? path === '/' : path === to || path.startsWith(`${to}/`))
 
@@ -29,14 +30,14 @@ export function SiteHeader() {
 
   return (
     // Floating glass bar: overlays the page top (zero layout height) so the aurora band runs underneath it.
-    <header className="pointer-events-none sticky top-0 z-50 -mb-[4.75rem] h-[4.75rem] px-3 pt-3 sm:px-4">
+    <header className="pointer-events-none sticky top-0 z-50 -mb-[4.75rem] h-[4.75rem] px-3 pt-3 sm:px-4 2xl:px-10">
       <a href="#main" className="pointer-events-auto sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-signal focus:px-3 focus:py-2 focus:text-signal-ink">
         Skip to content
       </a>
-      <div className="on-board glass pointer-events-auto mx-auto flex h-16 max-w-[78rem] items-center justify-between gap-6 rounded-full border pr-2.5 pl-4 text-letter shadow-lift sm:pl-6 lg:pr-3">
+      <div className="on-board glass pointer-events-auto flex h-16 items-center justify-between gap-6 rounded-full border pr-2.5 pl-4 text-letter shadow-lift sm:pl-6 xl:pr-3">
         <Logo />
 
-        <nav aria-label="Primary" className="hidden lg:block">
+        <nav aria-label="Primary" className="hidden xl:block">
           <ul className="flex items-center gap-1">
             {nav.map((item) => {
               const active = isActive(pathname, item.to)
@@ -45,7 +46,7 @@ export function SiteHeader() {
                   <NavLink
                     to={item.to}
                     className={cn(
-                      'relative z-10 block rounded-full px-3.5 py-2 text-[0.9rem] font-semibold transition-colors duration-200',
+                      'relative z-10 block rounded-full px-3 py-2 text-[0.9rem] font-semibold transition-colors duration-200',
                       active ? 'text-letter' : 'text-letter-dim hover:text-letter',
                     )}
                   >
@@ -96,7 +97,7 @@ export function SiteHeader() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="board" size="icon-sm" className="lg:hidden" aria-label="Open menu">
+              <Button variant="board" size="icon-sm" className="xl:hidden" aria-label="Open menu">
                 <Menu />
               </Button>
             </SheetTrigger>
@@ -107,7 +108,7 @@ export function SiteHeader() {
               <nav aria-label="Mobile" className="px-4">
                 <ul className="divide-y divide-letter/10">
                   {nav.map((item, i) => (
-                    <motion.li key={item.to} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i, duration: 0.35, ease: [0.16, 1, 0.3, 1] }}>
+                    <motion.li key={item.to} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i, duration: 0.35, ease: EASE }}>
                       <NavLink
                         to={item.to}
                         onClick={() => setOpen(false)}

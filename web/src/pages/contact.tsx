@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/lib/api'
 import { site } from '@/config/site'
+import { EASE } from '@/lib/motion'
 
 const info = [
   { icon: Mail, title: 'Email', value: site.contact.email, href: `mailto:${site.contact.email}` },
@@ -67,7 +68,7 @@ export default function ContactPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.4, ease: EASE }}
                 className="flex min-h-[26rem] flex-col items-center justify-center text-center"
               >
                 <span className="grid size-16 place-items-center rounded-[1.4rem] bg-mint text-go shadow-[inset_0_1.5px_0_oklch(100%_0_0/0.7)]"><MailCheck className="size-7" aria-hidden /></span>

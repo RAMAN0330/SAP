@@ -11,6 +11,7 @@ import { useQuery } from '@/hooks/use-query'
 import { api, type BlogSummary } from '@/lib/api'
 import { longDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
+import { EASE } from '@/lib/motion'
 
 /* Same full-width segmented tray as the course filters. */
 const tray = 'flex w-full flex-wrap gap-1 lg:flex-nowrap rounded-[1.4rem] border border-white/70 bg-board p-1.5 shadow-press'
@@ -80,13 +81,13 @@ function PostCard({ post: p, featured, className }: { post: BlogSummary; feature
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98, transition: { duration: 0.12 } }}
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.45, ease: EASE }}
       className={className}
     >
       <Link
         to={`/blogs/${p.slug}`}
         className={cn(
-          'group flex h-full flex-col rounded-[1.75rem] border p-6 shadow-panel transition-[transform,border-color] duration-500 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 sm:p-7',
+          'group flex h-full flex-col rounded-[1.75rem] border p-6 shadow-panel transition-[transform,border-color] duration-500 ease-[var(--ease-smooth)] hover:-translate-y-0.5 sm:p-7',
           featured ? 'on-board aurora border-white/70 text-letter' : 'border-white bg-card hover:shadow-lift',
         )}
       >

@@ -1,32 +1,33 @@
 ---
-name: GoLive Academy
+name: Config2Consult
 description: Interview-first SAP training, presented as an airport departures board.
 colors:
-  signal: "oklch(50% 0.2 288)"
-  signal-ink: "oklch(99.5% 0.004 295)"
+  signal: "oklch(52% 0.16 250)"
+  signal-ink: "oklch(99.7% 0.003 230)"
   go: "oklch(47% 0.12 158)"
   call: "oklch(50% 0.13 55)"
-  board: "oklch(92.5% 0.04 292)"
-  board-2: "oklch(88.5% 0.055 292)"
-  tile: "oklch(99% 0.006 292)"
-  tile-edge: "oklch(82% 0.05 292)"
-  letter: "oklch(24% 0.06 285)"
-  letter-dim: "oklch(45% 0.05 287)"
-  concourse: "oklch(97.2% 0.014 295)"
-  ink: "oklch(24% 0.06 285)"
-  card: "oklch(99.5% 0.004 295)"
-  secondary: "oklch(94% 0.025 292)"
-  muted: "oklch(94.5% 0.02 292)"
-  muted-ink: "oklch(47% 0.04 285)"
-  border: "oklch(90% 0.025 292)"
-  input-border: "oklch(86% 0.03 292)"
-  ring: "oklch(50% 0.2 288)"
+  board: "oklch(94.5% 0.028 230)"
+  board-2: "oklch(90.5% 0.04 230)"
+  tile: "oklch(99.3% 0.005 230)"
+  tile-edge: "oklch(84% 0.04 230)"
+  letter: "oklch(24% 0.05 250)"
+  letter-dim: "oklch(45% 0.045 250)"
+  concourse: "oklch(98.2% 0.008 230)"
+  band: "oklch(96.5% 0.016 230)"
+  ink: "oklch(24% 0.05 250)"
+  card: "oklch(99.7% 0.003 230)"
+  secondary: "oklch(95.5% 0.018 235)"
+  muted: "oklch(96% 0.014 235)"
+  muted-ink: "oklch(47% 0.035 250)"
+  border: "oklch(91.5% 0.018 235)"
+  input-border: "oklch(87% 0.025 235)"
+  ring: "oklch(52% 0.16 250)"
   destructive: "oklch(55% 0.2 25)"
-  peach: "oklch(90% 0.06 50)"
-  mint: "oklch(92% 0.06 165)"
-  sky: "oklch(91% 0.05 235)"
-  butter: "oklch(94% 0.07 95)"
-  lilac: "oklch(88% 0.07 300)"
+  peach: "oklch(92% 0.05 50)"
+  mint: "oklch(93% 0.055 170)"
+  sky: "oklch(92.5% 0.045 230)"
+  butter: "oklch(95% 0.06 95)"
+  lilac: "oklch(91% 0.05 290)"
 typography:
   display:
     fontFamily: "Figtree Variable, ui-sans-serif, system-ui, sans-serif"
@@ -145,7 +146,22 @@ components:
     height: "32px"
 ---
 
-# Design System: GoLive Academy
+# Design System: Config2Consult
+
+> **Current palette: Harbor Mist (2026-11-09).** Same restrained Claymorphism + Glassmorphism accents as Dusk Clay below; only the colours, name and logo changed. Read every "lilac", "grape" or "ink hue 290" further down as the Harbor Mist equivalent:
+>
+> | Dusk Clay | Harbor Mist |
+> |---|---|
+> | Lilac-mist canvas `oklch(97.2% 0.014 295)` | Cool mist canvas `oklch(98.2% 0.008 230)` (ink 15.6:1) |
+> | Lilac tray `board` `oklch(92.5% 0.04 292)` | Pale sky tray `oklch(94.5% 0.028 230)` (dim text 6.4:1) |
+> | Hard-coded section band `oklch(95% 0.024 292)` | `band` token `oklch(96.5% 0.016 230)`, used as `bg-band` |
+> | Grape action `oklch(50% 0.2 288)` | Ocean blue `signal` `oklch(52% 0.16 250)` (white on it 5.4:1) |
+> | Shadows tinted with ink hue 290 | Shadows tinted with ink hue 250 |
+> | Logo: grape tile with a rising arrow, wordmark "GoLive Academy" | Logo: ocean gradient tile with a white "C2C" monogram: the first C carries gear teeth (config), the second a speech-bubble tail (consult), and the gold 2 between them reads "to". Never uses SAP's own logo shape or wordmark; icon set in `web/public` (favicon.svg, favicon-32, apple-touch-icon, icon-192/512, maskable-512, site.webmanifest); wordmark "Config**2**Consult" with the 2 in `signal` |
+>
+> Status inks `go` / `call` and `destructive` are unchanged and still pass AA on white and on the tray.
+>
+> **Motion (2026-11-09):** one curve everywhere, a soft ease-out `cubic-bezier(0.22, 1, 0.36, 1)` (`EASE` in `web/src/lib/motion.ts`, `--ease-smooth` and Tailwind's default transition timing in CSS, default 250ms). Entrances animate opacity and transform only, never `filter: blur`. No bouncy springs; springs only where critically damped (nav indicator, progress line). Route changes fade out in 160ms, scroll to top after the exit completes, then fade up 8px over 400ms. Loaded content fades in over its skeleton. `prefers-reduced-motion` collapses all animations and transitions.
 
 > **Current style: Dusk Clay (restrained Claymorphism + Glassmorphism accents).** Chosen with the `ui-style-selection` skill (`.claude/skills/ui-style-selection`): it is an education/career product, so rule 3 applies, kept restrained for adult professional learners.
 > **The airport metaphor has been removed.** There are no split-flap boards, gates, flight codes, boarding pass, itinerary, check-in desk or departure wording anywhere in the UI. The product now speaks plainly: courses, cohorts, lessons, curriculum, enrolment. Everything below this note that describes boards, flaps, gates, the boarding pass, the itinerary, the phase words (Check-in / Boarding / In flight / Landed) or the login blueprint is **historical** and no longer applies. Current replacements:

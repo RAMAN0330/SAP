@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "oklch(91% 0.055 235 / 0.9)",
+        "createdAt": "2026-11-09T01:47:34.527Z",
+        "reason": "Claude: aurora hero glow (sky pastel at alpha), decorative per Harbor Mist palette"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "oklch(94% 0.05 170 / 0.75)",
+        "createdAt": "2026-11-09T01:47:34.591Z",
+        "reason": "Claude: aurora hero glow (mint pastel at alpha), decorative per Harbor Mist palette"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "2rem",
+        "createdAt": "2026-11-09T01:47:34.647Z",
+        "reason": "Claude: band-lip curved section edge, pre-existing signature shape"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "oklch(30% 0.12 250 / 0.25)",
+        "createdAt": "2026-11-09T01:47:34.701Z",
+        "reason": "Claude: band-lip drop shadow tinted with Harbor Mist ink hue 250, per clay shadow rule"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "oklch(62% 0.14 158 / 0.5)",
+        "createdAt": "2026-11-09T01:47:34.763Z",
+        "reason": "Claude: done-ping completion glow derived from go status hue, pre-existing"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "0.95rem",
+        "createdAt": "2026-11-09T02:01:37.926Z",
+        "reason": "Claude: established secondary-body step used in button lg, course-row, course page and home checklist; predates this session"
+      }
+    ]
+  }
+}

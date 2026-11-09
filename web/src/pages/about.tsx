@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
 import { formatNumber } from '@/lib/format'
+import { EASE } from '@/lib/motion'
 
 const principles = [
   { title: 'Practice over theory', text: 'Every lesson maps to something a panel or a live project will actually ask of you. If it never comes up, it doesn’t make the cut.' },
@@ -25,7 +26,7 @@ export default function AboutPage() {
   return (
     <>
       <PageIntro
-        title="About GoLive Academy"
+        title="About Config2Consult"
         lead="We help SAP aspirants go from “I know the module” to “I got the offer” — with interview-first training, honest feedback and practical job support."
       />
 
@@ -37,7 +38,7 @@ export default function AboutPage() {
               Plenty of SAP training teaches you where the settings live. Far less of it prepares you for the moment a panel asks you to walk through a month-end close, defend a design choice or untangle an integration failure on the spot.
             </p>
             <p>
-              GoLive Academy is built around that moment. Each module pairs hands-on configuration with the scenario questions interviewers actually use, then puts you in front of a mock panel before the real one. Whether you are a fresher, switching from finance, supply chain or HR, or a consultant moving to S/4HANA or the cloud, we plan the route from where you stand today.
+              Config2Consult is built around that moment. Each module pairs hands-on configuration with the scenario questions interviewers actually use, then puts you in front of a mock panel before the real one. Whether you are a fresher, switching from finance, supply chain or HR, or a consultant moving to S/4HANA or the cloud, we plan the route from where you stand today.
             </p>
           </div>
           <Button asChild className="mt-8"><Link to="/courses">Explore the courses <ArrowRight /></Link></Button>
@@ -55,7 +56,7 @@ export default function AboutPage() {
                 key={k}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.45, delay: i * 0.08, ease: EASE }}
                 className="rounded-[1.4rem] border border-white/80 bg-white/65 p-4 shadow-panel"
               >
                 <dt className="text-sm text-letter-dim">{k}</dt>
@@ -67,7 +68,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y bg-[oklch(95%_0.024_292)]">
+      <section className="border-y bg-band">
         <div className="container-page py-16 sm:py-24">
           <h2 className="text-3xl font-extrabold sm:text-4xl">How every learner progresses</h2>
           <ol className="relative mt-12 grid gap-8 md:grid-cols-4 md:gap-6">
@@ -78,7 +79,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.5 }}
-                transition={{ duration: 0.5, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.5, delay: i * 0.12, ease: EASE }}
                 className="relative"
               >
                 <span className="relative z-10 grid size-[33px] place-items-center rounded-full border-[3px] border-white bg-signal text-xs font-bold text-signal-ink shadow-panel">{i + 1}</span>

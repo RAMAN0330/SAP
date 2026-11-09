@@ -39,7 +39,7 @@ Visitors browse courses by module and level, read career articles, register, enr
 
 ## Brand Commitments
 
-- Name: **GoLive Academy** (delegated by user: "any other best for SAP"). "Go-live" is the SAP project milestone; it doubles as the learner's career go-live.
+- Name: **Config2Consult** (renamed by the user on 2026-11-09; previously GoLive Academy). It names the learner's route: from configuring SAP to consulting on it.
 - Must not imitate the reference site's brand, copy or imagery; all content is original.
 
 ## Evidence on Hand

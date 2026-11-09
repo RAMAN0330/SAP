@@ -4,7 +4,7 @@ Every palette below has been checked for WCAG AA on its stated pairings. Shift t
 
 ## Dusk Clay (Claymorphism, restrained; education, career and onboarding)
 
-Used by GoLive Academy. Lilac mist ground, pastel trays, one grape action colour.
+Used by Config2Consult until 2026-11-09. Lilac mist ground, pastel trays, one grape action colour.
 
 | Token | Value | Role |
 |---|---|---|
@@ -29,6 +29,26 @@ Shadows (ink hue 290):
 --shadow-clay-lift: inset 0 1.5px 0 oklch(100% 0 0 / .8), inset 0 -4px 10px oklch(35% .1 290 / .06), 0 2px 4px oklch(30% .1 290 / .06), 0 24px 44px -16px oklch(30% .12 290 / .3);
 --shadow-clay-press: inset 0 3px 8px oklch(30% .1 290 / .14);
 ```
+
+## Harbor Mist (Claymorphism, restrained, light shades; professional training)
+
+Used by Config2Consult. Cool mist ground, pale sky trays, one ocean-blue action colour. Dusk Clay shifted to hue 230–250 and lifted lighter.
+
+| Token | Value | Role |
+|---|---|---|
+| `--background` | `oklch(98.2% 0.008 230)` | canvas |
+| `--card` | `oklch(99.7% 0.003 230)` | clay card |
+| `--band` | `oklch(96.5% 0.016 230)` | alternate section ground |
+| `--foreground` | `oklch(24% 0.05 250)` | ink (15.6:1 on canvas) |
+| `--muted-foreground` | `oklch(47% 0.035 250)` | secondary text (6.5:1) |
+| `--board` | `oklch(94.5% 0.028 230)` | sky clay tray |
+| `--board-2` | `oklch(90.5% 0.04 230)` | raised tray |
+| `--letter-dim` | `oklch(45% 0.045 250)` | dim text on tray (6.4:1) |
+| `--signal` / `--primary` | `oklch(52% 0.16 250)` | ocean action (white on it 5.4:1) |
+| `--go` / `--call` / `--destructive` | as Dusk Clay | status inks (go 5.4:1, call 5.4:1 on tray) |
+| pastels | peach `oklch(92% 0.05 50)` · mint `oklch(93% 0.055 170)` · sky `oklch(92.5% 0.045 230)` · butter `oklch(95% 0.06 95)` · lilac `oklch(91% 0.05 290)` | decoration only |
+
+Shadows: the Dusk Clay set with ink hue 250.
 
 ## Mint Clay (Claymorphism; kids, wellness, habit)
 

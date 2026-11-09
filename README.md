@@ -1,4 +1,4 @@
-# GoLive Academy
+# Config2Consult
 
 Interview-first SAP training platform: module courses, interview question banks, mock panels, progress tracking, referrals and contact — designed as an airport **departures board** (split-flap boards, gates, boarding passes, itineraries).
 

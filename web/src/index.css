@@ -8,50 +8,51 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
-  Dusk Clay — restrained claymorphism with glass accents (see .claude/skills/ui-style-selection).
-  Board  = lilac clay tray (sign bands use the pastel `aurora`); text on it is ink.
-  Background = lilac-mist reading ground; cards are soft white clay.
-  Signal (grape) = every action. Green = enrolling / done, amber = few seats left. Pastels are decoration only.
+  Harbor Mist — restrained claymorphism with glass accents, in light shades (see .claude/skills/ui-style-selection).
+  Board  = pale sky clay tray (sign bands use the pastel `aurora`); text on it is ink.
+  Background = cool mist reading ground; cards are soft white clay; `band` = alternate section ground.
+  Signal (ocean blue) = every action. Green = enrolling / done, amber = few seats left. Pastels are decoration only.
 */
 :root {
   --radius: 0.875rem;
 
-  --background: oklch(97.2% 0.014 295);
-  --foreground: oklch(24% 0.06 285);
-  --card: oklch(99.5% 0.004 295);
+  --background: oklch(98.2% 0.008 230);
+  --foreground: oklch(24% 0.05 250);
+  --card: oklch(99.7% 0.003 230);
   --card-foreground: var(--foreground);
-  --popover: oklch(99.5% 0.004 295);
+  --popover: oklch(99.7% 0.003 230);
   --popover-foreground: var(--foreground);
-  --primary: oklch(50% 0.2 288);
-  --primary-foreground: oklch(99.5% 0.004 295);
-  --secondary: oklch(94% 0.025 292);
-  --secondary-foreground: oklch(28% 0.07 287);
-  --muted: oklch(94.5% 0.02 292);
-  --muted-foreground: oklch(47% 0.04 285);
-  --accent: oklch(93% 0.035 292);
-  --accent-foreground: oklch(26% 0.07 287);
+  --primary: oklch(52% 0.16 250);
+  --primary-foreground: oklch(99.7% 0.003 230);
+  --secondary: oklch(95.5% 0.018 235);
+  --secondary-foreground: oklch(28% 0.06 250);
+  --muted: oklch(96% 0.014 235);
+  --muted-foreground: oklch(47% 0.035 250);
+  --accent: oklch(94.5% 0.025 235);
+  --accent-foreground: oklch(26% 0.06 250);
   --destructive: oklch(55% 0.2 25);
-  --border: oklch(90% 0.025 292);
-  --input: oklch(86% 0.03 292);
-  --ring: oklch(50% 0.2 288);
+  --border: oklch(91.5% 0.018 235);
+  --input: oklch(87% 0.025 235);
+  --ring: oklch(52% 0.16 250);
 
-  --board: oklch(92.5% 0.04 292);
-  --board-2: oklch(88.5% 0.055 292);
-  --tile: oklch(99% 0.006 292);
-  --tile-edge: oklch(82% 0.05 292);
-  --letter: oklch(24% 0.06 285);
-  --letter-dim: oklch(45% 0.05 287);
-  --signal: oklch(50% 0.2 288);
-  --signal-ink: oklch(99.5% 0.004 295);
+  --band: oklch(96.5% 0.016 230);
+  --board: oklch(94.5% 0.028 230);
+  --board-2: oklch(90.5% 0.04 230);
+  --tile: oklch(99.3% 0.005 230);
+  --tile-edge: oklch(84% 0.04 230);
+  --letter: oklch(24% 0.05 250);
+  --letter-dim: oklch(45% 0.045 250);
+  --signal: oklch(52% 0.16 250);
+  --signal-ink: oklch(99.7% 0.003 230);
   --go: oklch(47% 0.12 158);
   --call: oklch(50% 0.13 55);
 
   /* decorative pastels: hero blobs, tray tints, avatars — never status, never text */
-  --peach: oklch(90% 0.06 50);
-  --mint: oklch(92% 0.06 165);
-  --sky: oklch(91% 0.05 235);
-  --butter: oklch(94% 0.07 95);
-  --lilac: oklch(88% 0.07 300);
+  --peach: oklch(92% 0.05 50);
+  --mint: oklch(93% 0.055 170);
+  --sky: oklch(92.5% 0.045 230);
+  --butter: oklch(95% 0.06 95);
+  --lilac: oklch(91% 0.05 290);
 
   --chart-1: var(--signal);
   --chart-2: var(--go);
@@ -64,7 +65,7 @@
   --sidebar-primary-foreground: var(--signal-ink);
   --sidebar-accent: var(--board-2);
   --sidebar-accent-foreground: var(--letter);
-  --sidebar-border: oklch(24% 0.06 285 / 0.1);
+  --sidebar-border: oklch(24% 0.05 250 / 0.1);
   --sidebar-ring: var(--signal);
 }
 
@@ -105,6 +106,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  --color-band: var(--band);
   --color-board: var(--board);
   --color-board-2: var(--board-2);
   --color-tile: var(--tile);
@@ -130,17 +132,20 @@
   --radius-4xl: calc(var(--radius) * 3.4);
 
   /* clay elevation: inner top highlight + inner bottom shade + soft ink-tinted drop */
-  --shadow-panel: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 290 / 0.06), 0 1px 2px oklch(30% 0.1 290 / 0.06), 0 12px 28px -12px oklch(30% 0.12 290 / 0.22);
-  --shadow-lift: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 290 / 0.06), 0 2px 4px oklch(30% 0.1 290 / 0.06), 0 24px 44px -16px oklch(30% 0.12 290 / 0.3);
-  --shadow-board: inset 0 2px 0 oklch(100% 0 0 / 0.65), inset 0 -8px 18px oklch(35% 0.1 290 / 0.08), 0 2px 4px oklch(30% 0.1 290 / 0.06), 0 26px 50px -20px oklch(30% 0.12 290 / 0.32);
-  --shadow-press: inset 0 3px 8px oklch(30% 0.1 290 / 0.14);
+  --shadow-panel: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 250 / 0.06), 0 1px 2px oklch(30% 0.1 250 / 0.06), 0 12px 28px -12px oklch(30% 0.12 250 / 0.22);
+  --shadow-lift: inset 0 1.5px 0 oklch(100% 0 0 / 0.8), inset 0 -4px 10px oklch(35% 0.1 250 / 0.06), 0 2px 4px oklch(30% 0.1 250 / 0.06), 0 24px 44px -16px oklch(30% 0.12 250 / 0.3);
+  --shadow-board: inset 0 2px 0 oklch(100% 0 0 / 0.65), inset 0 -8px 18px oklch(35% 0.1 250 / 0.08), 0 2px 4px oklch(30% 0.1 250 / 0.06), 0 26px 50px -20px oklch(30% 0.12 250 / 0.32);
+  --shadow-press: inset 0 3px 8px oklch(30% 0.1 250 / 0.14);
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  /* one motion curve everywhere (matches EASE in src/lib/motion.ts): soft ease-out, no overshoot */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --default-transition-duration: 250ms;
+  --default-transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
-  html { @apply font-sans; scroll-behavior: smooth; scrollbar-color: oklch(75% 0.05 292) transparent; }
+  html { @apply font-sans; scroll-behavior: smooth; scrollbar-color: oklch(78% 0.04 235) transparent; }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "tnum" 0;
@@ -159,10 +164,10 @@
 @utility container-page {
   margin-inline: auto;
   width: 100%;
-  max-width: 78rem;
   padding-inline: 1rem;
   @media (width >= 640px) { padding-inline: 1.5rem; }
   @media (width >= 1024px) { padding-inline: 2.5rem; }
+  @media (width >= 1536px) { padding-inline: 4rem; }
 }
 
 /* Clay tray: lilac, lit from the top, faint inner shade at the bottom. */
@@ -176,16 +181,16 @@
 @utility aurora {
   background-color: var(--board);
   background-image:
-    radial-gradient(38rem 26rem at 6% -8%, oklch(90% 0.07 50 / 0.85), transparent 68%),
-    radial-gradient(34rem 28rem at 96% 4%, oklch(90% 0.06 235 / 0.9), transparent 70%),
-    radial-gradient(42rem 24rem at 62% 112%, oklch(92% 0.07 165 / 0.75), transparent 70%),
-    radial-gradient(26rem 20rem at 40% 30%, oklch(95% 0.03 300 / 0.8), transparent 70%);
+    radial-gradient(38rem 26rem at 6% -8%, oklch(93% 0.05 50 / 0.8), transparent 68%),
+    radial-gradient(34rem 28rem at 96% 4%, oklch(91% 0.055 235 / 0.9), transparent 70%),
+    radial-gradient(42rem 24rem at 62% 112%, oklch(94% 0.05 170 / 0.75), transparent 70%),
+    radial-gradient(26rem 20rem at 40% 30%, oklch(97% 0.015 230 / 0.85), transparent 70%);
   color: var(--letter);
 }
 
 /* Frosted glass (accent only: header, sheets, menus, floating readouts) with an opaque fallback. */
 @utility glass {
-  background-color: oklch(99% 0.006 295 / 0.72);
+  background-color: oklch(99.5% 0.004 230 / 0.74);
   border-color: oklch(100% 0 0 / 0.65);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
   backdrop-filter: blur(18px) saturate(1.4);
@@ -200,8 +205,8 @@
   color: var(--signal-ink);
   box-shadow:
     inset 0 1.5px 0 oklch(100% 0 0 / 0.28),
-    inset 0 -3px 6px oklch(20% 0.15 288 / 0.35),
-    0 8px 18px -8px oklch(45% 0.2 288 / 0.6);
+    inset 0 -3px 6px oklch(22% 0.12 250 / 0.35),
+    0 8px 18px -8px oklch(48% 0.16 250 / 0.55);
 }
 
 /* Scooped hand-off from a sign band to the concourse: the reading ground rises over the band in a soft clay curve. */
@@ -210,7 +215,7 @@
   height: 2rem;
   border-radius: 2rem 2rem 0 0;
   background: var(--background);
-  box-shadow: 0 -10px 24px -14px oklch(30% 0.12 290 / 0.25);
+  box-shadow: 0 -10px 24px -14px oklch(30% 0.12 250 / 0.25);
 }
 
 /* Ping on a just-completed lesson. */
@@ -218,9 +223,19 @@
   0% { box-shadow: 0 0 0 0 oklch(62% 0.14 158 / 0.5); }
   100% { box-shadow: 0 0 0 12px oklch(62% 0.14 158 / 0); }
 }
-.done-ping { animation: done-ping 700ms var(--ease-out-expo); }
+.done-ping { animation: done-ping 700ms var(--ease-smooth); }
+
+/* Hero top-blogs loop: the list is rendered twice and slides up by exactly one copy. */
+@keyframes ticker-up { to { transform: translateY(-50%); } }
+.ticker { animation: ticker-up var(--ticker-duration, 40s) linear infinite; will-change: transform; }
+.ticker-frame:hover .ticker,
+.ticker-frame:focus-within .ticker { animation-play-state: paused; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .done-ping { animation: none !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .ticker { animation: none !important; }
+  .ticker-frame { overflow-y: auto; }
+  [data-ticker-copy] { display: none; }
 }
