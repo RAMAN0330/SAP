@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { motion, useInView } from 'motion/react'
 import { toast } from 'sonner'
 import {
-  ArrowLeft, ArrowRight, BookOpen, Check, Clock, FileQuestion, GraduationCap, Loader2, Lock, Mic, SearchX, UserRound, Wrench,
+  ArrowLeft, ArrowRight, BookOpen, BriefcaseBusiness, Check, Clock, FileQuestion, GraduationCap, ListChecks, Loader2, Lock, Mic, SearchX, UserRound, Users, Wrench,
 } from 'lucide-react'
 import { ModuleMark, StatusBadge } from '@/components/course/cohort'
 import { DemandRamp, PhaseTrack } from '@/components/course/meta'
@@ -15,6 +15,7 @@ import { invalidate, useQuery } from '@/hooks/use-query'
 import { api, type CourseDetail } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { cohortStart, formatINR } from '@/lib/format'
+import { courseFaq, moduleGuide, trackGuide } from '@/content/course-guide'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/motion'
 
@@ -43,6 +44,8 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
   userReady: boolean
 }) {
   const { course: c, lessons, questions, enrollment } = detail
+  const guide = moduleGuide[c.module]
+  const track = trackGuide[c.track]
   const { user } = useAuth()
   const navigate = useNavigate()
   const [params, setParams] = useSearchParams()
@@ -135,6 +138,28 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
             <p className="mt-4 max-w-[68ch] text-[1.05rem] leading-relaxed text-muted-foreground">{c.overview}</p>
           </section>
 
+          <section aria-labelledby="fit" className="grid gap-4 md:grid-cols-2">
+            <h2 id="fit" className="sr-only">Who this course is for and what you need</h2>
+            <div className="rounded-[1.5rem] border border-white bg-card p-6 shadow-panel">
+              <h3 className="flex items-center gap-2 text-lg font-bold"><Users className="size-4 text-signal" aria-hidden />Who it’s for</h3>
+              {guide && <p className="mt-3 text-[0.95rem] leading-relaxed text-muted-foreground">{guide.fit}</p>}
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-muted-foreground">
+                Level: <span className="font-semibold text-foreground">{c.level}</span>.{' '}
+                {c.level === 'Beginner' ? 'No prior SAP experience assumed.' : c.level === 'Intermediate' ? 'Starts from the basics but moves quickly; domain experience helps.' : 'Best after some SAP or platform exposure; the pace assumes it.'}
+              </p>
+            </div>
+            <div className="rounded-[1.5rem] border border-white bg-card p-6 shadow-panel">
+              <h3 className="flex items-center gap-2 text-lg font-bold"><ListChecks className="size-4 text-signal" aria-hidden />Before you start</h3>
+              <ul className="mt-3 space-y-2">
+                {track.prerequisites.map((p) => (
+                  <li key={p} className="flex items-start gap-2.5 text-[0.95rem] text-muted-foreground">
+                    <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-signal" />{p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
           <section aria-labelledby="learn">
             <h2 id="learn" className="text-2xl font-extrabold sm:text-3xl">What you will be able to do</h2>
             <ul className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -147,7 +172,32 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
             </ul>
           </section>
 
+          {guide && (
+            <section aria-labelledby="tools">
+              <h2 id="tools" className="text-2xl font-extrabold sm:text-3xl">Tools and transactions you’ll use</h2>
+              <p className="mt-2 text-muted-foreground">You practise each of these hands-on in the system, and panels expect you to name them.</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {guide.tools.map((t) => (
+                  <li key={t} className="rounded-full border border-white bg-card px-3.5 py-1.5 font-mono text-[0.8rem] shadow-panel">{t}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <Curriculum detail={detail} done={done} onToggle={toggleLesson} />
+
+          <section aria-labelledby="week">
+            <h2 id="week" className="text-2xl font-extrabold sm:text-3xl">How a typical week runs</h2>
+            <p className="mt-2 text-muted-foreground">{c.durationWeeks} weeks at this rhythm, then the mock panel and résumé work.</p>
+            <dl className="mt-6 grid gap-3 sm:grid-cols-2">
+              {track.week.map((w) => (
+                <div key={w.label} className="rounded-[1.5rem] border border-white bg-card px-5 py-4 shadow-panel">
+                  <dt className="font-bold">{w.label}</dt>
+                  <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">{w.detail}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
 
           <section aria-labelledby="questions" id="questions" className="scroll-mt-28">
             <h2 className="text-2xl font-extrabold sm:text-3xl" id="questions-h">Sample interview questions</h2>
@@ -166,6 +216,21 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
               ))}
             </Accordion>
           </section>
+
+          <section aria-labelledby="faq">
+            <h2 id="faq" className="text-2xl font-extrabold sm:text-3xl">Questions about this course</h2>
+            <Accordion type="single" collapsible className="mt-6 rounded-xl border bg-card px-5 shadow-panel">
+              {courseFaq.map((f) => (
+                <AccordionItem key={f.q} value={f.q}>
+                  <AccordionTrigger className="py-5 text-left text-[1rem] font-semibold hover:no-underline">{f.q}</AccordionTrigger>
+                  <AccordionContent className="pb-5 text-[0.98rem] leading-relaxed text-muted-foreground">{f.a}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Something else? <Link to="/contact" className="font-semibold text-signal underline-offset-4 hover:underline">Ask the team</Link>.
+            </p>
+          </section>
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-28 lg:self-start">
@@ -174,6 +239,14 @@ function CourseView({ detail, setDetail, refetch, userReady }: {
               <h2 className="text-sm font-bold">Your progress</h2>
               <p className="mt-1 text-sm text-muted-foreground tabular">{done.size} of {lessons.length} lessons complete</p>
               <PhaseTrack done={done.size} total={lessons.length} className="mt-4" />
+            </div>
+          )}
+          {guide && (
+            <div className="rounded-xl border bg-card p-5 shadow-panel">
+              <h2 className="flex items-center gap-2 font-bold"><BriefcaseBusiness className="size-4" aria-hidden />Roles this prepares you for</h2>
+              <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
+                {guide.roles.map((r) => <li key={r} className="flex items-center gap-2"><ArrowRight className="size-3.5 text-signal" aria-hidden />{r}</li>)}
+              </ul>
             </div>
           )}
           <SideNote icon={Wrench} title="Practical scenarios">

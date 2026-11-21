@@ -54,4 +54,17 @@ export async function migrateAndSeed() {
       client.release()
     }
   }
+
+  // Articles added to the seed after the first boot: insert any that are missing, never touch existing ones.
+  let added = 0
+  for (const b of seedBlogs) {
+    const r = await q(
+      `INSERT INTO blog_posts (slug, title, excerpt, category, author, read_minutes, body, published_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7, now() - make_interval(days => $8))
+       ON CONFLICT (slug) DO NOTHING`,
+      [b.slug, b.title, b.excerpt, b.category, b.author, b.readMinutes, b.body, b.daysAgo],
+    )
+    added += r.rowCount ?? 0
+  }
+  if (added) console.log(`added ${added} new blog posts`)
 }

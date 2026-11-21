@@ -1,5 +1,7 @@
 # SAP interview-prep platform — build plan
 
+> **Status (Nov 2026):** historical. The airport / departures-board styling described in section 2 was later replaced by the current light design documented in `DESIGN.md`, and the brand is now Config2Consult. Kept for the reference-site analysis.
+
 Reference analysed: https://sap-career-ace.lovable.app (structure, components, behaviour and visual system).
 All copy, course data, blog articles and imagery in this build are original.
 
