@@ -21,7 +21,6 @@ const mockAgenda = [
   { min: 25, title: 'Mock interview', text: 'A realistic round on your module, at your level, with an industry expert.' },
   { min: 30, title: 'Gap discussion', text: 'Every answer that went wrong or vague, why, and how to answer it next time.' },
   { min: 5, title: 'Résumé discussion', text: 'What your résumé should say so it matches how you interview.' },
-  { min: 5, title: 'Q&A and next steps', text: 'Your questions, and a short plan for what to practise before the real interview.' },
 ]
 
 const mockIncludes = [

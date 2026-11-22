@@ -11,7 +11,8 @@ import { levelsFor, startingFee, type CourseLevel } from '@/content/levels'
 /** One course listing: a pastel module panel, readable details, then fee and action. The whole row is one link. */
 export function CourseRow({ course: c, level }: { course: Course; index?: number; level?: CourseLevel['id'] }) {
   const lv = level ? levelsFor(c.module).find((l) => l.id === level) : undefined
-  const fee = lv ? lv.fee : startingFee(c.module)
+  const shown = lv ?? levelsFor(c.module).find((l) => l.fee === startingFee(c.module))
+  const fee = shown?.fee ?? null
   return (
     <article className="group relative grid overflow-hidden rounded-[1.75rem] border border-white bg-card shadow-panel transition-[box-shadow,transform] duration-500 ease-[var(--ease-smooth)] hover:-translate-y-1 hover:shadow-lift md:grid-cols-[13.5rem_1fr_auto]">
       <div className={cn('m-2 flex flex-row items-center gap-4 rounded-[1.35rem] p-4 shadow-press md:mr-0 md:flex-col md:items-start md:justify-between md:p-5', tintFor(c.catalogOrder), '[background-image:linear-gradient(180deg,oklch(100%_0_0/0.5),transparent_70%)]')}>
@@ -43,7 +44,10 @@ export function CourseRow({ course: c, level }: { course: Course; index?: number
       <div className="flex items-center justify-between gap-4 border-t px-5 py-4 md:flex-col md:items-end md:justify-center md:border-t-0 md:border-l md:px-7">
         <div className="md:text-right">
           <div className="text-xs text-muted-foreground">{lv ? `${lv.name} fee` : 'Starting from'}</div>
-          <div className="text-2xl font-extrabold tracking-tight tabular">{fee != null && Number.isFinite(fee) ? formatINR(fee) : 'On request'}</div>
+          <div className="text-2xl font-extrabold tracking-tight tabular">{fee != null ? formatINR(fee) : 'On request'}</div>
+          {fee != null && shown && shown.discount > 0 && shown.listFee != null && (
+            <div className="text-xs text-muted-foreground tabular"><span className="line-through">{formatINR(shown.listFee)}</span> <span className="font-semibold text-go">{shown.discount}% off</span></div>
+          )}
         </div>
         <span className="sign-plate pointer-events-none inline-flex h-10 items-center gap-1.5 rounded-full px-4 text-sm font-semibold">
           View course <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />

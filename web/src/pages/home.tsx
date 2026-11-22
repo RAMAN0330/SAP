@@ -12,6 +12,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
 import { api, type BlogSummary, type Course } from '@/lib/api'
 import { formatINR } from '@/lib/format'
+import { lowestFee } from '@/content/levels'
 import { site } from '@/config/site'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/motion'
@@ -182,7 +183,7 @@ function PopularCourses({ courses }: { courses: Course[] }) {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Most in demand</h2>
-            <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">The modules rated highest for hiring demand. Level 1 starts at {formatINR(10000)}.</p>
+            <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">The modules rated highest for hiring demand. Level 1 starts at {formatINR(lowestFee)}, now 15% off.</p>
           </div>
           <Button asChild variant="outline">
             <Link to="/courses">All {courses.length || ''} courses <ArrowRight /></Link>
@@ -272,9 +273,11 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
 }
 
 const stories = [
-  { quote: 'Eight years in accounts payable, zero SAP vocabulary. The mock interview showed me exactly where my answers went vague. I fixed those and cleared round three.', name: 'Neha S.', role: 'FICO consultant ∙ Gurgaon' },
-  { quote: 'I knew purchasing inside out but not how it lands in the system. Walking the procure-to-pay flow end to end is what finally made my interview answers click.', name: 'Rohit V.', role: 'MM analyst ∙ Pune' },
-  { quote: 'The live coding drills were harder than the real round. By the time the panel asked me about CDS views I had already explained them a dozen times.', name: 'Ankit J.', role: 'ABAP developer ∙ Noida' },
+  { quote: 'I knew order-to-cash from the business side but froze on pricing procedures. The scenario sessions gave me real examples to talk through, and the panel noticed.', name: 'Surendran K.', role: 'SAP SD consultant' },
+  { quote: 'Walking procure-to-pay end to end, from purchase requisition to invoice verification, is what finally made my interview answers click.', name: 'Sunil Kumar', role: 'SAP MM consultant' },
+  { quote: 'Years in accounts, zero SAP vocabulary. The mock interview showed me exactly where my answers went vague. I fixed those and cleared the final round.', name: 'Khusboo Parmar', role: 'SAP FICO consultant' },
+  { quote: 'BTP felt too broad to prepare for. The mentor narrowed it to what interviewers actually ask, and I walked in with clear, practical answers.', name: 'Sandeep B.', role: 'SAP BTP consultant' },
+  { quote: 'The coding drills were harder than the real round. By the time the panel asked about CDS views I had already explained them a dozen times.', name: 'Sunil Kumar', role: 'SAP ABAP developer' },
 ]
 
 function Stories() {
@@ -289,7 +292,7 @@ function Stories() {
       <ul className="mt-10 grid gap-4 md:grid-cols-3">
         {stories.map((s, i) => (
           <motion.li
-            key={s.name}
+            key={s.name + s.role}
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -329,7 +332,7 @@ function Close() {
           </div>
         </div>
         <ul className="grid gap-2.5 rounded-[1.5rem] bg-white/60 p-5 shadow-panel ring-1 ring-white/70 backdrop-blur-md" aria-label="What you get">
-          {['Free account, no card needed', 'Your first SAP Quiz is free', `Level 1 from ${formatINR(10000)}`].map((t, i) => (
+          {['Free account, no card needed', 'Your first SAP Quiz is free', `Level 1 from ${formatINR(lowestFee)}`].map((t, i) => (
             <motion.li
               key={t}
               initial={{ opacity: 0, x: 12 }}

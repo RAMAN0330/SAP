@@ -309,7 +309,11 @@ function EnrolCard({ detail, enrolling, onEnrol, learner }: { detail: CourseDeta
         <p className="mt-3 text-xs leading-relaxed text-muted-foreground"><span className="font-semibold text-foreground">{lv.tagline}.</span> {lv.audience}.</p>
         <div className="mt-3">
           <div className="text-xs text-muted-foreground">{lv.name} fee</div>
-          <div className="text-3xl font-extrabold tracking-tight tabular">{lv.fee != null ? formatINR(lv.fee) : 'On request'}</div>
+          <div className="flex items-baseline gap-2.5">
+            <span className="text-3xl font-extrabold tracking-tight tabular">{lv.fee != null ? formatINR(lv.fee) : 'On request'}</span>
+            {lv.listFee != null && lv.discount > 0 && <span className="text-muted-foreground line-through tabular">{formatINR(lv.listFee)}</span>}
+            {lv.discount > 0 && lv.fee != null && <span className="rounded-full bg-go/12 px-2 py-0.5 text-xs font-bold text-go">{lv.discount}% off</span>}
+          </div>
         </div>
         <ul className="mt-4 space-y-2 text-sm">
           {[lv.mocks ? `${lv.mocks} mock interviews with gap discussion` : 'Mock interviews planned with your mentor', 'SAP server access and course notes', 'Résumé preparation support'].map((x) => (
@@ -435,7 +439,12 @@ function LevelCompare({ module }: { module: string }) {
               <div><dt className="text-xs text-muted-foreground">Sessions</dt><dd className="font-bold tabular">{l.sessions ?? 'As per topics'}</dd></div>
               <div><dt className="text-xs text-muted-foreground">Mock interviews</dt><dd className="font-bold tabular">{l.mocks ?? 'As per plan'}</dd></div>
             </dl>
-            <div className="mt-auto pt-4 text-2xl font-extrabold tracking-tight tabular">{l.fee != null ? formatINR(l.fee) : 'On request'}</div>
+            <div className="mt-auto pt-4">
+              <span className="text-2xl font-extrabold tracking-tight tabular">{l.fee != null ? formatINR(l.fee) : 'On request'}</span>
+              {l.listFee != null && l.discount > 0 && (
+                <span className="ml-2 text-sm text-muted-foreground tabular"><span className="line-through">{formatINR(l.listFee)}</span> <span className="font-semibold text-go">{l.discount}% off</span></span>
+              )}
+            </div>
           </li>
         ))}
       </ul>
