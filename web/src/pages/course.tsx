@@ -14,7 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { invalidate, useQuery } from '@/hooks/use-query'
 import { api, type CourseDetail } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { cohortStart, formatINR } from '@/lib/format'
+import { formatINR } from '@/lib/format'
 import { courseFaq, moduleGuide, trackGuide } from '@/content/course-guide'
 import { inclusions, levelsFor, mentorLine, type CourseLevel } from '@/content/levels'
 import { cn } from '@/lib/utils'
@@ -284,7 +284,6 @@ function EnrolCard({ detail, enrolling, onEnrol, learner }: { detail: CourseDeta
       <div className="mx-5 mt-5 grid grid-cols-2 gap-x-4 gap-y-4 rounded-[1.4rem] bg-board/70 p-4 text-sm shadow-press">
         <Field label="Learner" value={learner ?? 'You'} />
         <Field label="Sessions" value={lv.sessions ? `${lv.sessions} sessions` : 'As per topics'} />
-        <Field label="Next cohort" value={cohortStart(c.startsAt)} className="col-span-2" />
         <div className="col-span-2 flex items-center justify-between">
           <span className="text-xs font-semibold text-muted-foreground">Availability</span>
           {enrolled ? <Badge variant="go">Enrolled</Badge> : <StatusBadge status={c.status} />}
