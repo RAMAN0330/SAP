@@ -71,6 +71,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 const post = <T>(path: string, data?: unknown) => request<T>(path, { method: 'POST', body: JSON.stringify(data ?? {}) })
 
+export interface QuizStatus { attempts: number; enrolled: boolean; canPlay: boolean; freeAvailable: boolean }
+export interface QuizOverview { modules: { module: string; count: number; best: number | null }[]; status: QuizStatus | null }
+export interface QuizRound { attemptId: string; module: string; questions: { q: string; options: string[] }[] }
+export interface QuizResult { score: number; total: number; review: { chosen: number; correct: number; right: boolean; why: string }[]; status: QuizStatus }
+
 export const api = {
   courses: () => request<Course[]>('/courses'),
   course: (slug: string) => request<CourseDetail>(`/courses/${slug}`),
@@ -86,4 +91,7 @@ export const api = {
   enrolments: () => request<Enrolment[]>('/me/enrollments'),
   referrals: () => request<Referrals>('/me/referrals'),
   contact: (d: Record<string, string>) => post<{ ok: true }>('/contact', d),
+  quiz: () => request<QuizOverview>('/quiz'),
+  startQuiz: (module: string) => post<QuizRound>(`/quiz/${encodeURIComponent(module)}/start`),
+  submitQuiz: (module: string, attemptId: string, answers: number[]) => post<QuizResult>(`/quiz/${encodeURIComponent(module)}/submit`, { attemptId, answers }),
 }

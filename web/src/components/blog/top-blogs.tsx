@@ -17,10 +17,13 @@ export function TopBlogs({ posts, max = 10, className }: { posts?: BlogSummary[]
   return (
     <section aria-labelledby="top-blogs-h" className={cn('rounded-[2rem] border border-white/80 bg-white/65 p-3 shadow-board backdrop-blur-xl sm:p-4', className)}>
       <div className="flex items-center justify-between gap-3 px-2 pt-1 pb-3">
-        <h2 id="top-blogs-h" className="flex items-center gap-2.5 text-lg font-bold">
-          <span className="sign-plate grid size-9 place-items-center rounded-xl"><Flame className="size-4.5" aria-hidden /></span>
-          {top.length ? `Top ${top.length} blogs` : 'Top blogs'}
-        </h2>
+        <div className="flex items-center gap-2.5">
+          <span className="sign-plate grid size-9 shrink-0 place-items-center rounded-xl"><Flame className="size-4.5" aria-hidden /></span>
+          <div>
+            <h2 id="top-blogs-h" className="text-lg leading-tight font-bold">The questions that cost people offers</h2>
+            <p className="text-xs text-letter-dim">Free reads from our mentors. Two minutes here can save you a rejection.</p>
+          </div>
+        </div>
         <Link to="/blogs" className="inline-flex items-center gap-1 text-sm font-semibold text-letter-dim hover:text-signal">
           View all <ArrowUpRight className="size-4" aria-hidden />
         </Link>

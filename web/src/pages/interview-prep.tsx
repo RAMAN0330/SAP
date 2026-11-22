@@ -1,20 +1,33 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ArrowRight, ClipboardCheck, Clock, FileQuestion, Target } from 'lucide-react'
+import { ArrowRight, Check, ClipboardCheck, Clock, FileQuestion, Target } from 'lucide-react'
 import { ModuleMark } from '@/components/course/cohort'
 import { PageIntro } from '@/components/layout/page-intro'
 import { Button } from '@/components/ui/button'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
-import { formatNumber } from '@/lib/format'
+import { formatINR, formatNumber } from '@/lib/format'
 import { site } from '@/config/site'
 import { EASE } from '@/lib/motion'
 
 const steps = [
   { icon: FileQuestion, title: 'Work the question bank', text: 'Scenario questions with model answers, grouped the way panels ask them.' },
-  { icon: ClipboardCheck, title: 'Sit a mock panel', text: `Recorded rounds every Saturday at ${site.mockBatch.time} IST, scored on a written rubric.` },
+  { icon: ClipboardCheck, title: 'Sit a mock interview', text: 'A one-hour session with an industry expert, scored on a written rubric.' },
   { icon: Target, title: 'Fix the gaps', text: 'A short plan for the answers that went vague, then go again.' },
+]
+
+const mockAgenda = [
+  { min: 25, title: 'Mock interview', text: 'A realistic round on your module, at your level, with an industry expert.' },
+  { min: 30, title: 'Gap discussion', text: 'Every answer that went wrong or vague, why, and how to answer it next time.' },
+  { min: 5, title: 'Résumé discussion', text: 'What your résumé should say so it matches how you interview.' },
+  { min: 5, title: 'Q&A and next steps', text: 'Your questions, and a short plan for what to practise before the real interview.' },
+]
+
+const mockIncludes = [
+  'Module question bank included',
+  'Written feedback summary after the session',
+  'Session recording to review later (online sessions)',
 ]
 
 const rounds = [
@@ -56,7 +69,7 @@ const method = [
 
 const prepFaq = [
   { q: 'How many questions should I practise before an interview?', a: 'Depth matters more than count. Being able to answer 60–80 core questions out loud, clearly and in under three minutes each, prepares you better than reading 400.' },
-  { q: 'Are the Saturday mock panels recorded?', a: 'Yes. You get the recording and a written score on the four rubric areas, with the two or three answers to fix before the next round.' },
+  { q: 'Is the mock interview recorded?', a: 'Online sessions can be recorded so you can review your answers later, and you get a written summary of what to fix.' },
   { q: 'I have no project experience. What do I say?', a: 'Talk about the exercises and scenarios you configured in the practice system, and about the business process you know from your current job. Panels respect honesty; they do not respect invented projects.' },
   { q: 'Can I book a mock panel without enrolling in a course?', a: 'Yes. Contact us with your module and experience, and we will offer the next available slot.' },
 ]
@@ -75,7 +88,7 @@ export default function InterviewPrepPage() {
           <dl className="grid grid-cols-2 gap-2 rounded-[1.5rem] border border-white/70 bg-white/55 p-4 text-sm shadow-panel backdrop-blur-md">
             {[
               ['Questions', stats ? formatNumber(stats.questions) : '—'],
-              ['Mock panel', `${site.mockBatch.day} ${site.mockBatch.time}`],
+              ['Mock interview', formatINR(site.mockInterview.offer)],
             ].map(([k, v]) => (
               <div key={k} className="px-1">
                 <dt className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">{k}</dt>
@@ -89,6 +102,8 @@ export default function InterviewPrepPage() {
           <Button asChild size="lg"><Link to="/contact">Book a mock interview <ArrowRight /></Link></Button>
         </div>
       </PageIntro>
+
+      <MockOffer />
 
       <section className="container-page py-16 sm:py-24">
         <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Three steps, repeated until it sticks.</h2>
@@ -223,5 +238,42 @@ export default function InterviewPrepPage() {
         </Accordion>
       </section>
     </>
+  )
+}
+
+function MockOffer() {
+  const { price, offer, minutes } = site.mockInterview
+  const off = Math.round((1 - offer / price) * 100)
+  return (
+    <section className="container-page pt-16 sm:pt-24" aria-labelledby="mock-h">
+      <div className="grid gap-8 rounded-[2rem] border border-white bg-card p-6 shadow-board sm:p-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-12">
+        <div>
+          <h2 id="mock-h" className="text-3xl font-extrabold sm:text-[2.4rem]">One-hour mock interview</h2>
+          <p className="mt-3 max-w-[56ch] text-lg text-muted-foreground">Rehearse the real thing with an industry expert, then spend most of the hour fixing what went wrong.</p>
+          <ol className="mt-8 space-y-3">
+            {mockAgenda.map((a) => (
+              <li key={a.title} className="flex gap-4 rounded-[1.25rem] bg-band px-4 py-3.5">
+                <span className="w-14 shrink-0 font-mono text-sm font-semibold text-signal tabular">{a.min} min</span>
+                <p className="text-[0.95rem] leading-relaxed"><span className="font-bold">{a.title}. </span><span className="text-muted-foreground">{a.text}</span></p>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="flex flex-col justify-center rounded-[1.5rem] bg-board/70 p-6 shadow-press">
+          <span className="self-start rounded-full bg-call/15 px-3 py-1 text-xs font-bold text-call">{off}% off ∙ limited period</span>
+          <div className="mt-4 flex items-baseline gap-3">
+            <span className="text-4xl font-extrabold tracking-tight tabular">{formatINR(offer)}</span>
+            <span className="text-lg text-muted-foreground line-through tabular" aria-label={`was ${formatINR(price)}`}>{formatINR(price)}</span>
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">per {minutes}-minute session</p>
+          <ul className="mt-5 space-y-2 text-sm">
+            {mockIncludes.map((x) => (
+              <li key={x} className="flex items-start gap-2.5"><Check className="mt-0.5 size-4 shrink-0 text-go" strokeWidth={3} aria-hidden />{x}</li>
+            ))}
+          </ul>
+          <Button asChild size="lg" className="mt-6 w-full"><Link to="/contact?subject=Book%20a%20mock%20interview">Book for {formatINR(offer)} <ArrowRight /></Link></Button>
+        </div>
+      </div>
+    </section>
   )
 }

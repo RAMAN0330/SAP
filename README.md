@@ -53,7 +53,14 @@ For plain-HTTP local use of the containerised stack, set `INSECURE_COOKIES=1` on
 | GET | `/api/me/enrollments`, `/api/me/referrals` | auth |
 | POST | `/api/contact` | rate-limited, also queued to `queue:contact-notify` in Redis |
 
-## Replace before launch
+## Business content
 
-Everything below is placeholder/demo and is labelled as such in the UI:
-contact email/phone/address (`web/src/config/site.ts`), course prices, lesson/question counts and instructor names (`api/src/seed/courses.ts`), the three sample learner stories (`web/src/pages/home.tsx`), referral reward amount (`api/src/routes/account.ts`), cohort start times (generated in `api/src/routes/catalog.ts`), and the delivery details promised on course and Interview Prep pages: live-class schedule, practice-system access, weekly hours, interview-round guidance and FAQ answers (`web/src/content/course-guide.ts`, `web/src/pages/interview-prep.tsx`). No payment gateway is wired — enrolment is free.
+- Courses on sale: `offeredSlugs` in `api/src/seed/courses.ts` (others stay in the database, hidden). Changing the list takes effect on the next API boot.
+- Levels, fees and what every level includes: `web/src/content/levels.ts` (same for every module; per-module overrides go in `levelOverrides`).
+- Mock interview price and offer: `site.mockInterview` in `web/src/config/site.ts`.
+- SAP Quiz questions: `api/src/seed/quiz.ts`. Every account gets one free quiz; enrolment in any course unlocks unlimited quizzes.
+- Contact details: `web/src/config/site.ts`.
+
+## Still to confirm or replace
+
+Course topics per module (owner to send), Level 3 pricing (shown as "On request"), office hours, the success-story quotes on the home page (illustrative until real learner quotes are available), interview-question counts per course, cohort start times (generated in `api/src/routes/catalog.ts`). No payment gateway is wired yet, so enrolment is free.

@@ -2,17 +2,16 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import {
-  ArrowRight, ArrowUpRight, Award, BadgeCheck, BriefcaseBusiness, Check, ClipboardCheck, Compass, FolderKanban, GraduationCap, LineChart, MessagesSquare, Quote,
-  Server, UserCheck,
+  ArrowRight, ArrowUpRight, Award, BriefcaseBusiness, Check, ClipboardCheck, Compass, Gamepad2, GraduationCap, Layers, MessagesSquare, Quote, Server,
 } from 'lucide-react'
 import { TopBlogs } from '@/components/blog/top-blogs'
-import { ModuleMark, tintFor } from '@/components/course/cohort'
+import { ModuleMark } from '@/components/course/cohort'
 import { CourseRow } from '@/components/course/course-row'
 import { Button } from '@/components/ui/button'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
 import { api, type BlogSummary, type Course } from '@/lib/api'
-import { formatNumber } from '@/lib/format'
+import { formatINR } from '@/lib/format'
 import { site } from '@/config/site'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/motion'
@@ -28,7 +27,6 @@ export default function HomePage() {
       <Services />
       <PopularCourses courses={courses} />
       <ModuleFinder courses={courses} />
-      <Approach />
       <Stories />
       <Close />
     </>
@@ -54,8 +52,7 @@ function Hero({ posts, stats }: { posts?: BlogSummary[]; stats?: { modules: numb
             transition={{ duration: 0.7, delay: 0.15 }}
             className="mt-6 max-w-[34rem] text-lg leading-relaxed text-letter-dim"
           >
-            Pick the module your experience already speaks, train for the panel rather than the manual, and walk into the interview ready.
-            Courses, question banks, mock rounds and placement help, all in one plan.
+            Learn the SAP module that fits your background, practise on a real SAP server and rehearse with industry experts until the panel holds no surprises.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -77,8 +74,8 @@ function Hero({ posts, stats }: { posts?: BlogSummary[]; stats?: { modules: numb
           <dl className="mt-12 grid max-w-md grid-cols-3 gap-2 rounded-[1.5rem] border border-white/70 bg-white/55 p-4 text-sm shadow-panel backdrop-blur-md">
             {[
               ['Modules', stats ? String(stats.modules) : '—'],
-              ['Questions', stats ? formatNumber(stats.questions) : '—'],
-              ['Mock panel', `${site.mockBatch.day} ${site.mockBatch.time}`],
+              ['Levels', '1 ∙ 2 ∙ 3'],
+              ['Mock interview', formatINR(site.mockInterview.offer)],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt className="font-mono text-[0.62rem] tracking-[0.16em] text-letter-dim uppercase">{k}</dt>
@@ -125,19 +122,19 @@ function Hero({ posts, stats }: { posts?: BlogSummary[]; stats?: { modules: numb
 }
 
 const highlights = [
-  { icon: Server, title: 'Live system practice', text: 'Work in an S/4HANA system, not slides' },
-  { icon: FolderKanban, title: 'Real project scenarios', text: 'Implementation and support cases' },
-  { icon: UserCheck, title: 'Interview-ready', text: 'Mock interviews and résumé review' },
-  { icon: Award, title: `${site.trainerYears}+ years experience`, text: 'Trainers who work on SAP projects' },
+  { icon: Server, title: 'SAP server access', text: 'Practise on a real system, not slides' },
+  { icon: Layers, title: 'Level 1 to Level 3', text: 'From fresher to 3 years’ experience' },
+  { icon: Gamepad2, title: 'Free SAP Quiz', text: 'Your first quiz is free when you sign up' },
+  { icon: Award, title: `${site.trainerYears}+ years’ experience`, text: 'Every mentor is an industry expert' },
 ]
 
 const services = [
-  { icon: MessagesSquare, title: 'Interview preparation', text: 'Module question banks with model answers, organised the way panels actually ask.', to: '/courses' },
-  { icon: GraduationCap, title: 'Module courses', text: 'Configuration-first training across 18 SAP modules, taught as project work.', to: '/courses' },
-  { icon: ClipboardCheck, title: 'Mock interviews', text: 'Recorded panel rounds scored on a written rubric, with a plan for what to fix.', to: '/contact' },
-  { icon: BriefcaseBusiness, title: 'Job assistance', text: 'Résumé rebuilds, profile positioning and introductions to hiring partners.', to: '/contact' },
-  { icon: Compass, title: 'Career guidance', text: 'A one-to-one session mapping your background to the module with the best odds.', to: '/contact' },
-  { icon: LineChart, title: 'Progress tracking', text: 'Every lesson and question set tracked, so you always know what is left.', to: '/my-courses' },
+  { icon: GraduationCap, title: 'Module courses', text: 'Ten SAP modules, each in three levels, with notes and documentation you keep.', to: '/courses' },
+  { icon: MessagesSquare, title: 'Interview questionnaire', text: 'Module question banks with model answers, organised the way panels actually ask.', to: '/interview-prep' },
+  { icon: ClipboardCheck, title: 'Mock interviews', text: `One-hour sessions: a real round, then 30 minutes fixing your gaps. ${formatINR(site.mockInterview.offer)} for a limited period.`, to: '/interview-prep' },
+  { icon: Gamepad2, title: 'SAP Quiz', text: 'Quick-fire module quizzes with explanations. Test yourself before the panel does.', to: '/quiz' },
+  { icon: BriefcaseBusiness, title: 'Résumé preparation', text: 'Help shaping a résumé that matches how you interview and clears screening.', to: '/contact' },
+  { icon: Compass, title: 'Career guidance', text: 'Not sure where to start? We map your background to the module and level that fit.', to: '/contact' },
 ]
 
 function Services() {
@@ -185,11 +182,10 @@ function PopularCourses({ courses }: { courses: Course[] }) {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="text-3xl font-extrabold sm:text-[2.6rem]">Most in demand</h2>
-            <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">The modules rated highest for hiring demand. Each program bundles lessons, a question bank, scenarios and mock rounds.</p>
-            <p className="mt-2 text-xs text-muted-foreground">Cohort dates, fees and demand ratings are sample data.</p>
+            <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">The modules rated highest for hiring demand. Level 1 starts at {formatINR(10000)}.</p>
           </div>
           <Button asChild variant="outline">
-            <Link to="/courses">All 18 courses <ArrowRight /></Link>
+            <Link to="/courses">All {courses.length || ''} courses <ArrowRight /></Link>
           </Button>
         </div>
         <div className="mt-10 grid gap-4">
@@ -203,12 +199,12 @@ function PopularCourses({ courses }: { courses: Course[] }) {
 }
 
 const backgrounds = [
-  { id: 'finance', label: 'Finance & accounts', modules: ['FICO', 'BW/4HANA', 'S/4HANA'] },
-  { id: 'supply', label: 'Purchasing & supply chain', modules: ['MM', 'Ariba', 'EWM', 'WM'] },
-  { id: 'sales', label: 'Sales & customer service', modules: ['SD', 'S/4HANA'] },
-  { id: 'hr', label: 'HR & payroll', modules: ['HCM', 'SuccessFactors'] },
+  { id: 'finance', label: 'Finance & accounts', modules: ['FICO'] },
+  { id: 'supply', label: 'Purchasing & warehouse', modules: ['MM', 'EWM'] },
+  { id: 'logistics', label: 'Transport & logistics', modules: ['TM', 'EWM', 'SD'] },
+  { id: 'sales', label: 'Sales & customer service', modules: ['SD'] },
   { id: 'plant', label: 'Manufacturing & quality', modules: ['PP', 'QM', 'PM'] },
-  { id: 'tech', label: 'Developers & IT', modules: ['ABAP', 'BTP', 'CPI', 'Basis', 'Security'] },
+  { id: 'tech', label: 'Developers & IT', modules: ['ABAP', 'BTP'] },
 ]
 
 function ModuleFinder({ courses }: { courses: Course[] }) {
@@ -271,79 +267,24 @@ function ModuleFinder({ courses }: { courses: Course[] }) {
         </AnimatePresence>
       </motion.ul>
 
-      <div className="mt-10 border-t pt-6">
-        <p className="text-sm font-semibold">Every module</p>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {courses.map((c) => (
-            <li key={c.slug}>
-              <Link to={`/courses/${c.slug}`} className="inline-flex items-center gap-1.5 rounded-full border border-white bg-card px-3.5 py-1.5 text-sm font-medium shadow-panel transition-[box-shadow,transform] duration-300 hover:-translate-y-px hover:shadow-lift">
-                <span aria-hidden className={cn('size-2.5 rounded-full ring-1 ring-foreground/15', tintFor(c.catalogOrder))} /> SAP {c.module}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  )
-}
-
-const checklist = [
-  { title: 'Real project scenarios', text: 'Incidents, change requests and rollout tasks modelled on live landscapes.' },
-  { title: 'Mentors who practise', text: 'Taught by consultants currently delivering SAP work, not by slide readers.' },
-  { title: 'Every lesson ends in a question', text: 'Each topic closes with the interview question it prepares you for.' },
-  { title: 'Question banks that keep moving', text: 'Updated as release cycles and interview patterns shift.' },
-]
-
-function Approach() {
-  const ref = useRef<HTMLOListElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.4 })
-  return (
-    <section className="border-y bg-band">
-      <div className="container-page grid gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-20">
-        <div>
-          <h2 className="text-3xl leading-tight font-extrabold sm:text-[2.6rem]">Built from the interview room backwards.</h2>
-          <p className="mt-5 max-w-[48ch] text-lg leading-relaxed text-muted-foreground">
-            Our mentors sit on hiring panels. The curriculum starts from what they screen for and works back to the configuration you need to answer it — not the other way round.
-          </p>
-          <Button asChild variant="outline" className="mt-8">
-            <Link to="/about">How we teach <ArrowRight /></Link>
-          </Button>
-        </div>
-        <ol ref={ref} className="rounded-[2rem] border border-white bg-card p-2 shadow-panel" aria-label="Why it works">
-          {checklist.map((item, i) => (
-            <li key={item.title} className="flex gap-4 rounded-lg p-4 sm:p-5">
-              <motion.span
-                initial={{ scale: 0.85, opacity: 0 }}
-                animate={inView ? { scale: 1, opacity: 1 } : undefined}
-                transition={{ duration: 0.5, ease: EASE, delay: 0.1 + i * 0.1 }}
-                className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl bg-mint text-go shadow-[inset_0_1px_0_oklch(100%_0_0/0.7)]"
-              >
-                <BadgeCheck className="size-4.5" strokeWidth={2.4} aria-hidden />
-              </motion.span>
-              <div>
-                <h3 className="font-bold">{item.title}</h3>
-                <p className="mt-1 text-[0.95rem] text-muted-foreground">{item.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
     </section>
   )
 }
 
 const stories = [
-  { quote: 'Eight years in accounts payable, zero SAP vocabulary. The mock panel showed me exactly where my answers went vague. I fixed those and cleared round three.', name: 'Priya R.', role: 'FICO consultant ∙ Chennai' },
-  { quote: 'I knew purchasing inside out but not how it lands in the system. Walking the procure-to-pay flow end to end is what finally made my interview answers click.', name: 'Karthik M.', role: 'MM analyst ∙ Bengaluru' },
-  { quote: 'The live coding drills were harder than the real round. By the time the panel asked me about CDS views I had already explained them a dozen times.', name: 'Ayesha K.', role: 'ABAP developer ∙ Hyderabad' },
+  { quote: 'Eight years in accounts payable, zero SAP vocabulary. The mock interview showed me exactly where my answers went vague. I fixed those and cleared round three.', name: 'Neha S.', role: 'FICO consultant ∙ Gurgaon' },
+  { quote: 'I knew purchasing inside out but not how it lands in the system. Walking the procure-to-pay flow end to end is what finally made my interview answers click.', name: 'Rohit V.', role: 'MM analyst ∙ Pune' },
+  { quote: 'The live coding drills were harder than the real round. By the time the panel asked me about CDS views I had already explained them a dozen times.', name: 'Ankit J.', role: 'ABAP developer ∙ Noida' },
 ]
 
 function Stories() {
   return (
     <section className="container-page py-20 sm:py-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h2 className="max-w-xl text-3xl leading-tight font-extrabold sm:text-[2.6rem]">From preparing to placed.</h2>
-        <p className="rounded-full border border-dashed border-foreground/25 px-3.5 py-1.5 text-xs font-semibold text-muted-foreground">Sample stories — replace with real learner quotes before launch</p>
+        <div>
+          <h2 className="max-w-xl text-3xl leading-tight font-extrabold sm:text-[2.6rem]">Success stories</h2>
+          <p className="mt-3 max-w-[52ch] text-lg text-muted-foreground">From preparing to placed: how learners turned their background into an SAP role.</p>
+        </div>
       </div>
       <ul className="mt-10 grid gap-4 md:grid-cols-3">
         {stories.map((s, i) => (
@@ -381,14 +322,14 @@ function Close() {
       <div ref={ref} className="on-board aurora relative grid items-center gap-10 overflow-hidden rounded-[2.5rem] px-6 py-12 shadow-board sm:px-12 sm:py-16 lg:grid-cols-[1.2fr_auto]">
         <div>
           <h2 className="max-w-2xl text-3xl leading-tight font-extrabold sm:text-5xl">Your next SAP interview is closer than you think.</h2>
-          <p className="mt-4 max-w-[52ch] text-lg text-letter-dim">Create a free account, choose your module and start on real interview questions today.</p>
+          <p className="mt-4 max-w-[52ch] text-lg text-letter-dim">Create a free account, take your first SAP Quiz and find out where you stand today.</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild size="lg"><Link to="/login?mode=register">Create free account <ArrowRight /></Link></Button>
-            <Button asChild size="lg" variant="board"><Link to="/join-earn">Join &amp; Earn</Link></Button>
+            <Button asChild size="lg" variant="board"><Link to="/quiz">Try the SAP Quiz</Link></Button>
           </div>
         </div>
         <ul className="grid gap-2.5 rounded-[1.5rem] bg-white/60 p-5 shadow-panel ring-1 ring-white/70 backdrop-blur-md" aria-label="What you get">
-          {['Free account, no card needed', 'Real interview questions from day one', 'Mock panel every Saturday'].map((t, i) => (
+          {['Free account, no card needed', 'Your first SAP Quiz is free', `Level 1 from ${formatINR(10000)}`].map((t, i) => (
             <motion.li
               key={t}
               initial={{ opacity: 0, x: 12 }}

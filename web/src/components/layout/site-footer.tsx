@@ -30,7 +30,7 @@ export function SiteFooter() {
           <h2 className="font-mono text-[0.7rem] font-semibold tracking-[0.16em] text-signal uppercase">Get in touch</h2>
           <ul className="mt-4 space-y-3 text-sm text-letter-dim">
             <li className="flex gap-2.5"><Mail className="mt-0.5 size-4 shrink-0 text-letter" aria-hidden /><a href={`mailto:${site.contact.email}`} className="hover:text-letter">{site.contact.email}</a></li>
-            <li className="flex gap-2.5"><Phone className="mt-0.5 size-4 shrink-0 text-letter" aria-hidden />{site.contact.phone}</li>
+            <li className="flex gap-2.5"><Phone className="mt-0.5 size-4 shrink-0 text-letter" aria-hidden /><a href={site.contact.phoneHref} className="hover:text-letter">{site.contact.phone}</a></li>
             <li className="flex gap-2.5"><MapPin className="mt-0.5 size-4 shrink-0 text-letter" aria-hidden />{site.contact.address}</li>
           </ul>
         </div>
@@ -38,7 +38,6 @@ export function SiteFooter() {
       <div className="border-t border-letter/10">
         <div className="container-page flex flex-col gap-2 py-5 text-xs text-letter-dim sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {site.name}. SAP and SAP module names are trademarks of SAP SE; this academy is independent.</p>
-          <p>Contact details, prices and instructor names are placeholders.</p>
         </div>
       </div>
     </footer>

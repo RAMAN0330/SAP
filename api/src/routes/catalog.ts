@@ -25,14 +25,14 @@ type CourseRow = { catalogOrder: number; [k: string]: unknown }
 const withCohort = <T extends CourseRow>(c: T) => ({ ...c, ...nextCohort(c.catalogOrder) })
 
 catalog.get('/courses', async (c) => {
-  const rows = await cached('courses:all:v2', 300, async () =>
+  const rows = await cached('courses:all:v3', 300, async () =>
     (await q<CourseRow>(`SELECT ${COURSE_COLS} FROM courses WHERE published ORDER BY catalog_order`)).rows)
   return c.json(rows.map(withCohort))
 })
 
 catalog.get('/courses/:slug', async (c) => {
   const slug = c.req.param('slug')
-  const data = await cached(`course:v2:${slug}`, 300, async () => {
+  const data = await cached(`course:v3:${slug}`, 300, async () => {
     const { rows: [course] } = await q<CourseRow & { id: string }>(`SELECT ${COURSE_COLS} FROM courses WHERE slug = $1 AND published`, [slug])
     if (!course) return null
     const [lessons, questions] = await Promise.all([
@@ -57,7 +57,7 @@ catalog.get('/courses/:slug', async (c) => {
   return c.json({ ...data, course: withCohort(data.course), enrollment })
 })
 
-catalog.get('/stats', async (c) => c.json(await cached('stats', 300, async () => {
+catalog.get('/stats', async (c) => c.json(await cached('stats:v2', 300, async () => {
   const { rows: [s] } = await q(`SELECT count(*)::int AS modules, sum(lessons_count)::int AS lessons, sum(questions_count)::int AS questions FROM courses WHERE published`)
   return s
 })))

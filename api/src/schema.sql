@@ -107,3 +107,13 @@ CREATE INDEX IF NOT EXISTS users_referred_by_idx ON users(referred_by);
 
 -- Brand rename (GoLive Academy → Config2Consult): fix author names on posts seeded before the rename.
 UPDATE blog_posts SET author = 'Config2Consult Faculty' WHERE author = 'GoLive Faculty';
+
+CREATE TABLE IF NOT EXISTS quiz_attempts (
+  id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  module      text NOT NULL,
+  score       int  NOT NULL,
+  total       int  NOT NULL,
+  created_at  timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS quiz_attempts_user_idx ON quiz_attempts(user_id);

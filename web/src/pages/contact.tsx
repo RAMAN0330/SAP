@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
 import { toast } from 'sonner'
 import { Clock, Loader2, Mail, MailCheck, MapPin, Phone, Send } from 'lucide-react'
@@ -13,12 +14,14 @@ import { EASE } from '@/lib/motion'
 
 const info = [
   { icon: Mail, title: 'Email', value: site.contact.email, href: `mailto:${site.contact.email}` },
-  { icon: Phone, title: 'Phone', value: site.contact.phone },
+  { icon: Phone, title: 'Phone', value: site.contact.phone, href: site.contact.phoneHref },
   { icon: Clock, title: 'Hours', value: site.contact.hours },
   { icon: MapPin, title: 'Where we are', value: site.contact.address },
 ]
 
 export default function ContactPage() {
+  const [params] = useSearchParams()
+  const subject = params.get('subject') ?? undefined
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [sentTo, setSentTo] = useState<string | null>(null)
@@ -57,7 +60,6 @@ export default function ContactPage() {
               </li>
             ))}
           </ul>
-          <p className="mt-3 px-1 text-xs text-muted-foreground">Contact details shown are placeholders.</p>
         </div>
 
         <div className="relative overflow-hidden rounded-[2rem] border border-white bg-card p-6 shadow-panel sm:p-8">
@@ -85,7 +87,7 @@ export default function ContactPage() {
                 <Field id="lastName" label="Last name" autoComplete="family-name" />
                 <Field id="email" label="Email" type="email" required autoComplete="email" />
                 <Field id="phone" label="Phone" type="tel" autoComplete="tel" />
-                <Field id="subject" label="Subject" className="sm:col-span-2" placeholder="e.g. Which module suits a chartered accountant?" />
+                <Field id="subject" label="Subject" className="sm:col-span-2" defaultValue={subject} placeholder="e.g. Which module suits a chartered accountant?" />
                 <div className="space-y-2 sm:col-span-2">
                   <Label htmlFor="message">Message <span className="text-destructive">*</span></Label>
                   <Textarea id="message" name="message" required minLength={10} rows={6} className="min-h-36 resize-y" />

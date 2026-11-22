@@ -97,6 +97,11 @@ export const moduleGuide: Record<string, ModuleGuide> = {
     tools: ['Employee Central', 'Admin Center', 'Business rules', 'Role-based permissions', 'Recruiting', 'Performance & Goals', 'Integration Center'],
     roles: ['SuccessFactors Consultant', 'Employee Central Specialist', 'HR Technology Analyst'],
   },
+  TM: {
+    fit: 'Logistics, transport, freight-forwarding and supply-chain professionals who plan or execute shipments.',
+    tools: ['Freight units', 'Freight orders', 'Forwarding orders', 'Transportation cockpit', 'Planning profiles', 'Carrier selection', 'Freight settlement', 'Charge management'],
+    roles: ['SAP TM Consultant', 'Logistics Solution Consultant', 'Transportation Planning Analyst'],
+  },
   WM: {
     fit: 'Warehouse supervisors and logistics staff supporting ECC sites, or preparing for an EWM migration.',
     tools: ['LT01 transfer orders', 'LT12 confirmations', 'LB10 transfer requirements', 'LS01N bins', 'LX02 stock', 'LX23 stock comparison', 'Putaway strategies'],
@@ -106,15 +111,8 @@ export const moduleGuide: Record<string, ModuleGuide> = {
 
 export interface TrackGuide {
   prerequisites: string[]
-  week: { label: string; detail: string }[]
 }
 
-const sharedWeek: TrackGuide['week'] = [
-  { label: 'Live sessions', detail: 'Two 90-minute evening classes (IST), recorded so you can catch up.' },
-  { label: 'System practice', detail: 'Around 4 hours of hands-on exercises on a practice system.' },
-  { label: 'Question drill', detail: '25–30 interview questions with model answers, reviewed in a doubt-clearing call.' },
-  { label: 'Mentor check-in', detail: 'A short weekly review of progress and the answers that went vague.' },
-]
 
 export const trackGuide: Record<Track, TrackGuide> = {
   Functional: {
@@ -122,53 +120,50 @@ export const trackGuide: Record<Track, TrackGuide> = {
       'Comfort with the business process this module covers, from work or study',
       'Basic Excel and confidence explaining a process out loud',
       'No coding needed',
-      '6–8 hours a week for the length of the program',
+      'A few hours a week for practice between sessions',
     ],
-    week: sharedWeek,
   },
   Technical: {
     prerequisites: [
       'Some programming or system-administration experience, in any language or platform',
       'Basic SQL: SELECT, JOIN, WHERE',
       'A laptop with 8 GB RAM for remote system access',
-      '8–10 hours a week for the length of the program',
+      'A few hours a week for practice between sessions',
     ],
-    week: sharedWeek,
   },
   Cloud: {
     prerequisites: [
       'Working knowledge of one SAP module or of web development',
       'Comfort with APIs, JSON and the idea of authentication',
       'A free SAP BTP trial account (we help you set it up)',
-      '7–9 hours a week for the length of the program',
+      'A few hours a week for practice between sessions',
     ],
-    week: sharedWeek,
   },
 }
 
 export const courseFaq = [
   {
+    q: 'Which level should I choose?',
+    a: 'Freshers should start with Level 1: it covers what you need to crack the interview. If you already have 6–18 months on SAP projects, Level 2 gives you the complete module with scenarios. Level 3 is for people with 18–36 months who want to master one topic in depth.',
+  },
+  {
     q: 'Do I get access to an SAP system?',
-    a: 'Yes. Every program includes remote access to a practice system for the full duration, plus guided exercises, so you configure and test things yourself rather than watching slides.',
+    a: 'Yes. SAP server access is included in every level, so you configure and test things yourself instead of only watching slides.',
   },
   {
-    q: 'What if I miss a live class?',
-    a: 'Every session is recorded and available the same evening. You can also bring questions from a missed class to the weekly doubt-clearing call.',
+    q: 'Who teaches the sessions?',
+    a: 'Every course is taught by an industry expert with a minimum of 8 years’ SAP experience, who also runs your mock interviews.',
   },
   {
-    q: 'Is this enough to clear an interview with no SAP experience?',
-    a: 'The program is built around how panels assess freshers and career switchers: core configuration, scenario answers, and two scored mock panels. How quickly you get an offer still depends on practice, your background and the job market.',
+    q: 'What is included apart from the sessions?',
+    a: 'Course notes, an interview preparation questionnaire, mock interviews (2 in Level 1, 4 in Level 2), résumé preparation support, SAP Quiz access, documentation preparation and a technical information pack.',
   },
   {
-    q: 'Does the course include SAP certification?',
-    a: 'Certification exams are booked and paid for directly with SAP. The syllabus covers the topics of the matching associate exam, and we help you decide whether certifying is worth it for your goal.',
-  },
-  {
-    q: 'What does job assistance include?',
-    a: 'A résumé rebuild with a mentor, LinkedIn profile review, mock panels, and introductions to hiring partners when your mock scores show you are ready.',
+    q: 'How is Level 3 priced?',
+    a: 'Level 3 is planned around the topic you want to master, so the number of sessions and the fee depend on that topic. Contact us and we will share a plan and a quote.',
   },
   {
     q: 'Can I pay in instalments?',
-    a: 'Online payments are not live yet. Contact us and we will share the current fee, batch dates and any instalment options.',
+    a: 'Online payments are not live yet. Contact us for the current batch dates and payment options.',
   },
 ]

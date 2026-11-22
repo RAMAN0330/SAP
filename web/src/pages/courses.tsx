@@ -11,9 +11,9 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { useQuery } from '@/hooks/use-query'
 import { api } from '@/lib/api'
 import { EASE } from '@/lib/motion'
+import { levels } from '@/content/levels'
 
-const LEVELS = ['All levels', 'Beginner', 'Intermediate', 'Advanced'] as const
-const TRACKS = ['All tracks', 'Functional', 'Technical', 'Cloud'] as const
+const LEVELS = ['All levels', 'Level 1', 'Level 2', 'Level 3'] as const
 
 /* Segmented clay trays that span the full row; options share it in equal columns (2×2 on phones, one row from sm). */
 const tray = 'grid w-full grid-cols-2 gap-1 sm:grid-cols-4 rounded-[1.4rem] border border-white/70 bg-board p-1.5 shadow-press'
@@ -26,7 +26,8 @@ export default function CoursesPage() {
   const [params, setParams] = useSearchParams()
   const q = params.get('q') ?? ''
   const level = params.get('level') ?? LEVELS[0]
-  const track = params.get('track') ?? TRACKS[0]
+  const levelId = (LEVELS.indexOf(level as (typeof LEVELS)[number]) || undefined) as 1 | 2 | 3 | undefined
+  const levelInfo = levels.find((l) => l.id === levelId)
   const deferredQ = useDeferredValue(q)
 
   const set = (key: string, value: string, fallback: string) => {
@@ -39,10 +40,8 @@ export default function CoursesPage() {
   const results = useMemo(() => {
     const needle = deferredQ.trim().toLowerCase()
     return (courses ?? []).filter((c) =>
-      (level === LEVELS[0] || c.level === level) &&
-      (track === TRACKS[0] || c.track === track) &&
       (!needle || `${c.module} ${c.title} ${c.role} ${c.description}`.toLowerCase().includes(needle)))
-  }, [courses, deferredQ, level, track])
+  }, [courses, deferredQ])
 
   const count = courses ? results.length : 0
 
@@ -50,7 +49,7 @@ export default function CoursesPage() {
     <>
       <PageIntro
         title="All SAP courses"
-        lead="Every module in one place: configuration training, interview question banks, practical scenarios and mock rounds. Filter by level or track, or search for the role you want. Cohort dates, fees and demand ratings are sample data."
+        lead="Every module in one place: configuration training, interview question banks, practical scenarios and mock rounds. Every module comes in three levels, from interview basics to advanced topics. Pick a level to see its fee, or search for the role you want."
         aside={
 <div className="inline-flex flex-col gap-0.5 rounded-[1.5rem] border border-white/70 bg-white/60 px-5 py-3 shadow-panel backdrop-blur-md">
             <span className="text-xs font-semibold text-letter-dim">Showing</span>
@@ -77,17 +76,14 @@ export default function CoursesPage() {
                 </button>
               )}
             </label>
-            <div className="min-w-0">
+            <div className="min-w-0 lg:col-span-2">
               <span className={trayLabel} aria-hidden>Level</span>
               <ToggleGroup type="single" spacing={1} value={level} onValueChange={(v) => set('level', v, LEVELS[0])} aria-label="Level" className={tray}>
                 {LEVELS.map((l) => <ToggleGroupItem key={l} value={l} className={chip}>{l}</ToggleGroupItem>)}
               </ToggleGroup>
-            </div>
-            <div className="min-w-0">
-              <span className={trayLabel} aria-hidden>Track</span>
-              <ToggleGroup type="single" spacing={1} value={track} onValueChange={(v) => set('track', v, TRACKS[0])} aria-label="Track" className={tray}>
-                {TRACKS.map((t) => <ToggleGroupItem key={t} value={t} className={chip}>{t}</ToggleGroupItem>)}
-              </ToggleGroup>
+              {levelInfo && (
+                <p className="mt-2 px-1 text-sm text-muted-foreground"><span className="font-semibold text-foreground">{levelInfo.tagline}.</span> {levelInfo.audience}.</p>
+              )}
             </div>
           </div>
         </div>
@@ -119,7 +115,7 @@ export default function CoursesPage() {
                   exit={{ opacity: 0, scale: 0.985, transition: { duration: 0.15 } }}
                   transition={{ duration: 0.45, ease: EASE, delay: Math.min(i, 6) * 0.03 }}
                 >
-                  <CourseRow course={c} index={i} />
+                  <CourseRow course={c} index={i} level={levelId} />
                 </motion.li>
               ))}
             </AnimatePresence>
@@ -128,8 +124,8 @@ export default function CoursesPage() {
 
         {courses && results.length === 0 && (
           <div className="mt-10">
-            <EmptyState icon={SearchX} title="No course matches those filters">
-              <p>Try a broader level or track, or search for a module name like “FICO” or “BTP”.</p>
+            <EmptyState icon={SearchX} title="No course matches that search">
+              <p>Try a module name like “FICO”, “SD” or “BTP”.</p>
               <Button variant="outline" className="mt-5" onClick={() => setParams({}, { replace: true })}>Clear all filters</Button>
             </EmptyState>
           </div>
