@@ -9,6 +9,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useQuery } from '@/hooks/use-query'
+import { api } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/motion'
@@ -85,7 +87,7 @@ function Intro({ mode }: { mode: Mode }) {
           </motion.li>
         ))}
       </ul>
-      <p className="mt-6 max-w-md text-xs text-letter-dim">Passwords are hashed with scrypt and sessions are held server-side, expiring after 7 days.</p>
+      <p className="mt-6 max-w-md text-xs text-letter-dim">New accounts confirm their email with a one-time code. Passwords are hashed and sessions expire after 7 days.</p>
     </div>
   )
 }
@@ -192,6 +194,13 @@ function PasswordInput({ id, autoComplete }: { id: string; autoComplete: string 
 }
 
 function LoginForm({ redirect }: { redirect: string }) {
+  const { data: cfg } = useQuery('auth-config', api.authConfig)
+  const [withCode, setWithCode] = useState(false)
+  if (withCode) return <CodeLogin redirect={redirect} onBack={() => setWithCode(false)} />
+  return <PasswordLogin redirect={redirect} onUseCode={cfg?.emailOtp ? () => setWithCode(true) : undefined} />
+}
+
+function PasswordLogin({ redirect, onUseCode }: { redirect: string; onUseCode?: () => void }) {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [busy, setBusy] = useState(false)
@@ -227,6 +236,110 @@ function LoginForm({ redirect }: { redirect: string }) {
       <Button type="submit" size="lg" className="mt-2 w-full" disabled={busy}>
         {busy ? <><Loader2 className="animate-spin" /> Logging in…</> : <>Log in <ArrowRight /></>}
       </Button>
+      {onUseCode && (
+        <button type="button" onClick={onUseCode} className="w-full text-center text-sm font-semibold text-signal underline-offset-4 hover:underline">
+          Forgot your password? Email me a login code
+        </button>
+      )}
+    </form>
+  )
+}
+
+function CodeLogin({ redirect, onBack }: { redirect: string; onBack: () => void }) {
+  const [email, setEmail] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const request = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const value = String(new FormData(e.currentTarget).get('email'))
+    setBusy(true)
+    setError(null)
+    try {
+      await api.loginCode(value)
+      setEmail(value.trim().toLowerCase())
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (email) return <CodeStep kind="login" email={email} redirect={redirect} onBack={() => setEmail(null)} onResend={() => api.loginCode(email)} />
+  return (
+    <form onSubmit={request} className="space-y-4">
+      <FormError message={error} />
+      <div className="space-y-2">
+        <Label className="text-letter" htmlFor="code-email">Email</Label>
+        <IconField icon={Mail} id="code-email" name="email" type="email" required autoComplete="email" placeholder="you@example.com" />
+      </div>
+      <Button type="submit" size="lg" className="w-full" disabled={busy}>
+        {busy ? <><Loader2 className="animate-spin" /> Sending…</> : <>Email me a code <ArrowRight /></>}
+      </Button>
+      <button type="button" onClick={onBack} className="w-full text-center text-sm font-semibold text-letter-dim hover:text-letter">Use my password instead</button>
+    </form>
+  )
+}
+
+/** Six-digit code entry shared by sign-up and code login. */
+function CodeStep({ kind, email, redirect, onBack, onResend }: { kind: 'register' | 'login'; email: string; redirect: string; onBack: () => void; onResend: () => Promise<unknown> }) {
+  const { verifyCode } = useAuth()
+  const navigate = useNavigate()
+  const [code, setCode] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setBusy(true)
+    setError(null)
+    try {
+      const u = await verifyCode(kind, email, code)
+      if (kind === 'register') toast.success(`Your account is ready, ${u.name.split(' ')[0]}.`, { description: `Your referral code is ${u.referralCode}.` })
+      else toast.success(`Welcome back, ${u.name.split(' ')[0]}.`)
+      navigate(redirect, { replace: true })
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const resend = async () => {
+    setResending(true)
+    try {
+      await onResend()
+      toast.success('A new code is on its way.')
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setResending(false)
+    }
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-4">
+      <FormError message={error} />
+      <p className="text-sm text-letter-dim">
+        {kind === 'register' ? 'To verify your email, we sent' : 'If an account exists for this email, we sent'} a 6-digit code to <span className="font-semibold text-letter">{email}</span>. It expires in 10 minutes.
+      </p>
+      <div className="space-y-2">
+        <Label className="text-letter" htmlFor="otp">Verification code</Label>
+        <Input
+          id="otp" name="code" inputMode="numeric" autoComplete="one-time-code" pattern="\d{6}" maxLength={6} required autoFocus
+          value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          className="h-14 rounded-xl text-center font-mono text-2xl tracking-[0.5em]" placeholder="••••••"
+        />
+      </div>
+      <Button type="submit" size="lg" className="w-full" disabled={busy || code.length !== 6}>
+        {busy ? <><Loader2 className="animate-spin" /> Checking…</> : <>{kind === 'register' ? 'Verify and create account' : 'Log in'} <ArrowRight /></>}
+      </Button>
+      <div className="flex items-center justify-between text-sm">
+        <button type="button" onClick={onBack} className="font-semibold text-letter-dim hover:text-letter">Change email</button>
+        <button type="button" onClick={resend} disabled={resending} className="font-semibold text-signal hover:underline disabled:opacity-60">{resending ? 'Sending…' : 'Resend code'}</button>
+      </div>
+      <p className="text-xs text-letter-dim">Can’t find it? Check your spam or promotions folder.</p>
     </form>
   )
 }
@@ -236,6 +349,7 @@ function RegisterForm({ redirect, initialRef }: { redirect: string; initialRef: 
   const navigate = useNavigate()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [verifyEmail, setVerifyEmail] = useState<string | null>(null)
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -249,6 +363,10 @@ function RegisterForm({ redirect, initialRef }: { redirect: string; initialRef: 
         password: String(f.get('password')),
         referralCode: String(f.get('referralCode') ?? ''),
       })
+      if ('verify' in u) {
+        setVerifyEmail(u.email)
+        return
+      }
       toast.success(`Your account is ready, ${u.name.split(' ')[0]}.`, { description: `Your referral code is ${u.referralCode}.` })
       navigate(redirect, { replace: true })
     } catch (err) {
@@ -256,6 +374,10 @@ function RegisterForm({ redirect, initialRef }: { redirect: string; initialRef: 
     } finally {
       setBusy(false)
     }
+  }
+
+  if (verifyEmail) {
+    return <CodeStep kind="register" email={verifyEmail} redirect={redirect} onBack={() => setVerifyEmail(null)} onResend={() => api.resendRegistration(verifyEmail)} />
   }
 
   return (

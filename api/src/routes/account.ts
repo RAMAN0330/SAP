@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { z } from 'zod'
 import { q, pool } from '../db.js'
 import { allow, redis } from '../redis.js'
+import { emailOtpEnabled, sendCode } from '../mail.js'
+import { checkCode, newCode, pending, saveCode } from '../otp.js'
 import { currentUser, endSession, hashPassword, newReferralCode, requireUser, startSession, verifyPassword, type SessionUser } from '../auth.js'
 
 type Env = { Variables: { user: SessionUser } }
@@ -35,12 +37,84 @@ account.post('/auth/register', async (c) => {
     referredBy = rows[0].id
   }
 
+  const passwordHash = await hashPassword(password)
+  if (emailOtpEnabled) {
+    if (!(await allow(`otp-send:${email}`, 5, 3600))) return c.json({ error: 'Too many codes sent to this email. Try again in an hour.' }, 429)
+    const code = newCode()
+    await saveCode('register', email, code, { name, passwordHash, referredBy })
+    await sendCode(email, code, 'register')
+    return c.json({ verify: true, email }, 202)
+  }
+  const user = await createUser(name, email, passwordHash, referredBy)
+  await startSession(c, user.id)
+  return c.json({ user: publicUser(user) }, 201)
+})
+
+async function createUser(name: string, email: string, passwordHash: string, referredBy: string | null) {
   const { rows: [user] } = await q<SessionUser>(
     `INSERT INTO users (name, email, password_hash, referral_code, referred_by) VALUES ($1,$2,$3,$4,$5)
      RETURNING id, name, email, referral_code, created_at`,
-    [name, email, await hashPassword(password), newReferralCode(name), referredBy])
+    [name, email, passwordHash, newReferralCode(name), referredBy])
+  return user
+}
+
+const codeSchema = z.object({ email: z.string().trim().toLowerCase(), code: z.string().trim().regex(/^\d{6}$/, 'Enter the 6-digit code from the email.') })
+const emailSchema = z.object({ email: z.email('Enter a valid email address.').transform((s) => s.toLowerCase()) })
+
+account.get('/auth/config', (c) => c.json({ emailOtp: emailOtpEnabled }))
+
+account.post('/auth/register/verify', async (c) => {
+  if (!(await allow(`otp-check:${ip(c)}`, 30, 900))) return c.json({ error: 'Too many attempts. Wait 15 minutes and try again.' }, 429)
+  const parsed = codeSchema.safeParse(await c.req.json().catch(() => ({})))
+  if (!parsed.success) return c.json({ error: parsed.error.issues[0].message }, 400)
+  const r = await checkCode<{ name: string; passwordHash: string; referredBy: string | null }>('register', parsed.data.email, parsed.data.code)
+  if (!r.ok) return c.json({ error: r.error }, 400)
+  const exists = await q('SELECT 1 FROM users WHERE email = $1', [parsed.data.email])
+  if (exists.rowCount) return c.json({ error: 'An account with this email already exists. Log in instead.' }, 409)
+  const user = await createUser(r.payload.name, parsed.data.email, r.payload.passwordHash, r.payload.referredBy)
   await startSession(c, user.id)
   return c.json({ user: publicUser(user) }, 201)
+})
+
+account.post('/auth/register/resend', async (c) => {
+  const parsed = emailSchema.safeParse(await c.req.json().catch(() => ({})))
+  if (!parsed.success) return c.json({ error: parsed.error.issues[0].message }, 400)
+  const email = parsed.data.email
+  const saved = await pending<{ name: string; passwordHash: string; referredBy: string | null }>('register', email)
+  if (!saved) return c.json({ error: 'That sign-up has expired. Fill in the form again.' }, 410)
+  if (!(await allow(`otp-send:${email}`, 5, 3600))) return c.json({ error: 'Too many codes sent to this email. Try again in an hour.' }, 429)
+  const code = newCode()
+  await saveCode('register', email, code, { name: saved.name, passwordHash: saved.passwordHash, referredBy: saved.referredBy })
+  await sendCode(email, code, 'register')
+  return c.json({ ok: true })
+})
+
+account.post('/auth/login/code', async (c) => {
+  if (!emailOtpEnabled) return c.json({ error: 'Login by email code is not available yet. Use your password.' }, 400)
+  if (!(await allow(`otp-login:${ip(c)}`, 10, 900))) return c.json({ error: 'Too many requests. Wait 15 minutes and try again.' }, 429)
+  const parsed = emailSchema.safeParse(await c.req.json().catch(() => ({})))
+  if (!parsed.success) return c.json({ error: parsed.error.issues[0].message }, 400)
+  const email = parsed.data.email
+  const { rows: [u] } = await q<{ id: string }>('SELECT id FROM users WHERE email = $1', [email])
+  // Same answer whether or not the account exists, so the form can't be used to discover emails.
+  if (u && (await allow(`otp-send:${email}`, 5, 3600))) {
+    const code = newCode()
+    await saveCode('login', email, code, { userId: u.id })
+    await sendCode(email, code, 'login')
+  }
+  return c.json({ ok: true })
+})
+
+account.post('/auth/login/verify', async (c) => {
+  if (!(await allow(`otp-check:${ip(c)}`, 30, 900))) return c.json({ error: 'Too many attempts. Wait 15 minutes and try again.' }, 429)
+  const parsed = codeSchema.safeParse(await c.req.json().catch(() => ({})))
+  if (!parsed.success) return c.json({ error: parsed.error.issues[0].message }, 400)
+  const r = await checkCode<{ userId: string }>('login', parsed.data.email, parsed.data.code)
+  if (!r.ok) return c.json({ error: r.error }, 400)
+  const { rows: [row] } = await q<SessionUser>('SELECT id, name, email, referral_code, created_at FROM users WHERE id = $1', [r.payload.userId])
+  if (!row) return c.json({ error: 'That account no longer exists.' }, 404)
+  await startSession(c, row.id)
+  return c.json({ user: publicUser(row) })
 })
 
 const loginSchema = z.object({ email: z.string().trim().toLowerCase(), password: z.string() })

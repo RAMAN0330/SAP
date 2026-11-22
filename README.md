@@ -61,6 +61,17 @@ For plain-HTTP local use of the containerised stack, set `INSECURE_COOKIES=1` on
 - SAP Quiz questions: `api/src/seed/quiz.ts`. Every account gets one free quiz; enrolment in any course unlocks unlimited quizzes.
 - Contact details: `web/src/config/site.ts`.
 
+## Email OTP (sign-up and login codes)
+
+New accounts confirm their email with a 6-digit code, and anyone can log in with an emailed code instead of a password. It switches on when SMTP credentials are set; without them, sign-up works with a password only.
+
+To turn it on with Gmail (free, about 500 emails a day):
+1. On the Gmail account, turn on 2-Step Verification, then create an **app password** (Google Account → Security → App passwords).
+2. In GitHub → Settings → Secrets and variables → Actions, add `SMTP_USER` (the Gmail address) and `SMTP_PASS` (the app password). The deploy passes them to the API. Alternatively put them in the server's `.env`.
+3. Redeploy. `GET /api/auth/config` returns `{"emailOtp": true}` once it is on.
+
+Locally, `OTP_DEV_LOG=1` in `.env.local` prints codes to the API console instead of sending email.
+
 ## Still to confirm or replace
 
 Course topics per module (owner to send), Level 3 pricing (shown as "On request"), office hours, the success-story quotes on the home page (illustrative until real learner quotes are available), interview-question counts per course, cohort start times (generated in `api/src/routes/catalog.ts`). No payment gateway is wired yet, so enrolment is free.
