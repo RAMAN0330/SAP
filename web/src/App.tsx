@@ -18,6 +18,7 @@ const ContactPage = lazy(() => import('@/pages/contact'))
 const MyCoursesPage = lazy(() => import('@/pages/my-courses'))
 const JoinEarnPage = lazy(() => import('@/pages/join-earn'))
 const LoginPage = lazy(() => import('@/pages/login'))
+const QuizPage = lazy(() => import('@/pages/quiz'))
 const NotFoundPage = lazy(() => import('@/pages/not-found'))
 
 export default function App() {
@@ -43,6 +44,7 @@ export default function App() {
                   <Route path="/courses" element={<CoursesPage />} />
                   <Route path="/courses/:slug" element={<CoursePage />} />
                   <Route path="/interview-prep" element={<InterviewPrepPage />} />
+                  <Route path="/quiz" element={<QuizPage />} />
                   <Route path="/blogs" element={<BlogsPage />} />
                   <Route path="/blogs/:slug" element={<BlogPostPage />} />
                   <Route path="/about" element={<AboutPage />} />

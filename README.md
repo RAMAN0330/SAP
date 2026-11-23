@@ -1,6 +1,6 @@
 # Config2Consult
 
-Interview-first SAP training platform: module courses, interview question banks, mock panels, progress tracking, referrals and contact — designed as an airport **departures board** (split-flap boards, gates, boarding passes, itineraries).
+Interview-first SAP training platform: module courses, interview question banks, mock panels, progress tracking, referrals and contact. Light, airy interface (Figtree + Overpass Mono, soft blue aurora backgrounds, pastel module marks); the full visual system is in `DESIGN.md`.
 
 ```
 SAP/
@@ -13,10 +13,11 @@ SAP/
 │       └── routes/           catalog (cached in Redis) · account (auth, enrol, progress, referrals, contact)
 ├── web/                 Vite + React 19 + Tailwind v4 + shadcn/ui + Motion
 │   └── src/
-│       ├── components/board/ split-flap cell + live departures board (signature motion)
-│       ├── components/ui/    shadcn components, restyled to the signage system
-│       └── pages/            home, courses, course, login, my-courses, join-earn, blogs, blog-post, about, contact, 404
-├── PLAN.md              analysis of the reference site + build plan
+│       ├── components/       layout, course, blog and brand components; ui/ holds restyled shadcn components
+│       ├── content/          static page content (course prerequisites, tools, roles, FAQ) — edit without a DB change
+│       └── pages/            home, courses, course, interview-prep, login, my-courses, join-earn, blogs, blog-post, about, contact, 404
+├── DESIGN.md            design tokens and component rules
+├── PLAN.md              analysis of the reference site + original build plan
 └── PRODUCT.md           product brief
 ```
 
@@ -28,7 +29,9 @@ cd api && npm install && npm run dev          # API on :8787 (migrates + seeds o
 cd web && npm install && npm run dev          # http://localhost:5173 (proxies /api → :8787)
 ```
 
-`.env.local` at the repo root holds the API's local `DATABASE_URL` / `REDIS_URL`.
+Copy `.env.local.example` to `.env.local` at the repo root first; it holds the API's local `DATABASE_URL` / `REDIS_URL` and is not committed.
+
+New blog articles added to `api/src/seed/blogs.ts` are inserted on the next API boot (matched by slug; existing posts are never changed). Courses, lessons and questions are seeded only into an empty database.
 
 ## Run the whole stack in Docker
 
@@ -50,7 +53,25 @@ For plain-HTTP local use of the containerised stack, set `INSECURE_COOKIES=1` on
 | GET | `/api/me/enrollments`, `/api/me/referrals` | auth |
 | POST | `/api/contact` | rate-limited, also queued to `queue:contact-notify` in Redis |
 
-## Replace before launch
+## Business content
 
-Everything below is placeholder/demo and is labelled as such in the UI:
-contact email/phone/address (`web/src/config/site.ts`), course prices, lesson/question counts and instructor names (`api/src/seed/courses.ts`), the three sample learner stories (`web/src/pages/home.tsx`), referral reward amount (`api/src/routes/account.ts`), cohort departure times (generated in `api/src/routes/catalog.ts`). No payment gateway is wired — enrolment is free.
+- Courses on sale: `offeredSlugs` in `api/src/seed/courses.ts` (others stay in the database, hidden). Changing the list takes effect on the next API boot.
+- Levels, fees and what every level includes: `web/src/content/levels.ts` (same for every module; per-module overrides go in `levelOverrides`).
+- Mock interview price and offer: `site.mockInterview` in `web/src/config/site.ts`.
+- SAP Quiz questions: `api/src/seed/quiz.ts`. Every account gets one free quiz; enrolment in any course unlocks unlimited quizzes.
+- Contact details: `web/src/config/site.ts`.
+
+## Email OTP (sign-up and login codes)
+
+New accounts confirm their email with a 6-digit code, and anyone can log in with an emailed code instead of a password. It switches on when SMTP credentials are set; without them, sign-up works with a password only.
+
+To turn it on with Gmail (free, about 500 emails a day):
+1. On the Gmail account, turn on 2-Step Verification, then create an **app password** (Google Account → Security → App passwords).
+2. In GitHub → Settings → Secrets and variables → Actions, add `SMTP_USER` (the Gmail address) and `SMTP_PASS` (the app password). The deploy passes them to the API. Alternatively put them in the server's `.env`.
+3. Redeploy. `GET /api/auth/config` returns `{"emailOtp": true}` once it is on.
+
+Locally, `OTP_DEV_LOG=1` in `.env.local` prints codes to the API console instead of sending email.
+
+## Still to confirm or replace
+
+Course topics per module (owner to send), Level 3 pricing (shown as "On request"), office hours, the success-story quotes on the home page (illustrative until real learner quotes are available), interview-question counts per course, cohort start times (generated in `api/src/routes/catalog.ts`). No payment gateway is wired yet, so enrolment is free.

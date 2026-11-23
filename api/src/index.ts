@@ -6,6 +6,7 @@ import { migrateAndSeed, pool } from './db.js'
 import { redis } from './redis.js'
 import { catalog } from './routes/catalog.js'
 import { account } from './routes/account.js'
+import { quiz } from './routes/quiz.js'
 
 const app = new Hono().basePath('/api')
 app.use('*', logger(), secureHeaders())
@@ -17,6 +18,7 @@ app.get('/health', async (c) => {
 })
 app.route('/', catalog)
 app.route('/', account)
+app.route('/', quiz)
 
 app.onError((err, c) => {
   console.error(err)

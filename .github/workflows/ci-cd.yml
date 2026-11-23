@@ -85,9 +85,15 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}
           EC2_USER: ${{ secrets.EC2_USER }}
           APP_DIR: ${{ vars.APP_DIR || '~/golive' }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
         run: |
+          # Pass mail settings only when the secrets exist, so values kept in the server's .env still apply otherwise.
+          MAIL_ENV=""
+          [ -n "$SMTP_USER" ] && MAIL_ENV="$MAIL_ENV SMTP_USER=$(printf %q "$SMTP_USER")"
+          [ -n "$SMTP_PASS" ] && MAIL_ENV="$MAIL_ENV SMTP_PASS=$(printf %q "$SMTP_PASS")"
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=30 \
-            "$EC2_USER@$EC2_HOST" "APP_DIR=$APP_DIR bash -s" <<'EOF'
+            "$EC2_USER@$EC2_HOST" "APP_DIR=$APP_DIR$MAIL_ENV bash -s" <<'EOF'
           set -e
           cd "${APP_DIR/#\~/$HOME}"
           git fetch origin main

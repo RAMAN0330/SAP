@@ -71,6 +71,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 const post = <T>(path: string, data?: unknown) => request<T>(path, { method: 'POST', body: JSON.stringify(data ?? {}) })
 
+export interface QuizStatus { attempts: number; enrolled: boolean; canPlay: boolean; freeAvailable: boolean }
+export interface QuizOverview { modules: { module: string; count: number; best: number | null }[]; status: QuizStatus | null }
+export interface QuizRound { attemptId: string; module: string; questions: { q: string; options: string[] }[] }
+export interface QuizResult { score: number; total: number; review: { chosen: number; correct: number; right: boolean; why: string }[]; status: QuizStatus }
+
 export const api = {
   courses: () => request<Course[]>('/courses'),
   course: (slug: string) => request<CourseDetail>(`/courses/${slug}`),
@@ -79,11 +84,19 @@ export const api = {
   blog: (slug: string) => request<BlogPost>(`/blogs/${slug}`),
   me: () => request<{ user: User | null }>('/auth/me'),
   login: (email: string, password: string) => post<{ user: User }>('/auth/login', { email, password }),
-  register: (d: { name: string; email: string; password: string; referralCode?: string }) => post<{ user: User }>('/auth/register', d),
+  register: (d: { name: string; email: string; password: string; referralCode?: string }) => post<{ user: User } | { verify: true; email: string }>('/auth/register', d),
+  verifyRegistration: (email: string, code: string) => post<{ user: User }>('/auth/register/verify', { email, code }),
+  resendRegistration: (email: string) => post<{ ok: true }>('/auth/register/resend', { email }),
+  authConfig: () => request<{ emailOtp: boolean }>('/auth/config'),
+  loginCode: (email: string) => post<{ ok: true }>('/auth/login/code', { email }),
+  verifyLogin: (email: string, code: string) => post<{ user: User }>('/auth/login/verify', { email, code }),
   logout: () => post<{ ok: true }>('/auth/logout'),
   enroll: (slug: string) => post<{ ok: true }>(`/courses/${slug}/enroll`),
   setLesson: (id: string, done: boolean) => request<{ ok: true }>(`/lessons/${id}/progress`, { method: 'PUT', body: JSON.stringify({ done }) }),
   enrolments: () => request<Enrolment[]>('/me/enrollments'),
   referrals: () => request<Referrals>('/me/referrals'),
   contact: (d: Record<string, string>) => post<{ ok: true }>('/contact', d),
+  quiz: () => request<QuizOverview>('/quiz'),
+  startQuiz: (module: string) => post<QuizRound>(`/quiz/${encodeURIComponent(module)}/start`),
+  submitQuiz: (module: string, attemptId: string, answers: number[]) => post<QuizResult>(`/quiz/${encodeURIComponent(module)}/submit`, { attemptId, answers }),
 }

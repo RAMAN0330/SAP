@@ -40,6 +40,12 @@ services:
       REDIS_URL: redis://redis:6379
       PORT: 8787
       NODE_ENV: production
+      # Email OTP (Gmail: SMTP_USER = the Gmail address, SMTP_PASS = a Google app password). Empty = OTP off.
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-}
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }

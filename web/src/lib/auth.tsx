@@ -6,7 +6,9 @@ interface AuthState {
   user: User | null
   ready: boolean
   login: (email: string, password: string) => Promise<User>
-  register: (d: { name: string; email: string; password: string; referralCode?: string }) => Promise<User>
+  /** Resolves to the user, or to `{ verify, email }` when an emailed code must be entered first. */
+  register: (d: { name: string; email: string; password: string; referralCode?: string }) => Promise<User | { verify: true; email: string }>
+  verifyCode: (kind: 'register' | 'login', email: string, code: string) => Promise<User>
   logout: () => Promise<void>
 }
 
@@ -28,8 +30,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const register = useCallback(async (d: Parameters<AuthState['register']>[0]) => {
-    const { user } = await api.register(d)
+    const r = await api.register(d)
+    if ('verify' in r) return r
     invalidate('me:')
+    setUser(r.user)
+    return r.user
+  }, [])
+
+  const verifyCode = useCallback(async (kind: 'register' | 'login', email: string, code: string) => {
+    const { user } = kind === 'register' ? await api.verifyRegistration(email, code) : await api.verifyLogin(email, code)
+    invalidate('me:')
+    invalidate('quiz:')
     setUser(user)
     return user
   }, [])
@@ -41,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }, [])
 
-  const value = useMemo(() => ({ user, ready, login, register, logout }), [user, ready, login, register, logout])
+  const value = useMemo(() => ({ user, ready, login, register, verifyCode, logout }), [user, ready, login, register, verifyCode, logout])
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 

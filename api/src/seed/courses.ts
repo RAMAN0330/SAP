@@ -280,6 +280,21 @@ export const seedCourses: SeedCourse[] = [
     ],
   },
   {
+    slug: 'sap-tm', module: 'TM', title: 'Transportation Management Track', track: 'Functional', level: 'Intermediate',
+    weeks: 8, lessons: 34, questions: 170, price: 10000, demand: 2, role: 'TM Consultant',
+    description: 'Freight units, freight orders, planning and carrier selection in S/4HANA TM, plus the freight settlement questions panels like.',
+    overview: 'Model inbound and outbound transport in S/4HANA Transportation Management: from the order that creates a freight unit, through planning and carrier selection, to tendering, execution and freight cost settlement — practised through shipment and settlement scenarios.',
+    topics: ['Master data, transportation network and freight units', 'Planning, freight orders and carrier selection', 'Charge management and freight settlement'],
+    integration: 'How sales orders, deliveries and purchase orders feed TM, and how freight costs post to finance.',
+    learn: ['Configure freight unit building rules', 'Plan shipments in the transportation cockpit', 'Set up carrier selection and tendering', 'Calculate and settle freight charges'],
+    qa: [
+      { d: 'Easy', q: 'What is a freight unit in SAP TM?', a: 'The smallest set of goods that is transported together through the whole journey. It is created from an order or delivery and is the object that planning assigns to vehicles and freight orders.' },
+      { d: 'Medium', q: 'What is the difference between a freight order and a forwarding order?', a: 'A forwarding order is the customer-facing transport request a logistics provider receives and charges for. A freight order is the execution document for moving goods with a carrier or own vehicle, and it drives costs to be paid.' },
+      { d: 'Medium', q: 'How does carrier selection work?', a: 'TM ranks the carriers allowed for a lane using rules such as priority, cost from freight agreements and allocations, then assigns the best one or sends the freight order out for tendering.' },
+      { d: 'Hard', q: 'Freight settlement documents are not posting to finance. How do you investigate?', a: 'Check that the freight order charges are calculated and the settlement document is created, then look at the purchase order and service entry it generates in MM, the account assignment and the posting log. Usually the cause is missing organisational mapping, a purchasing group or a G/L determination.' },
+    ],
+  },
+  {
     slug: 'sap-wm', module: 'WM', title: 'Warehouse Management Track', track: 'Functional', level: 'Beginner',
     weeks: 7, lessons: 30, questions: 140, price: 3499, demand: 1, role: 'WM Consultant',
     description: 'Classic WM: storage types, transfer orders and strategies — and how it maps to EWM.',
@@ -295,6 +310,9 @@ export const seedCourses: SeedCourse[] = [
     ],
   },
 ]
+
+// Courses currently on sale (owner's list, Nov 2026). Others stay in the database but are hidden.
+export const offeredSlugs = ['sap-sd', 'sap-mm', 'sap-pp', 'sap-qm', 'sap-ewm', 'sap-abap', 'sap-btp', 'sap-fico', 'sap-pm', 'sap-tm']
 
 // Itinerary used for every course; lessons 2–4 come from each course's topics.
 export function lessonsFor(c: SeedCourse) {
