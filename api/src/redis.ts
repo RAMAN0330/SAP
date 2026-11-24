@@ -2,12 +2,12 @@ import { Redis } from 'ioredis'
 
 export const redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6380', { maxRetriesPerRequest: 2 })
 
-// Read-through cache for public catalogue reads.
+// Read-through cache for public catalogue reads. A Redis hiccup falls back to the database instead of failing the page.
 export async function cached<T>(key: string, ttlSeconds: number, load: () => Promise<T>): Promise<T> {
-  const hit = await redis.get(key)
+  const hit = await redis.get(key).catch(() => null)
   if (hit) return JSON.parse(hit) as T
   const value = await load()
-  await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds)
+  await redis.set(key, JSON.stringify(value), 'EX', ttlSeconds).catch((e) => console.warn('cache set failed', key, e.message))
   return value
 }
 
