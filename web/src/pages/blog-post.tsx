@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'motion/react'
 import { ArrowLeft, ArrowRight, ExternalLink, FileX } from 'lucide-react'
+import { PageSkeleton } from '@/components/layout/page-skeleton'
 import { EmptyState } from '@/components/course/ghost'
 import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
@@ -14,7 +15,7 @@ export default function BlogPostPage() {
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30, mass: 0.3 })
 
-  if (loading && !post) return <div className="container-page h-[60vh]" />
+  if (loading && !post) return <PageSkeleton />
   if (error || !post) {
     return (
       <div className="container-page py-24">

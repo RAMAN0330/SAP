@@ -17,6 +17,7 @@ import { useAuth } from '@/lib/auth'
 import { formatINR } from '@/lib/format'
 import { courseFaq, moduleGuide, trackGuide } from '@/content/course-guide'
 import { inclusions, levelsFor, mentorLine, type CourseLevel } from '@/content/levels'
+import { PageSkeleton } from '@/components/layout/page-skeleton'
 import { cn } from '@/lib/utils'
 import { EASE } from '@/lib/motion'
 
@@ -25,7 +26,7 @@ export default function CoursePage() {
   const { user, ready } = useAuth()
   const { data, error, loading, setData, refetch } = useQuery(`course:${slug}:${user?.id ?? 'anon'}`, () => api.course(slug))
 
-  if (loading && !data) return <div className="aurora h-[28rem]" />
+  if (loading && !data) return <PageSkeleton />
   if (error || !data) {
     return (
       <div className="container-page py-24">

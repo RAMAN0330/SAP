@@ -24,7 +24,11 @@ const COURSE_COLS = `id, slug, catalog_order AS "catalogOrder", title, module, t
 type CourseRow = { catalogOrder: number; [k: string]: unknown }
 const withCohort = <T extends CourseRow>(c: T) => ({ ...c, ...nextCohort(c.catalogOrder) })
 
+// Public, user-independent reads: browsers and the nginx in front may reuse them briefly.
+const PUBLIC_CACHE = 'public, max-age=60, stale-while-revalidate=600'
+
 catalog.get('/courses', async (c) => {
+  c.header('Cache-Control', PUBLIC_CACHE)
   const rows = await cached('courses:all:v3', 300, async () =>
     (await q<CourseRow>(`SELECT ${COURSE_COLS} FROM courses WHERE published ORDER BY catalog_order`)).rows)
   return c.json(rows.map(withCohort))
@@ -57,10 +61,13 @@ catalog.get('/courses/:slug', async (c) => {
   return c.json({ ...data, course: withCohort(data.course), enrollment })
 })
 
-catalog.get('/stats', async (c) => c.json(await cached('stats:v2', 300, async () => {
-  const { rows: [s] } = await q(`SELECT count(*)::int AS modules, sum(lessons_count)::int AS lessons, sum(questions_count)::int AS questions FROM courses WHERE published`)
-  return s
-})))
+catalog.get('/stats', async (c) => {
+  c.header('Cache-Control', PUBLIC_CACHE)
+  return c.json(await cached('stats:v2', 300, async () => {
+    const { rows: [s] } = await q(`SELECT count(*)::int AS modules, sum(lessons_count)::int AS lessons, sum(questions_count)::int AS questions FROM courses WHERE published`)
+    return s
+  }))
+})
 
 catalog.get('/blogs', async (c) => c.json(await cached('blogs:all', 300, async () =>
   (await q(`SELECT slug, title, excerpt, category, author, read_minutes AS "readMinutes", published_at AS "publishedAt"
