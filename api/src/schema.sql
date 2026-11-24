@@ -117,3 +117,7 @@ CREATE TABLE IF NOT EXISTS quiz_attempts (
   created_at  timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS quiz_attempts_user_idx ON quiz_attempts(user_id);
+
+-- Auto-published SAP news posts link back to the original article; the unique URL also stops duplicates.
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS source_url text UNIQUE;
+ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS source_name text;

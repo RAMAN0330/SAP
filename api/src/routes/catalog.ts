@@ -67,7 +67,8 @@ catalog.get('/blogs', async (c) => c.json(await cached('blogs:all', 300, async (
             FROM blog_posts ORDER BY published_at DESC`)).rows)))
 
 catalog.get('/blogs/:slug', async (c) => {
-  const { rows: [post] } = await q(`SELECT slug, title, excerpt, category, author, read_minutes AS "readMinutes", body, published_at AS "publishedAt"
+  const { rows: [post] } = await q(`SELECT slug, title, excerpt, category, author, read_minutes AS "readMinutes", body, published_at AS "publishedAt",
+    source_url AS "sourceUrl", source_name AS "sourceName"
     FROM blog_posts WHERE slug = $1`, [c.req.param('slug')])
   if (!post) return c.json({ error: 'Article not found.' }, 404)
   return c.json(post)

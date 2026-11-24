@@ -7,6 +7,7 @@ import { redis } from './redis.js'
 import { catalog } from './routes/catalog.js'
 import { account } from './routes/account.js'
 import { quiz } from './routes/quiz.js'
+import { startNewsScheduler } from './news.js'
 
 const app = new Hono().basePath('/api')
 app.use('*', logger(), secureHeaders())
@@ -26,5 +27,6 @@ app.onError((err, c) => {
 })
 
 await migrateAndSeed()
+startNewsScheduler()
 const port = Number(process.env.PORT ?? 8787)
 serve({ fetch: app.fetch, port }, () => console.log(`api listening on :${port}`))

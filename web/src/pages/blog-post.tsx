@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { motion, useScroll, useSpring } from 'motion/react'
-import { ArrowLeft, ArrowRight, FileX } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ExternalLink, FileX } from 'lucide-react'
 import { EmptyState } from '@/components/course/ghost'
 import { Button } from '@/components/ui/button'
 import { useQuery } from '@/hooks/use-query'
@@ -37,6 +37,14 @@ export default function BlogPostPage() {
         <div className="mt-10 space-y-6 text-[1.13rem] leading-[1.75] text-foreground/90">
           {post.body.map((para, i) => <p key={i}>{para}</p>)}
         </div>
+        {post.sourceUrl && (
+          <p className="mt-10 rounded-2xl border bg-muted/60 p-5 text-sm text-muted-foreground">
+            Summary quoted from <span className="font-semibold text-foreground">{post.sourceName}</span>.{' '}
+            <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-foreground underline underline-offset-4">
+              Read the full article at {post.sourceName} <ExternalLink className="size-3.5" />
+            </a>
+          </p>
+        )}
         <div className="on-board aurora mt-14 flex flex-col items-start gap-4 rounded-[2rem] border border-white/70 p-6 shadow-panel text-letter sm:flex-row sm:items-center sm:justify-between">
           <p className="font-semibold">Ready to practise this for real?</p>
           <Button asChild><Link to="/courses">Find your module <ArrowRight /></Link></Button>
