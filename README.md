@@ -61,6 +61,18 @@ For plain-HTTP local use of the containerised stack, set `INSECURE_COOKIES=1` on
 - SAP Quiz questions: `api/src/seed/quiz.ts`. Every account gets one free quiz; enrolment in any course unlocks unlimited quizzes.
 - Contact details: `web/src/config/site.ts`.
 
+## SAP news auto-blog
+
+The API publishes SAP technology news to the blog on its own, under the category **SAP News** (`api/src/news.ts`).
+
+- **Sources:** SAP News Center and diginomica (only feeds whose robots rules allow automated reading). Add more in `feeds`.
+- **Nothing is written by AI.** Each post uses the publisher's own headline and summary, credits the publisher as the author, and links to the full article.
+- **Filtering:** items must mention SAP (or an SAP product) unless the feed is SAP's own, must be about work or technology, and are dropped if they are about sport, sponsorship, charity or lifestyle. Items older than 7 days are skipped.
+- **Dedup:** the same article URL is never posted twice, and a story whose headline matches one posted in the last 60 days (from any outlet) is skipped.
+- **Schedule:** a run 30 seconds after the API starts, then every 6 hours, at most 5 posts per run.
+
+Settings (on the `api` service or in the server's `.env`): `NEWS_INTERVAL_HOURS` (default 6, `0` turns it off), `NEWS_MAX_PER_RUN` (default 5), `NEWS_MAX_AGE_DAYS` (default 7). To remove a post: `DELETE FROM blog_posts WHERE slug = '…';`
+
 ## Email OTP (sign-up and login codes)
 
 New accounts confirm their email with a 6-digit code, and anyone can log in with an emailed code instead of a password. It switches on when SMTP credentials are set; without them, sign-up works with a password only.

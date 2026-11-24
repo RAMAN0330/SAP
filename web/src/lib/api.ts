@@ -35,7 +35,7 @@ export interface CourseDetail {
   enrollment: { enrolledAt: string; completedLessonIds: string[] } | null
 }
 export interface BlogSummary { slug: string; title: string; excerpt: string; category: string; author: string; readMinutes: number; publishedAt: string }
-export interface BlogPost extends BlogSummary { body: string[] }
+export interface BlogPost extends BlogSummary { body: string[]; sourceUrl?: string | null; sourceName?: string | null }
 export interface User { id: string; name: string; email: string; referralCode: string; createdAt: string }
 export interface Enrolment {
   slug: string; title: string; module: string; catalogOrder: number; level: Level; role: string; durationWeeks: number
