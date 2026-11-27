@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 import { z } from 'zod'
 import { q, pool } from '../db.js'
-import { allow, redis } from '../redis.js'
-import { emailOtpEnabled, sendCode } from '../mail.js'
+import { allow } from '../redis.js'
+import { emailOtpEnabled, notifyContact, sendCode } from '../mail.js'
 import { checkCode, newCode, pending, saveCode } from '../otp.js'
 import { currentUser, endSession, hashPassword, newReferralCode, requireUser, startSession, verifyPassword, type SessionUser } from '../auth.js'
 
@@ -207,7 +207,7 @@ account.post('/contact', async (c) => {
   const m = parsed.data
   await q('INSERT INTO contact_messages (first_name, last_name, email, phone, subject, message) VALUES ($1,$2,$3,$4,$5,$6)',
     [m.firstName, m.lastName || null, m.email, m.phone || null, m.subject || null, m.message])
-  await redis.lpush('queue:contact-notify', JSON.stringify({ email: m.email, at: Date.now() }))
+  void notifyContact(m) // the message is already saved, so a slow or failed alert must not fail the form
   return c.json({ ok: true }, 201)
 })
 
