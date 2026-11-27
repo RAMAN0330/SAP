@@ -46,6 +46,10 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       MAIL_FROM: ${MAIL_FROM:-}
+      # Contact form alerts: email inbox (defaults to SMTP_USER) and WhatsApp via CallMeBot (both empty = WhatsApp off).
+      CONTACT_TO: ${CONTACT_TO:-}
+      WHATSAPP_PHONE: ${WHATSAPP_PHONE:-}
+      WHATSAPP_APIKEY: ${WHATSAPP_APIKEY:-}
       # SAP news auto-blog: hours between runs (0 = off), posts per run, oldest item age in days.
       NEWS_INTERVAL_HOURS: ${NEWS_INTERVAL_HOURS:-6}
       NEWS_MAX_PER_RUN: ${NEWS_MAX_PER_RUN:-5}

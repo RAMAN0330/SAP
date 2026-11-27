@@ -30,3 +30,35 @@ export async function sendCode(to: string, code: string, purpose: 'register' | '
       <p style="color:#555">Config2Consult</p></div>`,
   })
 }
+
+export type ContactMessage = { firstName: string; lastName?: string; email: string; phone?: string; subject?: string; message: string }
+
+// Contact-form alerts to the team: email to CONTACT_TO (via the SMTP above) and WhatsApp via CallMeBot's free API
+// (WHATSAPP_PHONE + WHATSAPP_APIKEY; the key comes from messaging CallMeBot once from that phone). Either is skipped when unset.
+const contactTo = process.env.CONTACT_TO ?? user
+const waPhone = process.env.WHATSAPP_PHONE?.replace(/[^\d]/g, '')
+const waKey = process.env.WHATSAPP_APIKEY
+
+export function contactText(m: ContactMessage) {
+  const head = [
+    `New contact message from ${[m.firstName, m.lastName].filter(Boolean).join(' ')}`,
+    `Email: ${m.email}`,
+    m.phone && `Phone: ${m.phone}`,
+    m.subject && `Subject: ${m.subject}`,
+  ].filter(Boolean)
+  return `${head.join('\n')}\n\n${m.message}`
+}
+
+export async function notifyContact(m: ContactMessage) {
+  const text = contactText(m)
+  const jobs: Promise<unknown>[] = []
+  if (transport && contactTo) {
+    jobs.push(transport.sendMail({ from, to: contactTo, replyTo: m.email, subject: `Contact: ${m.subject || m.firstName}`, text }))
+  }
+  if (waPhone && waKey) {
+    const url = `https://api.callmebot.com/whatsapp.php?phone=${waPhone}&apikey=${encodeURIComponent(waKey)}&text=${encodeURIComponent(text)}`
+    jobs.push(fetch(url, { signal: AbortSignal.timeout(15_000) }).then((r) => { if (!r.ok) throw new Error(`CallMeBot ${r.status}`) }))
+  }
+  if (!jobs.length) console.log(`[contact] no email/WhatsApp configured; message from ${m.email} saved only`)
+  for (const r of await Promise.allSettled(jobs)) if (r.status === 'rejected') console.error('[contact] notify failed:', r.reason)
+}

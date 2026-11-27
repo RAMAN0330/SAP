@@ -88,11 +88,17 @@ jobs:
           APP_DIR: ${{ vars.APP_DIR || '~/golive' }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          CONTACT_TO: ${{ secrets.CONTACT_TO }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          WHATSAPP_APIKEY: ${{ secrets.WHATSAPP_APIKEY }}
         run: |
           # Pass mail settings only when the secrets exist, so values kept in the server's .env still apply otherwise.
           MAIL_ENV=""
           [ -n "$SMTP_USER" ] && MAIL_ENV="$MAIL_ENV SMTP_USER=$(printf %q "$SMTP_USER")"
           [ -n "$SMTP_PASS" ] && MAIL_ENV="$MAIL_ENV SMTP_PASS=$(printf %q "$SMTP_PASS")"
+          [ -n "$CONTACT_TO" ] && MAIL_ENV="$MAIL_ENV CONTACT_TO=$(printf %q "$CONTACT_TO")"
+          [ -n "$WHATSAPP_PHONE" ] && MAIL_ENV="$MAIL_ENV WHATSAPP_PHONE=$(printf %q "$WHATSAPP_PHONE")"
+          [ -n "$WHATSAPP_APIKEY" ] && MAIL_ENV="$MAIL_ENV WHATSAPP_APIKEY=$(printf %q "$WHATSAPP_APIKEY")"
           ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ConnectTimeout=20 -o ServerAliveInterval=30 \
             "$EC2_USER@$EC2_HOST" "APP_DIR=$APP_DIR$MAIL_ENV bash -s" <<'EOF'
           set -e
